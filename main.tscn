@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=5 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://de3ijvmumhh4o" path="res://ground.tscn" id="1_ttete"]
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="3_8vjgg"]
+[ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
 
 [node name="Main" type="Node"]
 
@@ -18,7 +19,7 @@ shadow_blur = 5.0
 floor_constant_speed = true
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(0.540372, 0.251607, 0.802927, 0, 0.954246, -0.299024, -0.841426, 0.161584, 0.515648, 11.8473, -3, 17)
+transform = Transform3D(0.540372, 0.251607, 0.802927, -0.217777, 0.963552, -0.155376, -0.812755, -0.0908989, 0.575471, 11.8473, -3, 17)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
 transform = Transform3D(0.965926, 0.119913, -0.229364, 0.0773931, 0.711827, 0.698077, 0.246977, -0.692042, 0.678292, -0.123483, 25.2866, 6.19869)
@@ -31,7 +32,10 @@ far = 100.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -10, -0.5, -0.682)
 
 [node name="Wall2" parent="." instance=ExtResource("3_8vjgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -6, -0.5, -0.682)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -7, -0.5, -0.682)
 
 [node name="Wall3" parent="." instance=ExtResource("3_8vjgg")]
 transform = Transform3D(-4.37114e-08, 0, 2, 0, 1, 0, -1, 0, -8.74228e-08, -2, -0.5, -9.682)
+
+[node name="PractiseDummy" parent="." instance=ExtResource("4_i3m74")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -12)

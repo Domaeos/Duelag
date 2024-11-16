@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6hx242pvwdul"]
+
+[ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a18nm"]
+size = Vector3(1, 2.5, 1)
+
+[node name="PractiseDummy" type="CharacterBody3D"]
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Dummy_Base2" parent="Pivot" instance=ExtResource("1_c6gqd")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("BoxShape3D_a18nm")
