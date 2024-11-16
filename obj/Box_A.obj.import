@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bcxb1pmfry43e"
+path="res://.godot/imported/Box_A.obj-101d8f0c85307fac841d1a439911bd72.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Box_A.obj-101d8f0c85307fac841d1a439911bd72.mesh"]
+
+source_file="res://obj/Box_A.obj"
+dest_files=["res://.godot/imported/Box_A.obj-101d8f0c85307fac841d1a439911bd72.mesh", "res://.godot/imported/Box_A.obj-101d8f0c85307fac841d1a439911bd72.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

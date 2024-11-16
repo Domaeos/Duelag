@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bm3por8klj1qc"
+path="res://.godot/imported/Barrel_A.obj-90ad22f3d05fc26bc83dedde226e8c5a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Barrel_A.obj-90ad22f3d05fc26bc83dedde226e8c5a.mesh"]
+
+source_file="res://obj/Barrel_A.obj"
+dest_files=["res://.godot/imported/Barrel_A.obj-90ad22f3d05fc26bc83dedde226e8c5a.mesh", "res://.godot/imported/Barrel_A.obj-90ad22f3d05fc26bc83dedde226e8c5a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

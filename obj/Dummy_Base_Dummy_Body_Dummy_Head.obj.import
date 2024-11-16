@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dpa8kke3errh2"
+path="res://.godot/imported/Dummy_Base_Dummy_Body_Dummy_Head.obj-9f494544037fd7bd7894cca211998031.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Dummy_Base_Dummy_Body_Dummy_Head.obj-9f494544037fd7bd7894cca211998031.mesh"]
+
+source_file="res://obj/Dummy_Base_Dummy_Body_Dummy_Head.obj"
+dest_files=["res://.godot/imported/Dummy_Base_Dummy_Body_Dummy_Head.obj-9f494544037fd7bd7894cca211998031.mesh", "res://.godot/imported/Dummy_Base_Dummy_Body_Dummy_Head.obj-9f494544037fd7bd7894cca211998031.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dl4ln25lmc40k"
+path="res://.godot/imported/Primitive_Wall_Slope.obj-bf4609b5f7ad84e417e80b6a3c1b99e3.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Primitive_Wall_Slope.obj-bf4609b5f7ad84e417e80b6a3c1b99e3.mesh"]
+
+source_file="res://obj/Primitive_Wall_Slope.obj"
+dest_files=["res://.godot/imported/Primitive_Wall_Slope.obj-bf4609b5f7ad84e417e80b6a3c1b99e3.mesh", "res://.godot/imported/Primitive_Wall_Slope.obj-bf4609b5f7ad84e417e80b6a3c1b99e3.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

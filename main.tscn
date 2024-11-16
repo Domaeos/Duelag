@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg4mt5wcee8s8"]
+
+[ext_resource type="PackedScene" uid="uid://de3ijvmumhh4o" path="res://ground.tscn" id="1_ttete"]
+[ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
+[ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="3_8vjgg"]
+
+[node name="Main" type="Node"]
+
+[node name="Ground" parent="." instance=ExtResource("1_ttete")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0096167, 0.999954, 0, -0.999954, 0.0096167, 0, 14.3751, 0)
+shadow_enabled = true
+shadow_opacity = 0.8
+shadow_blur = 5.0
+
+[node name="Player" parent="." instance=ExtResource("2_m7wmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+floor_constant_speed = true
+
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(0.540372, 0.251607, 0.802927, 0, 0.954246, -0.299024, -0.841426, 0.161584, 0.515648, -0.152704, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)
+projection = 1
+size = 20.0
+far = 100.0
+
+[node name="Wall" parent="." instance=ExtResource("3_8vjgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1.682)

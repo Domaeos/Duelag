@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://byjvvu2rx1toi"
+path="res://.godot/imported/Wall_Half.obj-7b763f0e7dda99d6a7f8bd5b3a100ca4.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wall_Half.obj-7b763f0e7dda99d6a7f8bd5b3a100ca4.mesh"]
+
+source_file="res://obj/Wall_Half.obj"
+dest_files=["res://.godot/imported/Wall_Half.obj-7b763f0e7dda99d6a7f8bd5b3a100ca4.mesh", "res://.godot/imported/Wall_Half.obj-7b763f0e7dda99d6a7f8bd5b3a100ca4.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
