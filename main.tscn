@@ -9,23 +9,29 @@
 [node name="Ground" parent="." instance=ExtResource("1_ttete")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0096167, 0.999954, 0, -0.999954, 0.0096167, 0, 14.3751, 0)
+transform = Transform3D(-0.25, -0.965237, 0.0762731, 0.258819, 0.00928895, 0.965881, -0.933013, 0.261211, 0.2475, 15, 14.3751, 0)
 shadow_enabled = true
 shadow_opacity = 0.8
 shadow_blur = 5.0
 
 [node name="Player" parent="." instance=ExtResource("2_m7wmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 floor_constant_speed = true
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(0.540372, 0.251607, 0.802927, 0, 0.954246, -0.299024, -0.841426, 0.161584, 0.515648, -0.152704, 1, 0)
+transform = Transform3D(0.540372, 0.251607, 0.802927, 0, 0.954246, -0.299024, -0.841426, 0.161584, 0.515648, 11.8473, -3, 17)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)
+transform = Transform3D(0.965926, 0.119913, -0.229364, 0.0773931, 0.711827, 0.698077, 0.246977, -0.692042, 0.678292, -0.123483, 25.2866, 6.19869)
 projection = 1
 size = 20.0
+near = 0.001
 far = 100.0
 
 [node name="Wall" parent="." instance=ExtResource("3_8vjgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1.682)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -10, -0.5, -0.682)
+
+[node name="Wall2" parent="." instance=ExtResource("3_8vjgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -6, -0.5, -0.682)
+
+[node name="Wall3" parent="." instance=ExtResource("3_8vjgg")]
+transform = Transform3D(-4.37114e-08, 0, 2, 0, 1, 0, -1, 0, -8.74228e-08, -2, -0.5, -9.682)

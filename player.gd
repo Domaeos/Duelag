@@ -1,32 +1,35 @@
 extends CharacterBody3D
 
 # Movement settings
-@export var speed = 30  # Movement speed
-@export var grid_size: float = 1.0  # Size of each grid cell
-@export var fall_acceleration = 75  # Gravity effect when falling
-
-var target_position: Vector3
+@export var speed: float = 0.1  # Movement speed (tiles per second)
+@export var grid_size: float = 2.0  # Size of each grid cell
+var target_position: Vector3  # Target position the player will move towards
 var moving: bool = false  # Whether the character is currently moving
+var direction: Vector3 = Vector3.ZERO  # Direction of movement
+var move_duration: float = 0.0  # Time it takes to move to the next grid cell
 
 func _ready():
 	# Snap the starting position to the grid
 	target_position = global_transform.origin.snapped(Vector3(grid_size, grid_size, grid_size))
 
 func _physics_process(delta):
+	# Handle movement only if the player is not currently moving
 	if moving:
-		# Smoothly move toward the target position
-		var current_position = global_transform.origin
-		global_transform.origin = current_position.lerp(target_position, speed * delta)
+		move_duration -= delta
 
-		# Check if we've reached the target position
-		if current_position.distance_to(target_position) < 0.01:
+		# Smooth movement towards the target position using lerp
+		global_transform.origin = global_transform.origin.lerp(target_position, 1 - (move_duration / speed))
+
+		# If we've reached the target position, stop moving
+		if move_duration <= 0:
 			global_transform.origin = target_position
 			moving = false
 
-	# Handle input only when not moving
+	# Handle input when the player is not moving
 	if not moving:
-		var direction = Vector3.ZERO
+		direction = Vector3.ZERO  # Reset direction
 
+		# Capture movement input
 		if Input.is_action_pressed("move_right"):
 			direction.x += 1
 		elif Input.is_action_pressed("move_left"):
@@ -36,14 +39,21 @@ func _physics_process(delta):
 		elif Input.is_action_pressed("move_forward"):
 			direction.z -= 1
 
+		# If there is movement input, calculate the target position
 		if direction != Vector3.ZERO:
-			# Calculate the intended target position
-			var intended_position = (global_transform.origin + direction * grid_size).snapped(Vector3(grid_size, grid_size, grid_size))
+			# Move exactly one grid cell forward/back/left/right
+			var intended_position = global_transform.origin + direction * grid_size
+
+			# Snap the intended position to the grid to maintain consistency
+			intended_position = intended_position.snapped(Vector3(grid_size, grid_size, grid_size))
 
 			# Check for collisions before moving
 			if can_move_to(intended_position):
 				moving = true
 				target_position = intended_position
+
+				# Set move duration to be the speed, to ensure consistent movement time
+				move_duration = speed
 
 				# Play running animation
 				$Pivot/Mage/AnimationPlayer.play("Running_A")
@@ -54,8 +64,17 @@ func _physics_process(delta):
 			else:
 				$Pivot/Mage/AnimationPlayer.play("Idle")  # Stay idle if blocked
 		else:
-			# Play idle animation
+			# Play idle animation if no movement direction
 			$Pivot/Mage/AnimationPlayer.play("Idle")
+
+	# Apply movement only along the x and z axes
+	velocity.x = direction.x * speed  # Apply horizontal movement (x-axis)
+	velocity.z = direction.z * speed  # Apply horizontal movement (z-axis)
+
+	# Use move_and_slide() to move the character
+	move_and_slide()
+
+# Collision check function
 func can_move_to(position: Vector3) -> bool:
 	# Perform a collision check at the intended position
 	var space_state = get_world_3d().direct_space_state
