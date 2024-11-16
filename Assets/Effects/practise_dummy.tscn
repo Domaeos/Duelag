@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6hx242pvwdul"]
+[gd_scene load_steps=5 format=3 uid="uid://c6hx242pvwdul"]
 
 [ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
+[ext_resource type="Script" path="res://can_be_damaged.gd" id="1_tjlrv"]
+[ext_resource type="PackedScene" uid="uid://lf45j5v7kjw2" path="res://Assets/Effects/healthbar.tscn" id="3_gqj1v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a18nm"]
 size = Vector3(1, 2.5, 1)
 
 [node name="PractiseDummy" type="CharacterBody3D"]
+script = ExtResource("1_tjlrv")
+
+[node name="Healthbar" parent="." node_paths=PackedStringArray("character") instance=ExtResource("3_gqj1v")]
+character = NodePath("..")
 
 [node name="Pivot" type="Node3D" parent="."]
 

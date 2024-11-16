@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends can_be_damaged
 
 # Movement settings
 @export var speed: float = 0.1  # Movement speed (tiles per second)

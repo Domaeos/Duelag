@@ -9,6 +9,8 @@ size = Vector3(1, 2, 1)
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("1_38arg")
+speed = null
+grid_size = null
 
 [node name="Pivot" type="Node3D" parent="."]
 
