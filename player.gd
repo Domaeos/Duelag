@@ -3,12 +3,13 @@ extends can_be_damaged
 # Movement settings
 @export var casting: String
 @export var current_enemy: can_be_damaged
-@export var speed: float = 0.1  # Movement speed (tiles per second)
+@export var speed: float = 0.1  # Time in seconds to move one grid cell (speed)
 @export var grid_size: float = 2.0  # Size of each grid cell
 var target_position: Vector3  # Target position the player will move towards
 var moving: bool = false  # Whether the character is currently moving
 var direction: Vector3 = Vector3.ZERO  # Direction of movement
-var move_duration: float = 0.0  # Time it takes to move to the next grid cell
+var move_duration: float = 0.0  # Time to move to the next grid cell
+var move_time: float = 0.0  # Duration to travel one tile
 
 signal show_text(message: String)
 
@@ -29,7 +30,7 @@ func _physics_process(delta):
 		move_duration -= delta
 
 		# Smooth movement towards the target position using lerp
-		global_transform.origin = global_transform.origin.lerp(target_position, 1 - (move_duration / speed))
+		global_transform.origin = global_transform.origin.lerp(target_position, 1 - (move_duration / move_time))
 
 		# If we've reached the target position, stop moving
 		if move_duration <= 0:
@@ -65,8 +66,9 @@ func _physics_process(delta):
 				moving = true
 				target_position = intended_position
 
-				# Set move duration to be the speed, to ensure consistent movement time
-				move_duration = speed
+				# Set move duration to ensure consistent movement time
+				move_time = speed  # Time to move one tile
+				move_duration = move_time
 
 				# Play running animation
 				$Pivot/Mage/AnimationPlayer.play("Running_A")

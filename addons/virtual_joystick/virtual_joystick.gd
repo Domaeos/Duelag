@@ -150,7 +150,6 @@ func _reset():
 	_base.position = _base_default_position
 	_tip.position = _tip_default_position
 	_reset_input_actions()  # Clear all pressed directions
-
 func _handle_8way_input(direction: Vector2) -> void:
 	# Calculate the angle in degrees
 	var angle = rad_to_deg(direction.angle())
@@ -163,26 +162,27 @@ func _handle_8way_input(direction: Vector2) -> void:
 	var press_left = false
 	var press_right = false
 	
+	# Adjusted for the rotated perspective
 	if angle >= 337.5 or angle < 22.5:
-		press_up = true
+		press_right = true  # Originally "up"
 	elif angle >= 22.5 and angle < 67.5:
-		press_up = true
-		press_right = true
+		press_right = true  # Originally "up"
+		press_down = true  # Originally "right"
 	elif angle >= 67.5 and angle < 112.5:
-		press_right = true
+		press_down = true  # Originally "right"
 	elif angle >= 112.5 and angle < 157.5:
-		press_down = true
-		press_right = true
+		press_down = true  # Originally "right"
+		press_left = true  # Originally "down"
 	elif angle >= 157.5 and angle < 202.5:
-		press_down = true
+		press_left = true  # Originally "down"
 	elif angle >= 202.5 and angle < 247.5:
-		press_down = true
-		press_left = true
+		press_left = true  # Originally "down"
+		press_up = true  # Originally "left"
 	elif angle >= 247.5 and angle < 292.5:
-		press_left = true
+		press_up = true  # Originally "left"
 	elif angle >= 292.5 and angle < 337.5:
-		press_up = true
-		press_left = true
+		press_up = true  # Originally "left"
+		press_right = true  # Originally "up"
 	
 	# Apply the correct input actions
 	_set_input_action(action_up, press_up)
