@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=6 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://de3ijvmumhh4o" path="res://ground.tscn" id="1_ttete"]
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="3_8vjgg"]
 [ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="5_tbph1"]
 
 [node name="Main" type="Node"]
 
@@ -15,14 +16,16 @@ shadow_enabled = true
 shadow_opacity = 0.8
 shadow_blur = 5.0
 
-[node name="Player" parent="." instance=ExtResource("2_m7wmo")]
+[node name="Player" parent="." node_paths=PackedStringArray("current_enemy") instance=ExtResource("2_m7wmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 floor_constant_speed = true
+current_enemy = NodePath("../PractiseDummy")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(0.540372, 0.251607, 0.802927, -0.217777, 0.963552, -0.155376, -0.812755, -0.0908989, 0.575471, 11.8473, -3, 17)
+transform = Transform3D(-4.37114e-08, 0.278991, 0.960294, 0, 0.960294, -0.278991, -1, -1.21951e-08, -4.19758e-08, 32, -7, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(0.965926, 0.119913, -0.229364, 0.0773931, 0.711827, 0.698077, 0.246977, -0.692042, 0.678292, -0.123483, 25.2866, 6.19869)
+transform = Transform3D(1.1, 0, 0, 0, 0.842649, 0.707066, 0, -0.707066, 0.842649, 0, 26.449, 0)
 projection = 1
 size = 20.0
 near = 0.001
@@ -38,4 +41,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -7, -0.5, -0.682)
 transform = Transform3D(-4.37114e-08, 0, 2, 0, 1, 0, -1, 0, -8.74228e-08, -2, -0.5, -9.682)
 
 [node name="PractiseDummy" parent="." instance=ExtResource("4_i3m74")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -6)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="Virtual Joystick" parent="Control/CanvasLayer" instance=ExtResource("5_tbph1")]
+offset_left = -36.0
+offset_top = -392.0
+offset_right = 246.0
+offset_bottom = -110.0
+scale = Vector2(1.5, 1.5)

@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name can_be_damaged
 
 # Signal emitted when damage is taken
-signal damage_taken(damage: float)
+signal update_healthbar(current_health: float, max_health: float, poisoned: bool)
 
 # Properties
 @export var damageable: bool = true
@@ -14,6 +14,6 @@ var poisoned: bool = false
 func take_damage(damage: float) -> void:
 	if damageable:
 		current_health -= damage
-		emit_signal("damage_taken", damage)
+		emit_signal("update_healthbar", current_health, max_health, poisoned)
 
 # Handle death

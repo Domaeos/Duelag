@@ -55,12 +55,14 @@ animations = [{
 "texture": SubResource("AtlasTexture_blf17")
 }],
 "loop": true,
-"name": &"default",
+"name": &"explode",
 "speed": 15.0
 }]
 
 [node name="Fire_1" type="CanvasLayer"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(316, 296)
 sprite_frames = SubResource("SpriteFrames_qpx5f")
-frame_progress = 0.528684
+animation = &"explode"
+frame_progress = 0.918149

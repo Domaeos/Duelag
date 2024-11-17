@@ -1,6 +1,8 @@
 extends can_be_damaged
 
 # Movement settings
+@export var casting: String
+@export var current_enemy: can_be_damaged
 @export var speed: float = 0.1  # Movement speed (tiles per second)
 @export var grid_size: float = 2.0  # Size of each grid cell
 var target_position: Vector3  # Target position the player will move towards
@@ -8,11 +10,20 @@ var moving: bool = false  # Whether the character is currently moving
 var direction: Vector3 = Vector3.ZERO  # Direction of movement
 var move_duration: float = 0.0  # Time it takes to move to the next grid cell
 
+signal show_text(message: String)
+
 func _ready():
 	# Snap the starting position to the grid
 	target_position = global_transform.origin.snapped(Vector3(grid_size, grid_size, grid_size))
 
 func _physics_process(delta):
+	# Handle spell casting
+	if Input.is_action_just_pressed("flamestrike"):
+		casting = "flamestrike"
+		print("Casting flamestrike")
+		$SpellTimer.wait_time = 3.5
+		$SpellTimer.start()
+
 	# Handle movement only if the player is not currently moving
 	if moving:
 		move_duration -= delta
@@ -31,16 +42,18 @@ func _physics_process(delta):
 
 		# Capture movement input
 		if Input.is_action_pressed("move_right"):
-			direction.x += 1
-		elif Input.is_action_pressed("move_left"):
-			direction.x -= 1
-		elif Input.is_action_pressed("move_back"):
-			direction.z += 1
-		elif Input.is_action_pressed("move_forward"):
 			direction.z -= 1
+		if Input.is_action_pressed("move_left"):
+			direction.z += 1
+		if Input.is_action_pressed("move_down"):
+			direction.x += 1
+		if Input.is_action_pressed("move_up"):
+			direction.x -= 1
 
-		# If there is movement input, calculate the target position
+		# Normalize the direction to ensure consistent speed
 		if direction != Vector3.ZERO:
+			direction = direction.normalized()
+
 			# Move exactly one grid cell forward/back/left/right
 			var intended_position = global_transform.origin + direction * grid_size
 
@@ -75,14 +88,14 @@ func _physics_process(delta):
 	move_and_slide()
 
 # Collision check function
-func can_move_to(position: Vector3) -> bool:
+func can_move_to(new_position: Vector3) -> bool:
 	# Perform a collision check at the intended position
 	var space_state = get_world_3d().direct_space_state
 
 	# Create a PhysicsRayQueryParameters3D object
 	var ray_params = PhysicsRayQueryParameters3D.new()
 	ray_params.from = global_transform.origin
-	ray_params.to = position
+	ray_params.to = new_position
 	ray_params.collide_with_areas = true
 	ray_params.collide_with_bodies = true
 	ray_params.exclude = [self]  # Exclude the player itself from the raycast
@@ -92,3 +105,6 @@ func can_move_to(position: Vector3) -> bool:
 
 	# Return true if no collision was detected
 	return collision.is_empty()
+
+func _on_spell_timeout() -> void:
+	print(casting + " has finished casting")
