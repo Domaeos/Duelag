@@ -9,6 +9,7 @@
 [node name="Main" type="Node"]
 
 [node name="Ground" parent="." instance=ExtResource("1_ttete")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.25, -0.965237, 0.0762731, 0.258819, 0.00928895, 0.965881, -0.933013, 0.261211, 0.2475, 15, 14.3751, 0)

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8xqh0mkrt4ec"]
+
+[ext_resource type="FontFile" uid="uid://c8gyqdxhmean6" path="res://fonts/Xolonium-Regular.ttf" id="2_dpagf"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="GDScript" id="GDScript_1xqpl"]
+script/source = "extends SubViewport
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="CharacterText" type="Sprite3D"]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.8, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_3awej")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(512, 100)
+render_target_update_mode = 3
+script = SubResource("GDScript_1xqpl")
+
+[node name="AboveHeadLabel" type="Label" parent="SubViewport"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -59.5
+offset_top = -23.0
+offset_right = 59.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_dpagf")
+theme_override_font_sizes/font_size = 30
+text = "WHY NO SHOW"

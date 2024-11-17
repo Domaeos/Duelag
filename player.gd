@@ -5,10 +5,11 @@ extends can_be_damaged
 @export var current_enemy: can_be_damaged
 @export var speed: float = 0.15  # Movement speed (tiles per second)
 @export var grid_size: float = 2.0  # Size of each grid cell
+
 var target_position: Vector3  # Target position the player will move towards
 var moving: bool = false  # Whether the character is currently moving
 var direction: Vector3 = Vector3.ZERO  # Direction of movement
-var move_duration: float = 0.0  # Time it takes to move to the next grid cell
+var move_duration: float = 1.0  # Time it takes to move to the next grid cell
 
 signal show_text(message: String)
 
@@ -19,8 +20,7 @@ func _ready():
 func _physics_process(delta):
 	# Handle spell casting
 	if Input.is_action_just_pressed("flamestrike"):
-		casting = "flamestrike"
-		print("Casting flamestrike")
+		show_text.emit("Kal Vas Flam")
 		$SpellTimer.wait_time = 3.5
 		$SpellTimer.start()
 
@@ -98,13 +98,12 @@ func can_move_to(new_position: Vector3) -> bool:
 	ray_params.to = new_position
 	ray_params.collide_with_areas = true
 	ray_params.collide_with_bodies = true
-	ray_params.exclude = [self]  # Exclude the player itself from the raycast
-
+	ray_params.exclude = [self]
 	# Perform the raycast
 	var collision = space_state.intersect_ray(ray_params)
-
 	# Return true if no collision was detected
 	return collision.is_empty()
 
 func _on_spell_timeout() -> void:
-	print(casting + " has finished casting")
+	show_text.emit("BAM")
+	print(casting + " has finished casting on " + current_enemy.name)

@@ -1,15 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6hx242pvwdul"]
+[gd_scene load_steps=4 format=3 uid="uid://c6hx242pvwdul"]
 
 [ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
 [ext_resource type="Script" path="res://can_be_damaged.gd" id="1_tjlrv"]
-[ext_resource type="PackedScene" uid="uid://lf45j5v7kjw2" path="res://Assets/Effects/healthbar.tscn" id="3_gqj1v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a18nm"]
 size = Vector3(1, 2.5, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_n30kq"]
-resource_local_to_scene = false
-viewport_path = NodePath(".")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
 script = ExtResource("1_tjlrv")
@@ -22,16 +17,3 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("BoxShape3D_a18nm")
-
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(2.17445, 0, -1.03281, 0, 4.0425, 0, -0.582643, 0, -3.8545, 0, 0, 0)
-layers = 8
-sorting_offset = 1.0
-pixel_size = 0.0001
-axis = 0
-billboard = 1
-shaded = true
-texture = SubResource("ViewportTexture_n30kq")
-
-[node name="HealthbarViewport" parent="Sprite3D" instance=ExtResource("3_gqj1v")]
-handle_input_locally = false
