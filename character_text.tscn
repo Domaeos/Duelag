@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8xqh0mkrt4ec"]
+[gd_scene load_steps=5 format=3 uid="uid://c8xqh0mkrt4ec"]
 
-[ext_resource type="FontFile" uid="uid://c8gyqdxhmean6" path="res://fonts/Xolonium-Regular.ttf" id="2_dpagf"]
+[ext_resource type="FontFile" uid="uid://miskkv33cvat" path="res://fonts/architect-s-daughter/ArchitectsDaughter.ttf" id="2_8g11c"]
+[ext_resource type="FontFile" path="res://fonts/architect-s-daughter/ArchitectsDaughter32.tres" id="3_bn2iu"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
 viewport_path = NodePath("SubViewport")
@@ -26,21 +27,34 @@ texture = SubResource("ViewportTexture_3awej")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
-size = Vector2i(512, 100)
+size = Vector2i(1000, 300)
 render_target_update_mode = 3
 script = SubResource("GDScript_1xqpl")
 
-[node name="AboveHeadLabel" type="Label" parent="SubViewport"]
+[node name="OHeadText" type="RichTextLabel" parent="SubViewport"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -59.5
-offset_top = -23.0
-offset_right = 59.5
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_dpagf")
-theme_override_font_sizes/font_size = 30
-text = "WHY NO SHOW"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("2_8g11c")
+theme_override_fonts/bold_font = ExtResource("3_bn2iu")
+theme_override_font_sizes/normal_font_size = 80
+theme_override_font_sizes/bold_font_size = 80
+bbcode_enabled = true
+text = "HI THERE
+"
+fit_content = true
+autowrap_mode = 0
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+visible_characters = 100
+visible_characters_behavior = 2
+visible_ratio = 11.1111

@@ -7,7 +7,7 @@ signal show_text(message: String)
 @export var current_enemy: can_be_damaged
 
 @export var grid_size: float = 2.0  # Size of each grid cell
-@export var speed: float = 15.0  # Speed of movement (tiles per second)
+@export var speed: float = 15.0 # Speed of movement (tiles per second)
 
 var direction: Vector3 = Vector3.ZERO
 var target_position: Vector3
@@ -19,26 +19,32 @@ func _ready():
 	target_position = global_transform.origin
 
 func _physics_process(delta):
-	# Handle input for movement
+	# Reset direction at the start of each frame
+	direction = Vector3.ZERO
+	handle_input()
+	# If there is any movement direction, normalize it to avoid faster diagonal movement
+	handle_movement()
+
+func handle_input():
+	# Handle input for movement (supporting 8 directions)
 	if Input.is_action_pressed("move_right"):
 		direction.z -= 1
-	elif Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left"):
 		direction.z += 1
-	elif Input.is_action_pressed("move_down"):
+	if Input.is_action_pressed("move_down"):
 		direction.x += 1
-	elif Input.is_action_pressed("move_up"):
+	if Input.is_action_pressed("move_up"):
 		direction.x -= 1
-	else:
-		# No movement input, stop velocity and return to idle animation
-		direction = Vector3.ZERO
-		velocity = Vector3.ZERO
-		moving = false
-		$Pivot/Mage/AnimationPlayer.play("Idle")
-		return
 
-	# Normalize the direction vector to ensure consistent speed
+	if Input.is_action_just_pressed("flamestrike"):
+		show_text.emit("Kal Vas Flam")
+		$SpellTimer.wait_time = 3.5
+		$SpellTimer.start()
+
+func handle_movement():
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
+
 		# Set the target position (target grid center)
 		var intended_position = global_transform.origin + direction * grid_size
 		target_position = snap_to_grid(intended_position)
@@ -66,6 +72,13 @@ func _physics_process(delta):
 		# Update rotation to face movement direction
 		var flipped_direction = -direction
 		$Pivot.basis = Basis.looking_at(flipped_direction)
+
+	# If no input and not moving, stop animation and reset velocity
+	if direction == Vector3.ZERO:
+		# Ensure the player stops by resetting velocity
+		velocity = Vector3.ZERO
+		$Pivot/Mage/AnimationPlayer.play("Idle")
+		moving = false  # Stop movement entirely
 
 # Snap to the center of the grid cell
 func snap_to_grid(position: Vector3) -> Vector3:
