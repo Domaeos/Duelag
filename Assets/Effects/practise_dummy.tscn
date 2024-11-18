@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6hx242pvwdul"]
+[gd_scene load_steps=9 format=3 uid="uid://c6hx242pvwdul"]
 
 [ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
 [ext_resource type="Script" path="res://can_be_damaged.gd" id="1_tjlrv"]
+[ext_resource type="PackedScene" uid="uid://dt804svrxhtrk" path="res://health_bar.tscn" id="3_u5mfo"]
+[ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/firestrike.tscn" id="4_4mp2d"]
+[ext_resource type="Script" path="res://health_bar.gd" id="4_fxo51"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a18nm"]
 size = Vector3(1, 2.5, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_px2xr"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_uycgu"]
+viewport_path = NodePath("Fire_1")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
 script = ExtResource("1_tjlrv")
@@ -17,3 +26,15 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("BoxShape3D_a18nm")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_u5mfo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, -1, 0)
+texture = SubResource("ViewportTexture_px2xr")
+script = ExtResource("4_fxo51")
+
+[node name="Firestrike" parent="." instance=ExtResource("4_4mp2d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 1)
+visible = false
+texture = SubResource("ViewportTexture_uycgu")
+
+[connection signal="update_healthbar" from="." to="HealthBar" method="_on_update_healthbar"]

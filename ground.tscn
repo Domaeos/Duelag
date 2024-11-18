@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://de3ijvmumhh4o"]
+[gd_scene load_steps=3 format=3 uid="uid://de3ijvmumhh4o"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_aa6ud"]
+albedo_color = Color(0.368627, 0.572549, 0.133333, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fv0ps"]
+material = SubResource("ORMMaterial3D_aa6ud")
 
 [node name="Ground" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)

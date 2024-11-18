@@ -4,6 +4,7 @@ signal show_text(message: String)
 
 # Movement settings
 @export var casting: String
+@export var current_mana = 100
 @export var current_enemy: can_be_damaged
 
 @export var grid_size: float = 2.0  # Size of each grid cell
@@ -99,5 +100,6 @@ func can_move_to(new_position: Vector3) -> bool:
 	return space_state.intersect_ray(ray_params).is_empty()
 
 func _on_spell_timeout() -> void:
-	show_text.emit("BAM")
+	current_enemy.spell_landed("flamestrike")
+	current_mana -= 35
 	print(casting + " has finished casting on " + current_enemy.name)

@@ -1,6 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2p2k0520md7x"]
+[gd_scene load_steps=12 format=3 uid="uid://d2p2k0520md7x"]
 
 [ext_resource type="Texture2D" uid="uid://bi4pnwiffe1h8" path="res://Assets/Effects/Fire/No_compressed/512/Fire_1_512-sheet.png" id="1_dxwkj"]
+[ext_resource type="Script" path="res://Assets/Effects/firestrike.gd" id="1_ouh14"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j6e2d"]
+viewport_path = NodePath("Fire_1")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_irhoa"]
 atlas = ExtResource("1_dxwkj")
@@ -54,15 +58,29 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_blf17")
 }],
-"loop": true,
+"loop": false,
 "name": &"explode",
 "speed": 15.0
 }]
 
-[node name="Fire_1" type="CanvasLayer"]
+[node name="Firestrike" type="Sprite3D"]
+offset = Vector2(30, 0)
+pixel_size = 0.02
+billboard = 1
+no_depth_test = true
+texture = SubResource("ViewportTexture_j6e2d")
+script = ExtResource("1_ouh14")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Fire_1" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(2000, 2000)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Fire_1"]
 position = Vector2(316, 296)
 sprite_frames = SubResource("SpriteFrames_qpx5f")
 animation = &"explode"
-frame_progress = 0.918149
+frame = 6
+frame_progress = 1.0
+offset = Vector2(660, 700)
+
+[connection signal="animation_finished" from="Fire_1/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

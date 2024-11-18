@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://character_text.gd" id="5_4mnd4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h5uq1"]
-size = Vector3(1, 2, 1)
+size = Vector3(1, 1.4, 1.8)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4phqu"]
 viewport_path = NodePath("SubViewport")
@@ -21,7 +21,7 @@ script = ExtResource("1_38arg")
 [node name="Mage" parent="Pivot" instance=ExtResource("1_2ujtc")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(2, 0, 0, 0, 1.95, 0, 0, 0, 1, 0, 1.3775, -8.9407e-08)
 shape = SubResource("BoxShape3D_h5uq1")
 
 [node name="SpellTimer" type="Timer" parent="."]
