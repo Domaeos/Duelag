@@ -22,6 +22,7 @@ func _process(delta: float) -> void:
 [node name="CharacterText" type="Sprite3D"]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.8, 0)
 billboard = 1
+no_depth_test = true
 texture = SubResource("ViewportTexture_3awej")
 
 [node name="SubViewport" type="SubViewport" parent="."]

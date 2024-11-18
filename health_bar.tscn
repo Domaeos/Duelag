@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt804svrxhtrk"]
+[gd_scene load_steps=5 format=3 uid="uid://dt804svrxhtrk"]
+
+[ext_resource type="Script" path="res://health_bar.gd" id="1_5yesx"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1enrm"]
 viewport_path = NodePath("SubViewport")
@@ -15,6 +17,7 @@ billboard = 1
 no_depth_test = true
 render_priority = 10
 texture = SubResource("ViewportTexture_1enrm")
+script = ExtResource("1_5yesx")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true

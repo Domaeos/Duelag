@@ -1,13 +1,14 @@
 extends Sprite3D
 
 # Health bar variables
-onready var health_bar = $SubViewport/HealthBar
+var health_bar: ProgressBar
 var current_health = 100.0
 var target_health = 100.0
-var transition_speed = 5.0  # How fast the health bar transitions
+var transition_speed = 100  # How fast the health bar transitions
 
 # Called when the node enters the scene tree for the first time
 func _ready() -> void:
+	health_bar = $SubViewport/HealthBar
 	health_bar.value = current_health
 
 # Smoothly update the health bar value
