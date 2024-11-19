@@ -37,16 +37,15 @@ func handle_input():
 	if Input.is_action_pressed("move_up"):
 		direction.x -= 1
 
-	if Input.is_action_just_pressed("lightning"):
-		show_text.emit("Zap zap")
-		casting = "lightning"
-		$SpellTimer.wait_time = 0.5
-		$SpellTimer.start()
-	elif Input.is_action_just_pressed("flamestrike"):
-		show_text.emit("Kal Vas Flam")
-		casting = "flamestrike"
-		$SpellTimer.wait_time = 0.5
-		$SpellTimer.start()
+	for spell in Global.spelldictionary.keys():
+		if (Input.is_action_just_pressed(spell)):
+			var spell_information = Global.spelldictionary[spell]
+			show_text.emit(spell_information.words_of_power)
+			casting = spell
+			$SpellTimer.wait_time = spell_information.duration
+			$SpellTimer.start()
+			break
+	
 
 func handle_movement():
 	if direction != Vector3.ZERO:
