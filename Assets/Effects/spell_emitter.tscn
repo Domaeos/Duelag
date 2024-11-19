@@ -1328,7 +1328,9 @@ material = SubResource("ShaderMaterial_rkee7")
 use_parent_material = true
 position = Vector2(316, 296)
 sprite_frames = SubResource("SpriteFrames_qpx5f")
-animation = &"electric_2"
+animation = &"smoke_3"
+frame = 32
+frame_progress = 1.0
 offset = Vector2(660, 700)
 
 [connection signal="animation_finished" from="SpellNode/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

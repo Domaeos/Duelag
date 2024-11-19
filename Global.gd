@@ -19,14 +19,14 @@ var spelldictionary = {
 		"words_of_power": "In Nox",
 		"duration": 1.0,
 		"damage": 0,
-		"position": Vector3(0, 0, 0),
-		"animation": "electric_2"
+		"position": Vector3(0, 2.0, 0),
+		"animation": "smoke_3"
 	},
 	"spark": {
 		"words_of_power": "Smoking",
 		"duration": 1.0,
 		"damage": 0,
-		"position": Vector3(0, 0, 0),
-		"animation": "smoke_1"
+		"position": Vector3(0, 2.0, 0),
+		"animation": "electric_4"
 	}
 }

@@ -1,0 +1,172 @@
+[gd_scene load_steps=7 format=3 uid="uid://8ew1jq4kng8h"]
+
+[ext_resource type="PackedScene" uid="uid://dm5qba0r3u46o" path="res://Assets/kenney_nature-kit/Models/GLTF format/cliff_blockCave_rock.glb" id="1_gd2pj"]
+[ext_resource type="ArrayMesh" uid="uid://bc0l2dq3mmgko" path="res://Assets/kenney_nature-kit/Models/OBJ format/ground_pathSideOpen.obj" id="2_754k8"]
+[ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_upo27"]
+[ext_resource type="ArrayMesh" uid="uid://bl12vxd0ef4pe" path="res://Assets/kenney_nature-kit/Models/OBJ format/ground_pathStraight.obj" id="3_onjsg"]
+[ext_resource type="ArrayMesh" uid="uid://cbr1keh3mkyny" path="res://Assets/kenney_nature-kit/Models/OBJ format/path_stone.obj" id="4_hpe6j"]
+[ext_resource type="ArrayMesh" uid="uid://bv8psullfwy" path="res://Assets/kenney_nature-kit/Models/OBJ format/grass_leafs.obj" id="5_1n8h4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(0.591506, 0.612372, -0.524519, 0.224144, 0.5, 0.836516, 0.774519, -0.612372, 0.158494, -7.4, 8, 5.6)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.433013, 0.5, -0.75, 0.25, 0.866025, 0.433013, 0.866025, 0, -0.5, -6, 4, -1)
+
+[node name="Node3D2" type="Node3D" parent="."]
+
+[node name="cliff_blockCave_rock2" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D2" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="Node3D5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="cliff_blockCave_rock2" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="cliff_blockCave_rock8" parent="Node3D5" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="Node3D7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+
+[node name="cliff_blockCave_rock2" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="cliff_blockCave_rock8" parent="Node3D7" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="Player" parent="Node3D7" instance=ExtResource("2_upo27")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
+
+[node name="Node3D6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+
+[node name="cliff_blockCave_rock2" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D6" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="Node3D3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="cliff_blockCave_rock2" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D3" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="Node3D4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="cliff_blockCave_rock2" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+
+[node name="cliff_blockCave_rock6" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -1)
+
+[node name="cliff_blockCave_rock7" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -1)
+
+[node name="cliff_blockCave_rock3" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 1)
+
+[node name="cliff_blockCave_rock4" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 1)
+
+[node name="cliff_blockCave_rock5" parent="Node3D4" instance=ExtResource("1_gd2pj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+
+[node name="GroundPathSideOpen" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.1, 0)
+mesh = ExtResource("2_754k8")
+
+[node name="GroundPathStraight" type="MeshInstance3D" parent="GroundPathSideOpen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, -2.1, -0.6)
+mesh = ExtResource("3_onjsg")
+
+[node name="GroundPathStraight2" type="MeshInstance3D" parent="GroundPathSideOpen"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, 1)
+mesh = ExtResource("3_onjsg")
+
+[node name="PathStone" type="MeshInstance3D" parent="GroundPathSideOpen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.9, 1)
+mesh = ExtResource("4_hpe6j")
+
+[node name="GrassLeafs" type="MeshInstance3D" parent="GroundPathSideOpen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.0999999, 0)
+mesh = ExtResource("5_1n8h4")
