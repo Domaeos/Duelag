@@ -7,7 +7,7 @@ signal show_text(message: String)
 @export var current_mana = 100
 @export var current_enemy: can_be_damaged
 
-@export var grid_size: float = 2.0  # Size of each grid cell
+@export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
 
 var direction: Vector3 = Vector3.ZERO
@@ -23,8 +23,7 @@ func _physics_process(delta):
 	# Reset direction at the start of each frame
 	direction = Vector3.ZERO
 	handle_input()
-	# If there is any movement direction, normalize it to avoid faster diagonal movement
-	handle_movement()
+	handle_movement(delta)
 
 func handle_input():
 	# Handle input for movement (supporting 8 directions)
@@ -39,24 +38,29 @@ func handle_input():
 
 	for spell in Global.spelldictionary.keys():
 		if (Input.is_action_just_pressed(spell)):
-			var spell_information = Global.spelldictionary[spell]
-			show_text.emit(spell_information.words_of_power)
-			casting = spell
-			$SpellTimer.wait_time = spell_information.duration
-			$SpellTimer.start()
-			break
-	
+			if $SpellTimer.is_stopped():
+				var spell_information = Global.spelldictionary[spell]
+				show_text.emit(spell_information.words_of_power)
+				casting = spell
+				$SpellTimer.wait_time = spell_information.duration
+				$SpellTimer.start()
+				break
+			else:
+				print("Already casting")
 
-func handle_movement():
+func handle_movement(delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 
-		# Set the target position (target grid center)
+		# Calculate the movement target (move by grid_size steps)
 		var intended_position = global_transform.origin + direction * grid_size
 		target_position = snap_to_grid(intended_position)
 
 		# Set velocity to move the player at the desired speed
 		velocity = direction * speed
+
+		# Play running animation while moving
+		$Pivot/Mage/AnimationPlayer.play("Running_A")
 
 		# Move towards target position if distance is greater than a threshold
 		if global_transform.origin.distance_to(target_position) > 0.1:
@@ -67,13 +71,10 @@ func handle_movement():
 			velocity = Vector3.ZERO
 			$Pivot/Mage/AnimationPlayer.play("Idle")
 
-		# Play running animation while moving
-		$Pivot/Mage/AnimationPlayer.play("Running_A")
-
 	# If moving, apply velocity to move the player
 	if moving:
-		# Move using velocity
-		move_and_slide()  # No arguments needed
+		# Move using velocity and update position smoothly
+		move_and_slide()  # This now uses the built-in velocity
 
 		# Update rotation to face movement direction
 		var flipped_direction = -direction
@@ -88,10 +89,11 @@ func handle_movement():
 
 # Snap to the center of the grid cell
 func snap_to_grid(position: Vector3) -> Vector3:
+	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
-		floor(position.x / grid_size + 0.5) * grid_size,
-		floor(position.y / grid_size + 0.5) * grid_size,
-		floor(position.z / grid_size + 0.5) * grid_size
+		round(position.x / grid_size) * grid_size,
+		round(position.y / grid_size) * grid_size,
+		round(position.z / grid_size) * grid_size
 	)
 
 # Check for collisions

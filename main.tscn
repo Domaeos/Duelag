@@ -1,6 +1,5 @@
 [gd_scene load_steps=12 format=3 uid="uid://bg4mt5wcee8s8"]
 
-[ext_resource type="PackedScene" uid="uid://de3ijvmumhh4o" path="res://ground.tscn" id="1_ttete"]
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="3_8vjgg"]
 [ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
@@ -20,10 +19,9 @@ bg_color = Color(0, 0.0794029, 0.143956, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6da03"]
 bg_color = Color(1.34766e-06, 0.644433, 0.900917, 1)
 
-[node name="Main" type="Node"]
+[sub_resource type="GDScript" id="GDScript_hkcam"]
 
-[node name="Ground" parent="." instance=ExtResource("1_ttete")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[node name="Main" type="Node"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.838669, 0.26882, 0.473678, -0.474369, -0.0667774, 0.87779, 0.267598, -0.960873, 0.0715156, 2, 14.3751, 5)
@@ -47,10 +45,16 @@ near = 0.001
 far = 100.0
 
 [node name="Wall" parent="." instance=ExtResource("3_8vjgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -10.1, -0.4, -0.882)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 5.3, 1.9, 11.518)
+
+[node name="Wall2" parent="." instance=ExtResource("3_8vjgg")]
+transform = Transform3D(-4.37114e-08, 0, 2, 0, 1, 0, -1, 0, -8.74228e-08, 13.3, 1.9, 5.518)
+
+[node name="Wall3" parent="." instance=ExtResource("3_8vjgg")]
+transform = Transform3D(-4.37114e-08, 0, 2, 0, 1, 0, -1, 0, -8.74228e-08, 13.3, 1.9, 2.518)
 
 [node name="PractiseDummy" parent="." instance=ExtResource("4_i3m74")]
-transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -23, 0, -6)
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -7, 2, 5)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -105,3 +109,5 @@ rounded = true
 show_percentage = false
 
 [node name="GridMap" parent="." instance=ExtResource("7_hxywo")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+script = SubResource("GDScript_hkcam")
