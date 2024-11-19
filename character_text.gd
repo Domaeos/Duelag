@@ -14,4 +14,10 @@ func _process(delta: float) -> void:
 func _on_player_show_text(message: String) -> void:
 	if char_label:
 		char_label.text = "[b]" + message + "[/b]"
+		$TextTimer.start()
+	pass # Replace with function body.
+
+
+func _on_text_timer_timeout() -> void:
+	char_label.text = ""
 	pass # Replace with function body.

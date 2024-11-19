@@ -1,26 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8xqh0mkrt4ec"]
+[gd_scene load_steps=3 format=3 uid="uid://c8xqh0mkrt4ec"]
 
 [ext_resource type="FontFile" uid="uid://564s24d7ksvq" path="res://fonts/Heavitas.ttf" id="1_c06vr"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="GDScript" id="GDScript_1xqpl"]
-script/source = "extends SubViewport
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
-
 [node name="CharacterText" type="Sprite3D"]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.8, 0)
+pixel_size = 0.015
 billboard = 1
 no_depth_test = true
 texture = SubResource("ViewportTexture_3awej")
@@ -29,7 +16,6 @@ texture = SubResource("ViewportTexture_3awej")
 transparent_bg = true
 size = Vector2i(1000, 300)
 render_target_update_mode = 3
-script = SubResource("GDScript_1xqpl")
 
 [node name="OHeadText" type="RichTextLabel" parent="SubViewport"]
 anchors_preset = 7
@@ -56,3 +42,8 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 visible_characters_behavior = 2
+
+[node name="TextTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="TextTimer" to="." method="_on_text_timer_timeout"]

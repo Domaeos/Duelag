@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=13 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="3_8vjgg"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="5_tbph1"]
 [ext_resource type="Script" path="res://player_resource_information.gd" id="6_stj1s"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="7_hxywo"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_o66xh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbh0"]
 bg_color = Color(0.14119, 0.00252895, 0.00321936, 1)
@@ -30,19 +32,24 @@ shadow_opacity = 0.8
 shadow_blur = 5.0
 
 [node name="Player" parent="." node_paths=PackedStringArray("current_enemy") instance=ExtResource("2_m7wmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, 3)
 floor_constant_speed = true
 current_enemy = NodePath("../PractiseDummy")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(-4.37114e-08, 0.173648, 0.984808, 0, 0.984808, -0.173648, -1, -7.5904e-09, -4.30473e-08, 26, -7, 0)
+transform = Transform3D(-4.37114e-08, 0.173648, 0.984808, 0, 0.984808, -0.173648, -1, -7.5904e-09, -4.30473e-08, 26, 2.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1.1, 0, 0, 0, 0.842649, 0.707066, 0, -0.707066, 0.842649, 0, 26.449, 0)
+transform = Transform3D(1, 1.16291e-08, 9.75806e-09, -1.42653e-08, 0.5, 0.866025, 5.19214e-09, -0.866025, 0.5, 0, 26.449, -1.90735e-06)
 projection = 1
-size = 20.0
+size = 30.0
 near = 0.001
 far = 100.0
+
+[node name="LOS_debug" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 5)
+mesh = SubResource("ImmediateMesh_o66xh")
+skeleton = NodePath("../..")
 
 [node name="Wall" parent="." instance=ExtResource("3_8vjgg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 5.3, 1.9, 11.518)
@@ -73,10 +80,10 @@ scale = Vector2(0.66, 0.66)
 
 [node name="PlayerResourceInformation" type="ColorRect" parent="Control" node_paths=PackedStringArray("player")]
 layout_mode = 0
-offset_left = 903.0
-offset_top = 536.0
-offset_right = 1133.0
-offset_bottom = 631.0
+offset_left = 9.0
+offset_top = 12.0
+offset_right = 239.0
+offset_bottom = 107.0
 color = Color(0.270588, 0.270588, 0.270588, 0.0823529)
 script = ExtResource("6_stj1s")
 player = NodePath("../../Player")

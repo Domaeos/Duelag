@@ -1,5 +1,9 @@
 extends Node
 
+var poisoned_colour = Color(0.3, 0.68, 0.22)
+
+var health_colour = Color(0.912, 0.099, 0.225)
+
 var spelldictionary = {
 	"lightning" : {
 		"words_of_power": "Zap zap",
@@ -25,7 +29,7 @@ var spelldictionary = {
 	"spark": {
 		"words_of_power": "Smoking",
 		"duration": 1.0,
-		"damage": 0,
+		"damage": 20,
 		"position": Vector3(0, 2.0, 0),
 		"animation": "electric_4"
 	}

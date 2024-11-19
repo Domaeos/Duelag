@@ -8,22 +8,40 @@ signal update_healthbar(current_health: float, max_health: float, poisoned: bool
 @export var damageable: bool = true
 @export var current_health: float = 100.0
 @export var max_health: float = 100.0
+@export var poisoned: bool = false
 
+var poison_timer
 var spell_emitter: AnimatedSprite2D
 var spell_node: Sprite3D
-var poisoned: bool = false
 
 func _ready():
+	poison_timer = Timer.new()
+	poison_timer.wait_time = 2.5  # Set the timer duration
+	poison_timer.one_shot = false  # Set the timer to loop
+	poison_timer.autostart = false  # Start the timer automatically
+
+	# Add the timer to the current node
+	add_child(poison_timer)
+	poison_timer.connect("timeout", Callable(self, "_on_poisoned"))
+
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
 	
 func spell_landed(spell: String):
 	var spell_information = Global.spelldictionary[spell]
+	if spell == "poison":
+		poisoned = true
+		poison_timer.start()
+
 	spell_node.position = spell_information.position
 	spell_node.show()
 	spell_emitter.play(spell_information.animation)
-	take_damage(10)
-
+	
+	take_damage(spell_information.damage)
+	
+func _on_poisoned():
+	take_damage(5)
+	
 # Take damage method
 func take_damage(damage: float) -> void:
 	if damageable:

@@ -6,10 +6,11 @@
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krhf7"]
-bg_color = Color(0.129412, 0.027451, 0, 1)
+bg_color = Color(0.1, 0.1, 0.1, 0.898)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjw5i"]
-bg_color = Color(0.912105, 0.0992965, 0.225234, 1)
+resource_name = "health_fill"
+bg_color = Color(0.913725, 0.0980392, 0.223529, 1)
 
 [node name="HealthBar" type="Sprite3D"]
 layers = 524288

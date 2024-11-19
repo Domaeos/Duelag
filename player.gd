@@ -38,8 +38,19 @@ func handle_input():
 
 	for spell in Global.spelldictionary.keys():
 		if (Input.is_action_just_pressed(spell)):
-			if $SpellTimer.is_stopped():
-				var spell_information = Global.spelldictionary[spell]
+			#
+			# if self cast in dictionary dont bother with below
+			#
+			var in_line_of_sight = check_line_of_sight(current_enemy)
+			var spell_information = Global.spelldictionary[spell]
+			
+			if in_line_of_sight:
+				
+				if $SpellTimer.is_stopped() == false:
+					$SpellTimer.stop()
+					print("Fizzled self")
+					show_text.emit("Self fizzled")
+	
 				show_text.emit(spell_information.words_of_power)
 				casting = spell
 				$SpellTimer.wait_time = spell_information.duration
@@ -87,7 +98,6 @@ func handle_movement(delta):
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
-# Snap to the center of the grid cell
 func snap_to_grid(position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
@@ -96,7 +106,6 @@ func snap_to_grid(position: Vector3) -> Vector3:
 		round(position.z / grid_size) * grid_size
 	)
 
-# Check for collisions
 func can_move_to(new_position: Vector3) -> bool:
 	var space_state = get_world_3d().direct_space_state
 	var ray_params = PhysicsRayQueryParameters3D.new()
@@ -106,7 +115,27 @@ func can_move_to(new_position: Vector3) -> bool:
 	ray_params.exclude = [self]
 	return space_state.intersect_ray(ray_params).is_empty()
 
+func check_line_of_sight(end: Node3D) -> bool:
+	var space_state = get_world_3d().direct_space_state  
+	var ray_params = PhysicsRayQueryParameters3D.new()
+
+	ray_params.from = global_transform.origin
+	ray_params.to = end.global_transform.origin
+	var result = space_state.intersect_ray(ray_params)
+	
+	if result:
+		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
+		if (result.collider == current_enemy):
+			return true
+	
+	return false
+	
 func _on_spell_timeout() -> void:
-	current_enemy.spell_landed(casting)
-	current_mana -= 5
-	print(casting + " has finished casting on " + current_enemy.name)
+	var in_line_of_sight = check_line_of_sight(current_enemy)
+	if in_line_of_sight:
+		current_enemy.spell_landed(casting)
+		current_mana -= 5
+		print(casting + " has finished casting on " + current_enemy.name)
+	else:
+		print("LOS BROKEN")
+	
