@@ -37,9 +37,15 @@ func handle_input():
 	if Input.is_action_pressed("move_up"):
 		direction.x -= 1
 
-	if Input.is_action_just_pressed("flamestrike"):
+	if Input.is_action_just_pressed("lightning"):
+		show_text.emit("Zap zap")
+		casting = "lightning"
+		$SpellTimer.wait_time = 0.5
+		$SpellTimer.start()
+	elif Input.is_action_just_pressed("flamestrike"):
 		show_text.emit("Kal Vas Flam")
-		$SpellTimer.wait_time = 3.5
+		casting = "flamestrike"
+		$SpellTimer.wait_time = 0.5
 		$SpellTimer.start()
 
 func handle_movement():
@@ -100,6 +106,6 @@ func can_move_to(new_position: Vector3) -> bool:
 	return space_state.intersect_ray(ray_params).is_empty()
 
 func _on_spell_timeout() -> void:
-	current_enemy.spell_landed("flamestrike")
-	current_mana -= 35
+	current_enemy.spell_landed(casting)
+	current_mana -= 5
 	print(casting + " has finished casting on " + current_enemy.name)
