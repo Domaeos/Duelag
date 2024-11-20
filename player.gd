@@ -12,7 +12,7 @@ signal show_text(message: String)
 
 var direction: Vector3 = Vector3.ZERO
 var target_position: Vector3
-var moving: bool = false  # Whether the player is currently moving
+var moving: bool = false
 
 func _ready():
 	# Snap the player's initial position to the center of the grid
@@ -38,26 +38,24 @@ func handle_input():
 
 	for spell in Global.spelldictionary.keys():
 		if (Input.is_action_just_pressed(spell)):
-			#
-			# if self cast in dictionary dont bother with below
-			#
-			var in_line_of_sight = check_line_of_sight(current_enemy)
 			var spell_information = Global.spelldictionary[spell]
 			
-			if in_line_of_sight:
+			if spell_information.has("self") == false:
+				var in_line_of_sight = check_line_of_sight(current_enemy)
+				if not in_line_of_sight:
+					print("Not in LOS")
+					return
 				
-				if $SpellTimer.is_stopped() == false:
-					$SpellTimer.stop()
-					print("Fizzled self")
-					show_text.emit("Self fizzled")
-	
-				show_text.emit(spell_information.words_of_power)
-				casting = spell
-				$SpellTimer.wait_time = spell_information.duration
-				$SpellTimer.start()
-				break
-			else:
-				print("Already casting")
+			if $SpellTimer.is_stopped() == false:
+				$SpellTimer.stop()
+				print("Fizzled self")
+				show_text.emit("Self fizzled")
+		
+			show_text.emit(spell_information.words_of_power)
+			casting = spell
+			$SpellTimer.wait_time = spell_information.duration
+			$SpellTimer.start()
+			break
 
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
@@ -131,11 +129,17 @@ func check_line_of_sight(end: Node3D) -> bool:
 	return false
 	
 func _on_spell_timeout() -> void:
-	var in_line_of_sight = check_line_of_sight(current_enemy)
-	if in_line_of_sight:
-		current_enemy.spell_landed(casting)
-		current_mana -= 5
-		print(casting + " has finished casting on " + current_enemy.name)
-	else:
-		print("LOS BROKEN")
+	var target = self
+	var spell_information = Global.spelldictionary[casting]
+	if spell_information.has("self") == false:
+		target = current_enemy
+		var in_line_of_sight = check_line_of_sight(current_enemy)
+		if !in_line_of_sight:
+			print("LOS BROKEN")
+			return
+		
+	target.spell_landed(casting)
+	current_mana -= spell_information.cost
+	print(casting + " has finished casting on " + target.name)
+	
 	

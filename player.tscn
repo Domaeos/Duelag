@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgw7amrpssd5e"]
+[gd_scene load_steps=10 format=3 uid="uid://cgw7amrpssd5e"]
 
 [ext_resource type="PackedScene" uid="uid://8jn37wwjkgh5" path="res://Characters/gltf/Mage.glb" id="1_2ujtc"]
 [ext_resource type="Script" path="res://player.gd" id="1_38arg"]
 [ext_resource type="Script" path="res://spell_timer.gd" id="4_8laew"]
 [ext_resource type="PackedScene" uid="uid://c8xqh0mkrt4ec" path="res://character_text.tscn" id="4_s6k2e"]
 [ext_resource type="Script" path="res://character_text.gd" id="5_4mnd4"]
+[ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/spell_emitter.tscn" id="6_wbx6f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h5uq1"]
 size = Vector3(2, 3, 2)
@@ -12,9 +13,13 @@ size = Vector3(2, 3, 2)
 [sub_resource type="ViewportTexture" id="ViewportTexture_4phqu"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_pm0c5"]
+viewport_path = NodePath("SpellNode")
+
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("1_38arg")
+poisoned = true
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -32,6 +37,9 @@ script = ExtResource("4_8laew")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 texture = SubResource("ViewportTexture_4phqu")
 script = ExtResource("5_4mnd4")
+
+[node name="SpellEmitter" parent="." instance=ExtResource("6_wbx6f")]
+texture = SubResource("ViewportTexture_pm0c5")
 
 [connection signal="show_text" from="." to="CharacterText" method="_on_player_show_text"]
 [connection signal="timeout" from="SpellTimer" to="." method="_on_spell_timeout"]

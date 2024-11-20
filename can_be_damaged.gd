@@ -26,14 +26,18 @@ func _ready():
 
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
+	print(spell_node)
+	print(spell_emitter)
 	
 func spell_landed(spell: String):
 	var spell_information = Global.spelldictionary[spell]
+	
 	if spell == "poison":
 		poisoned = true
 		poison_timer.start()
 
-	spell_node.position = spell_information.position
+	print("Node: ", spell_node)
+	#spell_node.position = spell_information.position
 	spell_node.show()
 	spell_emitter.play(spell_information.animation)
 	
@@ -44,7 +48,7 @@ func _on_poisoned():
 	
 # Take damage method
 func take_damage(damage: float) -> void:
-	if damageable:
+	if damageable and damage >= 0:
 		current_health -= damage
 		emit_signal("update_healthbar", current_health, max_health, poisoned)
 
