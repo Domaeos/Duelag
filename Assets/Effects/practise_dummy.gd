@@ -1,8 +1,9 @@
 extends can_be_damaged
 
 func _ready() -> void:
+	super._ready()
 	# Reference the HealthBar node
-	var health_bar: ProgressBar = $HealthBar
+	var health_bar: ProgressBar = $HealthBar/SubViewport/HealthBar
 
 	# Ensure the node exists
 	if health_bar == null:

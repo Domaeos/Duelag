@@ -26,8 +26,7 @@ func _ready():
 
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
-	print(spell_node)
-	print(spell_emitter)
+	print("Name: ", self.name, spell_emitter)
 	
 func spell_landed(spell: String):
 	var spell_information = Global.spelldictionary[spell]
@@ -36,8 +35,7 @@ func spell_landed(spell: String):
 		poisoned = true
 		poison_timer.start()
 
-	print("Node: ", spell_node)
-	#spell_node.position = spell_information.position
+	spell_node.position = spell_information.position
 	spell_node.show()
 	spell_emitter.play(spell_information.animation)
 	

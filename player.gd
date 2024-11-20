@@ -15,6 +15,7 @@ var target_position: Vector3
 var moving: bool = false
 
 func _ready():
+	super._ready()
 	# Snap the player's initial position to the center of the grid
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
@@ -41,6 +42,7 @@ func handle_input():
 			var spell_information = Global.spelldictionary[spell]
 			
 			if spell_information.has("self") == false:
+				print(current_enemy)
 				var in_line_of_sight = check_line_of_sight(current_enemy)
 				if not in_line_of_sight:
 					print("Not in LOS")
@@ -141,5 +143,3 @@ func _on_spell_timeout() -> void:
 	target.spell_landed(casting)
 	current_mana -= spell_information.cost
 	print(casting + " has finished casting on " + target.name)
-	
-	

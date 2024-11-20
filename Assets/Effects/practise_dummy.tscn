@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6hx242pvwdul"]
 
 [ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
-[ext_resource type="Script" path="res://can_be_damaged.gd" id="1_tjlrv"]
+[ext_resource type="Script" path="res://Assets/Effects/practise_dummy.gd" id="1_yg33t"]
 [ext_resource type="PackedScene" uid="uid://dt804svrxhtrk" path="res://health_bar.tscn" id="3_u5mfo"]
 [ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/spell_emitter.tscn" id="4_4mp2d"]
 
@@ -15,7 +15,7 @@ viewport_path = NodePath("SubViewport")
 viewport_path = NodePath("SpellNode")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
-script = ExtResource("1_tjlrv")
+script = ExtResource("1_yg33t")
 
 [node name="Pivot" type="Node3D" parent="."]
 
