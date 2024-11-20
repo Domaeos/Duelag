@@ -15,6 +15,7 @@ size = Vector3(1, 2.5, 1)
 viewport_path = NodePath("SubViewport")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
+collision_priority = 10.0
 script = ExtResource("1_yg33t")
 
 [node name="Pivot" type="Node3D" parent="."]
@@ -33,5 +34,7 @@ shape = SubResource("BoxShape3D_a18nm")
 [node name="HealthBar" parent="." instance=ExtResource("3_u5mfo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, -1, 0)
 texture = SubResource("ViewportTexture_px2xr")
+
+[node name="SpellTimer" type="Timer" parent="."]
 
 [connection signal="update_healthbar" from="." to="HealthBar" method="_on_update_healthbar"]

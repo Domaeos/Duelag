@@ -7,7 +7,7 @@ var current_enemy_index: int = -1  # Index of the current enemy, starts at -1 (n
 
 # Movement settings
 @export var casting: String
-@export var current_mana = 100
+@export var current_mana: float = 100.0
 @export var current_enemy: can_be_damaged
 @export var casted_on: can_be_damaged
 

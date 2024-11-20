@@ -35,6 +35,10 @@ func spell_landed(spell: String):
 	if spell == "poison":
 		poisoned = true
 		poison_timer.start()
+		
+	if spell == "cure":
+		poisoned == false
+		poison_timer.stop()
 
 	spell_node.position = spell_information.position
 	spell_node.scale = spell_information.scale

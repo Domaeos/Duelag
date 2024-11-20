@@ -17,9 +17,9 @@ size = Vector3(2, 3, 2)
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_priority = 10.0
+floor_constant_speed = true
 script = ExtResource("1_38arg")
-poisoned = true
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -30,7 +30,7 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, 3.2, 0)
 texture = SubResource("ViewportTexture_pm0c5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(0.707107, 0, 0.989949, 0, 1.4, 0, -0.707107, 0, 0.989949, 0, 2.1, 0)
 shape = SubResource("BoxShape3D_h5uq1")
 
 [node name="SpellTimer" type="Timer" parent="."]

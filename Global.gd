@@ -1,8 +1,8 @@
 extends Node
 
 var poisoned_colour = Color(0.3, 0.68, 0.22)
-
 var health_colour = Color(0.912, 0.099, 0.225)
+var grid_size = 2.0
 
 var spelldictionary = {
 	"lightning" : {
