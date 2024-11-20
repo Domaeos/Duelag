@@ -119,3 +119,6 @@ show_percentage = false
 [node name="GridMap" parent="." instance=ExtResource("7_hxywo")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 script = SubResource("GDScript_hkcam")
+
+[node name="PractiseDummy2" parent="." instance=ExtResource("4_i3m74")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, 18)

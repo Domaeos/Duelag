@@ -1,16 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dt804svrxhtrk"]
+[gd_scene load_steps=6 format=3 uid="uid://dt804svrxhtrk"]
 
 [ext_resource type="Script" path="res://health_bar.gd" id="1_5yesx"]
+[ext_resource type="StyleBox" uid="uid://cn25ts4hfh5mt" path="res://poisoned_fill.tres" id="2_bafs4"]
+[ext_resource type="StyleBox" uid="uid://d12wmq1b0q2su" path="res://healthy_fill.tres" id="2_dxpkr"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1enrm"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krhf7"]
 bg_color = Color(0.1, 0.1, 0.1, 0.898)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjw5i"]
-resource_name = "health_fill"
-bg_color = Color(0.913725, 0.0980392, 0.223529, 1)
 
 [node name="HealthBar" type="Sprite3D"]
 layers = 524288
@@ -19,6 +17,8 @@ no_depth_test = true
 render_priority = 10
 texture = SubResource("ViewportTexture_1enrm")
 script = ExtResource("1_5yesx")
+healthy_fill = ExtResource("2_dxpkr")
+poison_fill = ExtResource("2_bafs4")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
@@ -43,6 +43,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/outline_size = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_krhf7")
-theme_override_styles/fill = SubResource("StyleBoxFlat_gjw5i")
+theme_override_styles/fill = ExtResource("2_dxpkr")
 value = 100.0
 show_percentage = false

@@ -5,14 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://dt804svrxhtrk" path="res://health_bar.tscn" id="3_u5mfo"]
 [ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/spell_emitter.tscn" id="4_4mp2d"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_uycgu"]
+viewport_path = NodePath("SpellNode")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_a18nm"]
 size = Vector3(1, 2.5, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_px2xr"]
 viewport_path = NodePath("SubViewport")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_uycgu"]
-viewport_path = NodePath("SpellNode")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
 script = ExtResource("1_yg33t")
@@ -22,6 +22,10 @@ script = ExtResource("1_yg33t")
 [node name="Dummy_Base2" parent="Pivot" instance=ExtResource("1_c6gqd")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 
+[node name="SpellEmitter" parent="." instance=ExtResource("4_4mp2d")]
+visible = false
+texture = SubResource("ViewportTexture_uycgu")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("BoxShape3D_a18nm")
@@ -29,9 +33,5 @@ shape = SubResource("BoxShape3D_a18nm")
 [node name="HealthBar" parent="." instance=ExtResource("3_u5mfo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, -1, 0)
 texture = SubResource("ViewportTexture_px2xr")
-
-[node name="SpellEmitter" parent="." instance=ExtResource("4_4mp2d")]
-visible = false
-texture = SubResource("ViewportTexture_uycgu")
 
 [connection signal="update_healthbar" from="." to="HealthBar" method="_on_update_healthbar"]

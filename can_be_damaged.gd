@@ -9,6 +9,7 @@ signal update_healthbar(current_health: float, max_health: float, poisoned: bool
 @export var current_health: float = 100.0
 @export var max_health: float = 100.0
 @export var poisoned: bool = false
+@export var targetted: bool = false
 
 var poison_timer
 var spell_emitter: AnimatedSprite2D
@@ -36,6 +37,7 @@ func spell_landed(spell: String):
 		poison_timer.start()
 
 	spell_node.position = spell_information.position
+	spell_node.scale = spell_information.scale
 	spell_node.show()
 	spell_emitter.play(spell_information.animation)
 	

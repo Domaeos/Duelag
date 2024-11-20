@@ -2173,7 +2173,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fp1m6")
 }],
-"loop": true,
+"loop": false,
 "name": &"bells_1",
 "speed": 30.0
 }, {

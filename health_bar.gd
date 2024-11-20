@@ -5,26 +5,25 @@ var health_bar: ProgressBar
 var current_health = 100.0
 var target_health = 100.0
 var fill
-var transition_speed = 100  # How fast the health bar transitions
+var transition_speed = 100
 
-# Called when the node enters the scene tree for the first time
+@export var healthy_fill: StyleBoxFlat
+@export var poison_fill: StyleBoxFlat
+
 func _ready() -> void:
 	health_bar = $SubViewport/HealthBar
-	fill = health_bar.get("theme_override_styles/fill")
-	print(fill)
 	health_bar.value = current_health
+	fill = health_bar.get("theme_override_styles/fill")
 
-# Smoothly update the health bar value
 func _process(delta) -> void:
-	# Interpolate the current health towards the target health smoothly
 	current_health = lerp(current_health, target_health, transition_speed * delta)
 	health_bar.value = current_health
 
-# Function to update the target health value
 func _on_update_healthbar(current_health: float, max_health: float, poisoned: bool) -> void:
+	print()
 	if poisoned:
-		fill.bg_color = Global.poisoned_colour
+		health_bar.set("theme_override_styles/fill", poison_fill)
 	else:
-		fill.bg_color = Global.health_colour
+		health_bar.set("theme_override_styles/fill", healthy_fill)
 
 	target_health = clamp(current_health, 0.0, max_health)  # Ensure it doesn't exceed max health or go below 0
