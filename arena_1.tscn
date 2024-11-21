@@ -87,14 +87,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
 
 [node name="Player" parent="Node3D7" instance=ExtResource("2_upo27")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0)
-casting = ""
-current_mana = 100.0
-grid_size = 2.0
-speed = 15.0
-damageable = true
-current_health = 100.0
-max_health = 100.0
-targetted = false
 
 [node name="Node3D6" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)

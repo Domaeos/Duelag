@@ -1,4 +1,4 @@
-[gd_scene load_steps=558 format=3 uid="uid://d2p2k0520md7x"]
+[gd_scene load_steps=559 format=3 uid="uid://d2p2k0520md7x"]
 
 [ext_resource type="Script" path="res://Assets/Effects/spell_emitter.gd" id="1_bhrnl"]
 [ext_resource type="Shader" path="res://Assets/Effects/spell_emitter.gdshader" id="2_5t47j"]
@@ -221,35 +221,39 @@ region = Rect2(1440, 960, 480, 480)
 atlas = ExtResource("5_gcnbt")
 region = Rect2(1920, 960, 480, 480)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b8ekn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_a21j7"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(0, 0, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_na2bq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_58h07"]
+atlas = ExtResource("2_o8b8p")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lv76j"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(1024, 0, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esxas"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_231qi"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(0, 512, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m4gw1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx8ey"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(512, 512, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hfacd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbxlr"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(1024, 512, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nncco"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_glgpf"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(0, 1024, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jaisa"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqkpr"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(512, 1024, 512, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5585k"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_me0hk"]
 atlas = ExtResource("2_o8b8p")
 region = Rect2(1024, 1024, 512, 512)
 
@@ -2279,28 +2283,31 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b8ekn")
+"texture": SubResource("AtlasTexture_a21j7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_na2bq")
+"texture": SubResource("AtlasTexture_58h07")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_esxas")
+"texture": SubResource("AtlasTexture_lv76j")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_m4gw1")
+"texture": SubResource("AtlasTexture_231qi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hfacd")
+"texture": SubResource("AtlasTexture_sx8ey")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nncco")
+"texture": SubResource("AtlasTexture_gbxlr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jaisa")
+"texture": SubResource("AtlasTexture_glgpf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5585k")
+"texture": SubResource("AtlasTexture_uqkpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_me0hk")
 }],
 "loop": false,
 "name": &"electric_1",
@@ -3863,7 +3870,7 @@ material = SubResource("ShaderMaterial_rkee7")
 use_parent_material = true
 position = Vector2(316, 296)
 sprite_frames = SubResource("SpriteFrames_qpx5f")
-animation = &"mystery_3"
+animation = &"electric_2"
 offset = Vector2(660, 700)
 
 [connection signal="animation_finished" from="SpellNode/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

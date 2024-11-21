@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=14 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
@@ -14,9 +14,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbh0"]
 bg_color = Color(0.14119, 0.00252895, 0.00321936, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lius4"]
-bg_color = Color(0.782951, 0.0589833, 0.129063, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_telhe"]
 bg_color = Color(0, 0.0794029, 0.143956, 1)
@@ -36,10 +33,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, 3)
 current_enemy = NodePath("../PractiseDummy")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(-4.37114e-08, 0.173648, 0.984808, 0, 0.984808, -0.173648, -1, -7.5904e-09, -4.30473e-08, 26, 2.5, 0)
+transform = Transform3D(-4.2222e-08, 0.422618, 0.906308, 1.13133e-08, 0.906308, -0.422618, -1, -7.5904e-09, -4.30473e-08, 26, 2.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1, 1.16291e-08, 9.75806e-09, -1.42653e-08, 0.5, 0.866025, 5.19214e-09, -0.866025, 0.5, 0, 26.449, -1.90735e-06)
+transform = Transform3D(1, 1.77603e-08, 1.9382e-08, -2.33182e-08, 0.258819, 0.965926, 1.21387e-08, -0.965926, 0.258819, 1, 24.9385, -13.038)
 projection = 1
 size = 30.0
 near = 0.001
@@ -91,7 +88,7 @@ offset_top = 15.0
 offset_right = 215.0
 offset_bottom = 40.0
 theme_override_styles/background = SubResource("StyleBoxFlat_0gbh0")
-theme_override_styles/fill = SubResource("StyleBoxFlat_lius4")
+theme_override_styles/fill = ExtResource("7_5bowl")
 value = 100.0
 rounded = true
 show_percentage = false
@@ -112,9 +109,6 @@ show_percentage = false
 [node name="GridMap" parent="." instance=ExtResource("7_hxywo")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 script = SubResource("GDScript_hkcam")
-
-[node name="PractiseDummy2" parent="." instance=ExtResource("4_i3m74")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, 18)
 
 [node name="Wall2" parent="." instance=ExtResource("9_lkxju")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 5, 2, 13)

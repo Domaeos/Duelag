@@ -6,8 +6,6 @@ var enemies: Array = []  # List of all enemies
 var current_enemy_index: int = -1  # Index of the current enemy, starts at -1 (none selected)
 
 # Movement settings
-@export var casting: String
-@export var current_mana: float = 100.0
 @export var current_enemy: can_be_damaged
 @export var casted_on: can_be_damaged
 
@@ -55,16 +53,17 @@ func handle_input():
 					print("Not in LOS")
 					return
 				
-			if $SpellTimer.is_stopped() == false:
-				$SpellTimer.stop()
+			if spell_timer.is_stopped() == false:
+				spell_timer.stop()
 				print("Fizzled self")
 				show_text.emit("Self fizzled")
 		
 			show_text.emit(spell_information.words_of_power)
-			casting = spell
+			current_spell = spell
 			casted_on = current_enemy
-			$SpellTimer.wait_time = spell_information.duration
-			$SpellTimer.start()
+			spell_timer.wait_time = spell_information.duration
+			casting = true
+			spell_timer.start()
 			break
 
 func handle_movement(delta):
@@ -127,6 +126,7 @@ func check_line_of_sight(end: Node3D, initial: bool) -> bool:
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
 
+	ray_params.exclude = [self]
 	ray_params.from = global_transform.origin
 	ray_params.to = end.global_transform.origin
 	var result = space_state.intersect_ray(ray_params)
@@ -142,19 +142,24 @@ func check_line_of_sight(end: Node3D, initial: bool) -> bool:
 	return false
 	
 func _on_spell_timeout() -> void:
+	casting = false
+	if fizzled:
+		print("Player fizzled")
+		fizzled 	= false
+		return
+	
 	var target = self
-	var spell_information = Global.spelldictionary[casting]
+	var spell_information = Global.spelldictionary[current_spell]
 	if spell_information.has("self") == false:
 		target = casted_on
 		var in_line_of_sight = check_line_of_sight(target, false)
-		print("Casted on: ", target, "LOS?: ", in_line_of_sight)
 		if !in_line_of_sight:
 			print("LOS BROKEN")
 			return
 			
-	target.spell_landed(casting)
+	target.spell_landed(current_spell)
 	current_mana -= spell_information.cost
-	print(casting + " has finished casting on " + target.name)
+	print(current_spell + " has finished casting on " + target.name)
 
 func toggle_enemy() -> void:
 	print("Toggling enemies")
@@ -196,7 +201,6 @@ func toggle_enemy() -> void:
 	current_enemy = new_enemy
 	current_enemy.targetted = true
 
-# Example comparison function for sorting enemies
 func _compare_enemies(a: Node, b: Node) -> int:
 	# Compare based on unique instance ID
 	return a.get_instance_id() < b.get_instance_id()

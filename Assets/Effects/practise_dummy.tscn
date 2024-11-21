@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6hx242pvwdul"]
+[gd_scene load_steps=10 format=3 uid="uid://c6hx242pvwdul"]
 
 [ext_resource type="PackedScene" uid="uid://b7sa1q3imd8un" path="res://gltf/Dummy_Base.gltf" id="1_c6gqd"]
 [ext_resource type="Script" path="res://Assets/Effects/practise_dummy.gd" id="1_yg33t"]
 [ext_resource type="PackedScene" uid="uid://dt804svrxhtrk" path="res://health_bar.tscn" id="3_u5mfo"]
 [ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/spell_emitter.tscn" id="4_4mp2d"]
+[ext_resource type="PackedScene" uid="uid://c8xqh0mkrt4ec" path="res://character_text.tscn" id="5_fqk5e"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_uycgu"]
 viewport_path = NodePath("SpellNode")
@@ -12,6 +13,9 @@ viewport_path = NodePath("SpellNode")
 size = Vector3(1, 2.5, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_px2xr"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qo6tu"]
 viewport_path = NodePath("SubViewport")
 
 [node name="PractiseDummy" type="CharacterBody3D"]
@@ -35,6 +39,9 @@ shape = SubResource("BoxShape3D_a18nm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.05, 0, -1, 0)
 texture = SubResource("ViewportTexture_px2xr")
 
-[node name="SpellTimer" type="Timer" parent="."]
+[node name="CharacterText" parent="." instance=ExtResource("5_fqk5e")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 9.6, 0)
+texture = SubResource("ViewportTexture_qo6tu")
 
+[connection signal="show_text" from="." to="CharacterText" method="_on_player_show_text"]
 [connection signal="update_healthbar" from="." to="HealthBar" method="_on_update_healthbar"]

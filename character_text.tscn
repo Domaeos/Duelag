@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8xqh0mkrt4ec"]
+[gd_scene load_steps=4 format=3 uid="uid://c8xqh0mkrt4ec"]
 
 [ext_resource type="FontFile" uid="uid://564s24d7ksvq" path="res://fonts/Heavitas.ttf" id="1_c06vr"]
+[ext_resource type="Script" path="res://character_text.gd" id="1_jldpy"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
 viewport_path = NodePath("SubViewport")
@@ -11,6 +12,7 @@ pixel_size = 0.015
 billboard = 1
 no_depth_test = true
 texture = SubResource("ViewportTexture_3awej")
+script = ExtResource("1_jldpy")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
@@ -18,6 +20,7 @@ size = Vector2i(1000, 300)
 render_target_update_mode = 3
 
 [node name="OHeadText" type="RichTextLabel" parent="SubViewport"]
+top_level = true
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -32,8 +35,8 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 15
 theme_override_fonts/normal_font = ExtResource("1_c06vr")
 theme_override_fonts/bold_font = ExtResource("1_c06vr")
-theme_override_font_sizes/normal_font_size = 60
-theme_override_font_sizes/bold_font_size = 60
+theme_override_font_sizes/normal_font_size = 50
+theme_override_font_sizes/bold_font_size = 50
 bbcode_enabled = true
 text = "
 "

@@ -2,11 +2,12 @@ extends can_be_damaged
 
 @export var player: can_be_damaged
 
+signal show_text(message: String)
+
 var health_bar: ProgressBar
 var spell_information: Dictionary
 var wait_timer: Timer
-var casting = false
-var current_spell
+var init = false
 
 func _ready() -> void:
 	super._ready()
@@ -14,7 +15,7 @@ func _ready() -> void:
 	wait_timer = Timer.new()
 	wait_timer.wait_time = 1.0
 	wait_timer.autostart = false
-	wait_timer.one_shot = false
+	wait_timer.one_shot = true
 	wait_timer.connect("timeout", Callable(self, "_on_wait_end"))
 
 	add_child(wait_timer)
@@ -30,10 +31,10 @@ func _ready() -> void:
 	
 
 func _process(_delta: float) -> void:
-	if player:
-		if wait_timer.is_stopped():
-			wait_timer.start()
-	
+	if init == false:
+		init = true
+		wait_timer.start()
+
 	if health_bar == null:
 		print("HealthBar node not found!")
 		return
@@ -46,16 +47,25 @@ func _process(_delta: float) -> void:
 		
 func _on_wait_end():
 	attack_player()
-	wait_timer.start()
 
 func attack_player():
 	while true:
 		spell_information = get_random_spell()
 		if spell_information.has("self") == false:
 			break
-	print("Spell chosen", spell_information)
-	print("Player in los: ", check_line_of_sight(player))
-	
+	var player_in_los = check_line_of_sight(player)
+	print("Spell to cast ", spell_information, " on ", player.name)
+	if player_in_los:
+		fizzled = false
+		print(self.name + " is casting ", current_spell, " on player")
+		casting = true
+		show_text.emit(spell_information.words_of_power)
+		spell_timer.wait_time = spell_information.duration
+		spell_timer.start()
+		return
+		
+	casting = false
+	wait_timer.start()
 
 func snap_to_grid() -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
@@ -71,28 +81,41 @@ func check_line_of_sight(end: Node3D) -> bool:
 	ray_params.from = global_transform.origin
 	ray_params.to = end.global_transform.origin
 
-	# Exclude the current object (PractiseDummy) from the raycast
 	ray_params.exclude = [self, end.get_node("CharacterBody3D")]
-
-	# Perform the raycast
 	var result = space_state.intersect_ray(ray_params)
 	
 	if result:
-		print("result found")
-		print("player target: ", player)
-		print("Hit object: ", result.collider)
 		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
 		if result.collider == player:
 			return true
 	else:
-		print("No result found.")
-		DrawLine.DrawLine(ray_params.from, ray_params.to, Color(1, 0, 0), 1.5)  # Draw the ray even if it hits nothing
-
+		DrawLine.DrawLine(ray_params.from, ray_params.to, Color(1, 0, 0), 1.5)
 	return false
 
-	
 func get_random_spell() -> Dictionary:
 	var keys = Global.spelldictionary.keys()
 	var random_index = randi() % keys.size()
 	var random_key = keys[random_index]
+	current_spell = random_key
 	return Global.spelldictionary[random_key]
+
+
+func _on_spell_timeout() -> void:
+	if fizzled:
+		print("fizzled in timeout")
+		casting = false
+		wait_timer.start()
+		return
+	
+	var spell_information = Global.spelldictionary[current_spell]
+	var in_line_of_sight = check_line_of_sight(player)
+	
+	if !in_line_of_sight:
+		print(self.name + " lost LOS")
+	else :	
+		player.spell_landed(current_spell)
+		current_mana -= spell_information.cost
+		print(current_spell + " has finished casting on " + player.name)
+		
+	casting = false
+	wait_timer.start()
