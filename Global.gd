@@ -17,7 +17,7 @@ var spelldictionary = {
 	"lightning" : {
 		"words_of_power": "An Ort Grav",
 		"duration": 2.5,
-		"damage": 5,
+		"damage": 20,
 		"cost": 15,
 		"position": Vector3(0, 4.5, 0),
 		"scale": Vector3(1, 1, 1),
@@ -47,7 +47,7 @@ var spelldictionary = {
 		"words_of_power": "Kal Vas Flam",
 		"duration": 3.5,
 		"damage": 30,
-		"cost": 30,
+		"cost": 22,
 		"position": Vector3(-0.5, 2, 0),
 		"scale": Vector3(1, 1, 1),
 		"animation": "fire_1"
@@ -61,6 +61,16 @@ var spelldictionary = {
 		"position": Vector3(0, 2.0, 0),
 		"animation": "smoke_3"
 	},
+	"shield": {
+		"words_of_power": "El Hom Shield",
+		"duration": 3.0,
+		"damage": 0,
+		"cost": 20,
+		"scale": Vector3(1, 1, 1),
+		"position": Vector3(0, 2.0, 0),
+		"animation": "shield_1",
+		"self": true
+	},		
 	"spark": {
 		"words_of_power": "Scintilla",
 		"duration": 1.0,

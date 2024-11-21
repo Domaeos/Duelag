@@ -53,7 +53,7 @@ func spell_landed(spell: String):
 	if spell == "cure":
 		poisoned = false
 		poison_timer.stop()
-
+		
 	spell_node.position = spell_information.position
 	spell_node.scale = spell_information.scale
 	spell_node.show()
@@ -70,7 +70,6 @@ func _on_poisoned():
 	
 # Take damage method
 func take_damage(damage: float) -> void:
-	if damageable and damage >= 0:
 		current_health -= damage
 		emit_signal("update_healthbar", current_health, max_health, poisoned)
 		if casting:
