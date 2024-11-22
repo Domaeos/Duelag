@@ -2,8 +2,9 @@ extends can_be_damaged
 
 signal show_text(message: String)
 
-var enemies: Array = []  # List of all enemies
-var current_enemy_index: int = -1  # Index of the current enemy, starts at -1 (none selected)
+var enemies: Array = []
+var doors: Array = []
+var current_enemy_index: int = -1
 
 # Movement settings
 @export var current_enemy: can_be_damaged
@@ -16,12 +17,15 @@ var current_enemy_index: int = -1  # Index of the current enemy, starts at -1 (n
 var direction: Vector3 = Vector3.ZERO
 var target_position: Vector3
 var moving: bool = false
+var door_in_range
+var last_direction
 
 func _ready():
 	super._ready()
 	# Snap the player's initial position to the center of the grid
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
+	last_direction = Vector3.UP
 
 func _physics_process(delta):
 	# Reset direction at the start of each frame
@@ -45,7 +49,7 @@ func handle_input():
 		return
 	
 	if (Input.is_action_just_pressed("open_door")):
-		try_open_nearest_door()
+		try_open_door()
 	
 	for spell in Global.spelldictionary.keys():
 		if InputMap.has_action(spell):
@@ -100,8 +104,7 @@ func handle_movement(delta):
 		move_and_slide()  # This now uses the built-in velocity
 
 		# Update rotation to face movement direction
-		var flipped_direction = -direction
-		$Pivot.basis = Basis.looking_at(flipped_direction)
+		last_direction = -direction
 
 	# If no input and not moving, stop animation and reset velocity
 	if direction == Vector3.ZERO:
@@ -110,6 +113,9 @@ func handle_movement(delta):
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
+	$Pivot.basis = Basis.looking_at(last_direction)
+	
+	
 func snap_to_grid(position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
@@ -210,27 +216,6 @@ func _compare_enemies(a: Node, b: Node) -> int:
 	# Compare based on unique instance ID
 	return a.get_instance_id() < b.get_instance_id()
 
-func find_nearest_door() -> Node:
-	var nearest_door: Node = null
-	var nearest_distance = max_interaction_distance
-	
-	for door in get_tree().get_nodes_in_group("doors"):
-		if door is Node3D:
-			var distance = global_transform.origin.distance_to(door.global_transform.origin)
-			if distance < nearest_distance:
-				nearest_distance = distance
-				nearest_door = door
-			
-	return nearest_door
-
-# Attempts to open the nearest door
-func try_open_nearest_door():
-	var nearest_door = find_nearest_door()
-
-	if nearest_door:
-		nearest_door.toggle_open()
-	#if nearest_door and nearest_door.has_method("open"):
-		#nearest_door.open()
-		#print("Opened door: ", nearest_door.name)
-	#else:
-		#print("No door in range.")
+func try_open_door():
+	if (door_in_range):
+		door_in_range.toggle_open()

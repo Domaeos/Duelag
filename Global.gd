@@ -73,7 +73,7 @@ var spelldictionary = {
 	},
 	"spark": {
 		"words_of_power": "Scintilla",
-		"duration": 1.0,
+		"duration": 2.5,
 		"damage": 20,
 		"cost": 15,
 		"position": Vector3(0, 2.0, 0),

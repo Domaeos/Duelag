@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=12 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
@@ -17,8 +17,6 @@ bg_color = Color(0.14119, 0.00252895, 0.00321936, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_telhe"]
 bg_color = Color(0, 0.0794029, 0.143956, 1)
 
-[sub_resource type="GDScript" id="GDScript_hkcam"]
-
 [node name="Main" type="Node" groups=["doors"]]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -32,10 +30,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 4.5)
 current_enemy = NodePath("../PractiseDummy")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
-transform = Transform3D(-4.2222e-08, 0.422618, 0.906308, 1.13133e-08, 0.906308, -0.422618, -1, -7.5904e-09, -4.30473e-08, 26, 2.5, 0)
+transform = Transform3D(-4.37114e-08, 0.173648, 0.984808, -4.17444e-14, 0.984808, -0.173648, -1, -7.5904e-09, -4.30473e-08, 26, -7.2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-transform = Transform3D(1, 1.77603e-08, 1.9382e-08, -2.33182e-08, 0.258819, 0.965926, 1.21387e-08, -0.965926, 0.258819, 1, 24.9385, -13.038)
+transform = Transform3D(1, 1.16291e-08, 9.75807e-09, -1.42653e-08, 0.5, 0.866026, 5.19215e-09, -0.866026, 0.5, 0.600001, 21.0017, -18.9697)
 projection = 1
 size = 30.0
 near = 0.001
@@ -107,4 +105,3 @@ show_percentage = false
 
 [node name="GridMap" parent="." instance=ExtResource("7_hxywo")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
-script = SubResource("GDScript_hkcam")

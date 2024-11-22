@@ -10,7 +10,6 @@ var target_mana: float
 var transition_speed: float = 5.0
 
 func _ready() -> void:
-	
 	if player:
 		target_health = player.current_health
 		target_mana = player.current_mana
