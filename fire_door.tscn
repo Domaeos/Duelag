@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cduf4yjtbsv48"]
+
+[ext_resource type="Script" path="res://fire_door.gd" id="1_eo6rj"]
+[ext_resource type="PackedScene" uid="uid://bfjnjyugkeko7" path="res://gltf/Door_B.gltf" id="1_woffo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o2bel"]
+size = Vector3(2, 3.5, 0.8)
+
+[node name="FireDoor" type="StaticBody3D"]
+script = ExtResource("1_eo6rj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.75, 0.2)
+shape = SubResource("BoxShape3D_o2bel")
+
+[node name="Door_B2" parent="." instance=ExtResource("1_woffo")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)

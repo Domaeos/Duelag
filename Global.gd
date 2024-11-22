@@ -14,6 +14,16 @@ var spelldictionary = {
 		"scale": Vector3(1, 1, 1),
 		"animation": "electric_2"
 	},
+	"shield" : {
+		"words_of_power": "shield",
+		"duration": 0.5,
+		"damage": 1,
+		"cost": 5,
+		"position": Vector3(0, 4.5, 0),
+		"scale": Vector3(1, 1, 1),
+		"animation": "electric_2",
+		"self": true,
+	},
 	"lightning" : {
 		"words_of_power": "An Ort Grav",
 		"duration": 2.5,
@@ -61,16 +71,6 @@ var spelldictionary = {
 		"position": Vector3(0, 2.0, 0),
 		"animation": "smoke_3"
 	},
-	"shield": {
-		"words_of_power": "El Hom Shield",
-		"duration": 3.0,
-		"damage": 0,
-		"cost": 20,
-		"scale": Vector3(1, 1, 1),
-		"position": Vector3(0, 2.0, 0),
-		"animation": "shield_1",
-		"self": true
-	},		
 	"spark": {
 		"words_of_power": "Scintilla",
 		"duration": 1.0,

@@ -9,6 +9,7 @@ var current_enemy_index: int = -1  # Index of the current enemy, starts at -1 (n
 @export var current_enemy: can_be_damaged
 @export var casted_on: can_be_damaged
 
+@export var max_interaction_distance = 15
 @export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
 
@@ -43,28 +44,32 @@ func handle_input():
 		toggle_enemy()
 		return
 	
+	if (Input.is_action_just_pressed("open_door")):
+		try_open_nearest_door()
+	
 	for spell in Global.spelldictionary.keys():
-		if (Input.is_action_just_pressed(spell)):
-			var spell_information = Global.spelldictionary[spell]
-			
-			if spell_information.has("self") == false:
-				var in_line_of_sight = check_line_of_sight(current_enemy, true)
-				if not in_line_of_sight:
-					print("Not in LOS")
-					return
+		if InputMap.has_action(spell):
+			if (Input.is_action_just_pressed(spell)):
+				var spell_information = Global.spelldictionary[spell]
 				
-			if spell_timer.is_stopped() == false:
-				spell_timer.stop()
-				print("Fizzled self")
-				show_text.emit("Self fizzled")
-		
-			show_text.emit(spell_information.words_of_power)
-			current_spell = spell
-			casted_on = current_enemy
-			spell_timer.wait_time = spell_information.duration
-			casting = true
-			spell_timer.start()
-			break
+				if spell_information.has("self") == false:
+					var in_line_of_sight = check_line_of_sight(current_enemy, true)
+					if not in_line_of_sight:
+						print("Not in LOS")
+						return
+					
+				if spell_timer.is_stopped() == false:
+					spell_timer.stop()
+					print("Fizzled self")
+					show_text.emit("Self fizzled")
+			
+				show_text.emit(spell_information.words_of_power)
+				current_spell = spell
+				casted_on = current_enemy
+				spell_timer.wait_time = spell_information.duration
+				casting = true
+				spell_timer.start()
+				break
 
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
@@ -204,3 +209,28 @@ func toggle_enemy() -> void:
 func _compare_enemies(a: Node, b: Node) -> int:
 	# Compare based on unique instance ID
 	return a.get_instance_id() < b.get_instance_id()
+
+func find_nearest_door() -> Node:
+	var nearest_door: Node = null
+	var nearest_distance = max_interaction_distance
+	
+	for door in get_tree().get_nodes_in_group("doors"):
+		if door is Node3D:
+			var distance = global_transform.origin.distance_to(door.global_transform.origin)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_door = door
+			
+	return nearest_door
+
+# Attempts to open the nearest door
+func try_open_nearest_door():
+	var nearest_door = find_nearest_door()
+
+	if nearest_door:
+		nearest_door.toggle_open()
+	#if nearest_door and nearest_door.has_method("open"):
+		#nearest_door.open()
+		#print("Opened door: ", nearest_door.name)
+	#else:
+		#print("No door in range.")

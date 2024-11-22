@@ -54,10 +54,8 @@ func attack_player():
 		if spell_information.has("self") == false:
 			break
 	var player_in_los = check_line_of_sight(player)
-	print("Spell to cast ", spell_information, " on ", player.name)
 	if player_in_los:
 		fizzled = false
-		print(self.name + " is casting ", current_spell, " on player")
 		casting = true
 		show_text.emit(spell_information.words_of_power)
 		spell_timer.wait_time = spell_information.duration
@@ -102,7 +100,6 @@ func get_random_spell() -> Dictionary:
 
 func _on_spell_timeout() -> void:
 	if fizzled:
-		print("fizzled in timeout")
 		casting = false
 		wait_timer.start()
 		return
