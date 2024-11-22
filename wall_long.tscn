@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://c3c8r12yj5toq" path="res://gltf/Wall.gltf" id="1_2cskv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fq7lf"]
-size = Vector3(4.3, 4, 0.9)
+size = Vector3(4, 4, 1)
 
 [node name="Wall2" instance=ExtResource("1_2cskv")]
 
 [node name="CollisionShape3D" parent="Wall/StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0500002, 2, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, 2, 0.05)
 shape = SubResource("BoxShape3D_fq7lf")

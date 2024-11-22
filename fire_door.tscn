@@ -4,14 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://bfjnjyugkeko7" path="res://gltf/Door_B.gltf" id="1_woffo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o2bel"]
-size = Vector3(2, 3.5, 0.8)
+size = Vector3(2.4, 3.5, 1)
 
-[node name="FireDoor" type="StaticBody3D"]
+[node name="StaticBody3D" type="StaticBody3D"]
 script = ExtResource("1_eo6rj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.75, 0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.15, 0)
 shape = SubResource("BoxShape3D_o2bel")
+metadata/_edit_group_ = true
 
 [node name="Door_B2" parent="." instance=ExtResource("1_woffo")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.3, 0, -0.1)
+metadata/_edit_group_ = true

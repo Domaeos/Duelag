@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://crlryp4ng3i5w"]
+
+[ext_resource type="PackedScene" uid="uid://dtyrpyxinnj28" path="res://gltf/Door_A.gltf" id="1_75m75"]
+[ext_resource type="Script" path="res://door_wood_indoor.gd" id="1_wegrx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hmaim"]
+size = Vector3(1.9, 3.4, 1)
+
+[node name="door_wood_indoor" type="StaticBody3D"]
+script = ExtResource("1_wegrx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.7, 0)
+shape = SubResource("BoxShape3D_hmaim")
+
+[node name="Door_A2" parent="." instance=ExtResource("1_75m75")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)

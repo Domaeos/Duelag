@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bg4mt5wcee8s8"]
+[gd_scene load_steps=13 format=3 uid="uid://bg4mt5wcee8s8"]
 
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="2_m7wmo"]
 [ext_resource type="PackedScene" uid="uid://c6hx242pvwdul" path="res://Assets/Effects/practise_dummy.tscn" id="4_i3m74"]
@@ -8,8 +8,6 @@
 [ext_resource type="StyleBox" uid="uid://d12wmq1b0q2su" path="res://healthy_fill.tres" id="7_5bowl"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="7_hxywo"]
 [ext_resource type="StyleBox" uid="uid://cn25ts4hfh5mt" path="res://poisoned_fill.tres" id="8_mb6jw"]
-[ext_resource type="PackedScene" uid="uid://qcnbhx82tg3h" path="res://wall_long.tscn" id="9_lkxju"]
-[ext_resource type="PackedScene" uid="uid://cduf4yjtbsv48" path="res://fire_door.tscn" id="10_n3rhg"]
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_o66xh"]
 
@@ -30,7 +28,7 @@ shadow_opacity = 0.8
 shadow_blur = 5.0
 
 [node name="Player" parent="." node_paths=PackedStringArray("current_enemy") instance=ExtResource("2_m7wmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.5, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 4.5)
 current_enemy = NodePath("../PractiseDummy")
 
 [node name="CameraPivot" type="Marker3D" parent="Player"]
@@ -110,18 +108,3 @@ show_percentage = false
 [node name="GridMap" parent="." instance=ExtResource("7_hxywo")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 script = SubResource("GDScript_hkcam")
-
-[node name="Wall2" parent="." instance=ExtResource("9_lkxju")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 5, 2, 13)
-
-[node name="FireDoor" parent="." groups=["doors"] instance=ExtResource("10_n3rhg")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 6.5, 2.5, 11.5)
-
-[node name="FireDoor2" parent="." groups=["doors"] instance=ExtResource("10_n3rhg")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 4.5, 2.5, 1.5)
-
-[node name="Wall3" parent="." instance=ExtResource("9_lkxju")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 13, 2, 4)
-
-[node name="Wall4" parent="." instance=ExtResource("9_lkxju")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5, 2, 4)

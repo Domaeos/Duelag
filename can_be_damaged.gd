@@ -70,6 +70,7 @@ func _on_poisoned():
 	
 # Take damage method
 func take_damage(damage: float) -> void:
+
 		current_health -= damage
 		emit_signal("update_healthbar", current_health, max_health, poisoned)
 		if casting:

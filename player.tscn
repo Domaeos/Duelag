@@ -5,18 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://c8xqh0mkrt4ec" path="res://character_text.tscn" id="4_s6k2e"]
 [ext_resource type="PackedScene" uid="uid://d2p2k0520md7x" path="res://Assets/Effects/spell_emitter.tscn" id="6_wbx6f"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qakhc"]
+radius = 1.0
+height = 3.0
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_pm0c5"]
 viewport_path = NodePath("SpellNode")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4phqu"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_h5uq1"]
-size = Vector3(2, 3, 2)
-
 [node name="Player" type="CharacterBody3D"]
-collision_layer = 3
-collision_mask = 3
 collision_priority = 10.0
 floor_stop_on_slope = false
 floor_constant_speed = true
@@ -25,8 +24,22 @@ platform_on_leave = 2
 platform_floor_layers = 4294901760
 safe_margin = 0.01
 script = ExtResource("1_38arg")
+max_interaction_distance = null
+grid_size = null
+speed = null
+damageable = null
+current_health = null
+current_mana = null
+max_health = null
+poisoned = null
+targetted = null
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 1.5, 0)
+shape = SubResource("CapsuleShape3D_qakhc")
 
 [node name="Pivot" type="Node3D" parent="."]
+physics_interpolation_mode = 2
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
 
 [node name="Mage" parent="Pivot" instance=ExtResource("1_2ujtc")]
@@ -40,9 +53,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.6, 0)
 texture = SubResource("ViewportTexture_4phqu")
 
 [node name="PotionTimer" type="Timer" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 1.5, 0)
-shape = SubResource("BoxShape3D_h5uq1")
 
 [connection signal="show_text" from="." to="CharacterText" method="_on_player_show_text"]
