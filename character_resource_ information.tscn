@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://f1i8bej4nak5"]
+
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="1_i66oc"]
+[ext_resource type="Script" path="res://player_resource_information.gd" id="2_c0722"]
+[ext_resource type="StyleBox" uid="uid://bnsek0m6y1ki" path="res://mana_fill.tres" id="3_c13td"]
+[ext_resource type="StyleBox" uid="uid://d12wmq1b0q2su" path="res://healthy_fill.tres" id="4_g7hia"]
+[ext_resource type="StyleBox" uid="uid://cn25ts4hfh5mt" path="res://poisoned_fill.tres" id="5_prq7i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gbh0"]
+bg_color = Color(0.14119, 0.00252895, 0.00321936, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_telhe"]
+bg_color = Color(0, 0.0794029, 0.143956, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Virtual Joystick" parent="CanvasLayer" instance=ExtResource("1_i66oc")]
+offset_left = 3.0
+offset_top = -190.0
+offset_right = 285.0
+offset_bottom = 92.0
+scale = Vector2(0.66, 0.66)
+
+[node name="PlayerResourceInformation" type="ColorRect" parent="." node_paths=PackedStringArray("player")]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 12.0
+offset_right = 239.0
+offset_bottom = 107.0
+color = Color(0.270588, 0.270588, 0.270588, 0.0823529)
+script = ExtResource("2_c0722")
+player = NodePath("")
+mana_fill_style = ExtResource("3_c13td")
+health_fill_style = ExtResource("4_g7hia")
+poison_fill_style = ExtResource("5_prq7i")
+metadata/_edit_group_ = true
+
+[node name="Player_health" type="ProgressBar" parent="PlayerResourceInformation"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 215.0
+offset_bottom = 40.0
+theme_override_styles/background = SubResource("StyleBoxFlat_0gbh0")
+theme_override_styles/fill = ExtResource("4_g7hia")
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="Player_mana" type="ProgressBar" parent="PlayerResourceInformation"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 55.0
+offset_right = 215.0
+offset_bottom = 80.0
+theme_override_styles/background = SubResource("StyleBoxFlat_telhe")
+theme_override_styles/fill = ExtResource("3_c13td")
+value = 100.0
+rounded = true
+show_percentage = false

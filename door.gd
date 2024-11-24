@@ -32,13 +32,11 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	print(body, "entered ", self)
 	if body is can_be_damaged:
 		body.door_in_range = self
 
 
 func _on_body_exited(body: Node3D) -> void:
-	print(body, "exited ", self)
 	if body is can_be_damaged:
 		if body.door_in_range == self:
 			body.door_in_range = null

@@ -108,7 +108,6 @@ func handle_movement(delta):
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
-	print("last direction: ", last_direction)
 	$Pivot.basis = Basis.looking_at(last_direction)
 	
 	
