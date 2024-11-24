@@ -47,8 +47,3 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 visible_characters_behavior = 2
-
-[node name="TextTimer" type="Timer" parent="."]
-wait_time = 3.0
-
-[connection signal="timeout" from="TextTimer" to="." method="_on_text_timer_timeout"]

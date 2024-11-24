@@ -78,6 +78,7 @@ func handle_input():
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
+		last_direction = -direction
 
 		# Calculate the movement target (move by grid_size steps)
 		var intended_position = global_transform.origin + direction * grid_size
@@ -98,21 +99,16 @@ func handle_movement(delta):
 			velocity = Vector3.ZERO
 			$Pivot/Mage/AnimationPlayer.play("Idle")
 
-	# If moving, apply velocity to move the player
 	if moving:
-		# Move using velocity and update position smoothly
-		move_and_slide()  # This now uses the built-in velocity
+		move_and_slide()
 
-		# Update rotation to face movement direction
-		last_direction = -direction
-
-	# If no input and not moving, stop animation and reset velocity
 	if direction == Vector3.ZERO:
 		# Ensure the player stops by resetting velocity
 		velocity = Vector3.ZERO
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
+	print("last direction: ", last_direction)
 	$Pivot.basis = Basis.looking_at(last_direction)
 	
 	
@@ -155,8 +151,8 @@ func check_line_of_sight(end: Node3D, initial: bool) -> bool:
 func _on_spell_timeout() -> void:
 	casting = false
 	if fizzled:
-		print("Player fizzled")
-		fizzled 	= false
+		show_text.emit("Spell fizzled")
+		fizzled = false
 		return
 	
 	var target = self
@@ -165,7 +161,6 @@ func _on_spell_timeout() -> void:
 		target = casted_on
 		var in_line_of_sight = check_line_of_sight(target, false)
 		if !in_line_of_sight:
-			print("LOS BROKEN")
 			return
 			
 	target.spell_landed(current_spell)
