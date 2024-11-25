@@ -31,8 +31,15 @@ enum Visibility_mode {
 	WHEN_TOUCHED ## Visible only when touched
 }
 
+var actions = {
+	"up": false,
+	"down": false,
+	"left": false,
+	"right": false,
+}
+
 ## If the joystick is always visible, or is shown only if there is a touchscreen
-@export var visibility_mode := Visibility_mode.ALWAYS
+@export var visibility_mode := Visibility_mode.TOUCHSCREEN_ONLY
 
 ## If true, the joystick uses Input Actions (Project -> Project Settings -> Input Map)
 @export var use_input_actions := true
@@ -65,10 +72,10 @@ var _touch_index : int = -1
 # FUNCTIONS
 
 func _ready() -> void:
-	if ProjectSettings.get_setting("input_devices/pointing/emulate_mouse_from_touch"):
-		printerr("The Project Setting 'emulate_mouse_from_touch' should be set to False")
-	if not ProjectSettings.get_setting("input_devices/pointing/emulate_touch_from_mouse"):
-		printerr("The Project Setting 'emulate_touch_from_mouse' should be set to True")
+	if not DisplayServer.is_touchscreen_available():
+		# Disable the node (e.g., make it invisible and non-interactive)
+		visible = false
+		set_process(false)
 	
 	if not DisplayServer.is_touchscreen_available() and visibility_mode == Visibility_mode.TOUCHSCREEN_ONLY :
 		hide()
@@ -89,15 +96,13 @@ func _input(event: InputEvent) -> void:
 					_tip.modulate = pressed_color
 					_update_joystick(event.position)
 					get_viewport().set_input_as_handled()
-		elif event.index == _touch_index:
+		elif event.canceled:
 			_reset()
 			if visibility_mode == Visibility_mode.WHEN_TOUCHED:
 				hide()
-			get_viewport().set_input_as_handled()
 	elif event is InputEventScreenDrag:
 		if event.index == _touch_index:
 			_update_joystick(event.position)
-			get_viewport().set_input_as_handled()
 
 func _move_base(new_position: Vector2) -> void:
 	_base.global_position = new_position - _base.pivot_offset * get_global_transform_with_canvas().get_scale()
@@ -150,6 +155,7 @@ func _reset():
 	_base.position = _base_default_position
 	_tip.position = _tip_default_position
 	_reset_input_actions()  # Clear all pressed directions
+	
 func _handle_8way_input(direction: Vector2) -> void:
 	# Calculate the angle in degrees
 	var angle = rad_to_deg(direction.angle())
@@ -185,19 +191,12 @@ func _handle_8way_input(direction: Vector2) -> void:
 		press_right = true  # Originally "up"
 	
 	# Apply the correct input actions
-	_set_input_action(action_up, press_up)
-	_set_input_action(action_down, press_down)
-	_set_input_action(action_left, press_left)
-	_set_input_action(action_right, press_right)
-
-func _set_input_action(action: String, pressed: bool) -> void:
-	# Helper function to press or release an input action
-	if pressed:
-		Input.action_press(action)
-	else:
-		Input.action_release(action)
+	actions.up = press_up
+	actions.down = press_down
+	actions.left = press_left
+	actions.right = press_right
 
 func _reset_input_actions() -> void:
 	# Release all directional input actions
-	for action in [action_up, action_down, action_left, action_right]:
-		Input.action_release(action)
+	for direction in actions:
+		direction = false
