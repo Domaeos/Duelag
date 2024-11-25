@@ -13,6 +13,7 @@ var current_enemy_index: int = -1
 @export var max_interaction_distance = 15
 @export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
+@export var joystick: VirtualJoystick
 
 var direction: Vector3 = Vector3.ZERO
 var target_position: Vector3
@@ -20,8 +21,17 @@ var moving: bool = false
 var door_in_range
 var last_direction
 
+var mouse_movement := false
+var mouse_actions = {
+	"up": false,
+	"down": false,
+	"left": false,
+	"right": false,
+}
+
 func _ready():
 	super._ready()
+	joystick = $"Control/CanvasLayer/Virtual Joystick"
 	# Snap the player's initial position to the center of the grid
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
@@ -32,18 +42,82 @@ func _physics_process(delta):
 	direction = Vector3.ZERO
 	handle_input()
 	handle_movement(delta)
+	if (mouse_movement):
+		print(mouse_actions)
+
+func handle_mouse_press():
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			mouse_movement = true
+			var player_3d_position = global_position
+			var camera = get_viewport().get_camera_3d()
+			var mouse_positon = get_viewport().get_mouse_position()
+			var player_screen_position = camera.unproject_position(player_3d_position)
+			var vector : Vector2 = (mouse_positon - player_screen_position).normalized()
+			_handle_8way_input(vector)
+	else:
+			mouse_movement = false
+			for action in mouse_actions:
+				action = false
+	
+func _handle_8way_input(direction: Vector2) -> void:
+	var angle = rad_to_deg(direction.angle())
+	angle = fmod(angle + 360.0, 360.0)
+	
+	# Determine which directions to activate based on the angle
+	var press_up = false
+	var press_down = false
+	var press_left = false
+	var press_right = false
+	
+	# Adjusted for the rotated perspective
+	if angle >= 337.5 or angle < 22.5:
+		press_right = true  # Originally "up"
+	elif angle >= 22.5 and angle < 67.5:
+		press_right = true  # Originally "up"
+		press_down = true  # Originally "right"
+	elif angle >= 67.5 and angle < 112.5:
+		press_down = true  # Originally "right"
+	elif angle >= 112.5 and angle < 157.5:
+		press_down = true  # Originally "right"
+		press_left = true  # Originally "down"
+	elif angle >= 157.5 and angle < 202.5:
+		press_left = true  # Originally "down"
+	elif angle >= 202.5 and angle < 247.5:
+		press_left = true  # Originally "down"
+		press_up = true  # Originally "left"
+	elif angle >= 247.5 and angle < 292.5:
+		press_up = true  # Originally "left"
+	elif angle >= 292.5 and angle < 337.5:
+		press_up = true  # Originally "left"
+		press_right = true  # Originally "up"
+	
+	# Apply the correct input actions
+	mouse_actions.up = press_up
+	mouse_actions.down = press_down
+	mouse_actions.left = press_left
+	mouse_actions.right = press_right
 
 func handle_input():
-	# Handle input for movement (supporting 8 directions)
-	if Input.is_action_pressed("move_right"):
-		direction.z -= 1
-	if Input.is_action_pressed("move_left"):
-		direction.z += 1
-	if Input.is_action_pressed("move_down"):
-		direction.x += 1
-	if Input.is_action_pressed("move_up"):
-		direction.x -= 1
-
+	handle_mouse_press()
+	if not mouse_movement:
+		if Input.is_action_pressed("move_right"):
+			direction.z -= 1
+		if Input.is_action_pressed("move_left"):
+			direction.z += 1
+		if Input.is_action_pressed("move_down"):
+			direction.x += 1
+		if Input.is_action_pressed("move_up"):
+			direction.x -= 1
+	else:
+		if mouse_actions.right:
+			direction.z -= 1
+		if mouse_actions.left:
+			direction.z += 1
+		if mouse_actions.down:
+			direction.x += 1
+		if mouse_actions.up:
+			direction.x -= 1
+	
 	if (Input.is_action_just_pressed("toggle_enemy")):
 		toggle_enemy()
 		return
