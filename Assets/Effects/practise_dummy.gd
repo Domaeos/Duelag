@@ -23,7 +23,6 @@ func _ready() -> void:
 	
 	health_bar = $HealthBar/SubViewport/HealthBar
 	if health_bar == null:
-		print("HealthBar node not found!")
 		return
 
 	health_bar.max_value = max_health  # Ensure the ProgressBar has a max value
@@ -36,7 +35,6 @@ func _process(_delta: float) -> void:
 		wait_timer.start()
 
 	if health_bar == null:
-		print("HealthBar node not found!")
 		return
 		
 	if targetted != true:
@@ -75,12 +73,7 @@ func snap_to_grid() -> Vector3:
 func check_line_of_sight(end: Node3D) -> bool:
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
-	#var query = PhysicsRayQueryParameters3D.create(global_transform.origin, end.global_transform.origin,
-		#4, [self])
-		#
-	#var res = space_state.intersect_ray(query)
-	#print(res)
-		
+	
 	ray_params.from = global_transform.origin
 	ray_params.to = end.global_transform.origin
 
@@ -88,7 +81,6 @@ func check_line_of_sight(end: Node3D) -> bool:
 	var result = space_state.intersect_ray(ray_params)
 	if result:
 		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
-		#print(result)
 		if result.collider == player:
 			return true
 	else:
@@ -115,7 +107,6 @@ func _on_spell_timeout() -> void:
 	if in_line_of_sight:
 		player.spell_landed(current_spell)
 		current_mana -= spell_information.cost
-		#print(current_spell + " has finished casting on " + player.name)
 		
 	casting = false
 	wait_timer.start()
