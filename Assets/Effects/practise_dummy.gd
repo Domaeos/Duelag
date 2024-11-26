@@ -28,7 +28,6 @@ func _ready() -> void:
 	health_bar.max_value = max_health  # Ensure the ProgressBar has a max value
 	health_bar.value = current_health  # Set the current value
 	
-
 func _process(_delta: float) -> void:
 	if init == false:
 		init = true
@@ -41,8 +40,7 @@ func _process(_delta: float) -> void:
 		health_bar.hide()
 	else:
 		health_bar.show()
-	
-		
+
 func _on_wait_end():
 	attack_player()
 

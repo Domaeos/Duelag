@@ -39,7 +39,7 @@ var actions = {
 }
 
 ## If the joystick is always visible, or is shown only if there is a touchscreen
-@export var visibility_mode := Visibility_mode.TOUCHSCREEN_ONLY
+@export var visibility_mode := Visibility_mode.ALWAYS
 
 ## If true, the joystick uses Input Actions (Project -> Project Settings -> Input Map)
 @export var use_input_actions := true
@@ -72,10 +72,10 @@ var _touch_index : int = -1
 # FUNCTIONS
 
 func _ready() -> void:
-	if not DisplayServer.is_touchscreen_available():
+	#if not DisplayServer.is_touchscreen_available():
 		# Disable the node (e.g., make it invisible and non-interactive)
-		visible = false
-		set_process(false)
+		#visible = false
+		#set_process(false)
 	
 	if not DisplayServer.is_touchscreen_available() and visibility_mode == Visibility_mode.TOUCHSCREEN_ONLY :
 		hide()
@@ -144,6 +144,7 @@ func _update_joystick(touch_position: Vector2) -> void:
 		_handle_8way_input(output)
 	else:
 		is_pressed = false
+		_reset()
 		output = Vector2.ZERO
 		_reset_input_actions()  # Clear all pressed directions when the joystick is in the deadzone
 
