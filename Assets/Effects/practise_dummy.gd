@@ -70,6 +70,7 @@ func snap_to_grid() -> Vector3:
 		round(position.y / Global.grid_size) * Global.grid_size,
 		round(position.z / Global.grid_size) * Global.grid_size
 	)
+
 func check_line_of_sight(end: Node3D) -> bool:
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
@@ -93,7 +94,6 @@ func get_random_spell() -> Dictionary:
 	var random_key = keys[random_index]
 	current_spell = random_key
 	return Global.spelldictionary[random_key]
-
 
 func _on_spell_timeout() -> void:
 	if fizzled:
