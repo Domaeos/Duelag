@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://cduf4yjtbsv48"]
+[gd_scene load_steps=9 format=4 uid="uid://cduf4yjtbsv48"]
 
 [ext_resource type="Script" path="res://fire_door.gd" id="1_eo6rj"]
 [ext_resource type="Texture2D" uid="uid://ekbi6vds6mhw" path="res://gltf/prototypebits_texture.png" id="2_ldrr7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_agh24"]
+size = Vector3(2.4, 4.2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o2bel"]
 size = Vector3(2.4, 4.2, 1)
@@ -52,6 +55,12 @@ collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_eo6rj")
 
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 1.5, 0, 0)
+shape = SubResource("BoxShape3D_agh24")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.1, 0)
 shape = SubResource("BoxShape3D_o2bel")
@@ -72,4 +81,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.0666667, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.133333, 1.6, 0)
 shape = SubResource("CylinderShape3D_50n0b")
 
+[connection signal="body_entered" from="Area3D" to="." method="on_overlap_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_overlap_exited"]
 [connection signal="body_exited" from="Door_B2/Area3D" to="." method="_on_area_3d_body_exited"]
