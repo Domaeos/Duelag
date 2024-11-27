@@ -21,6 +21,14 @@ var moving: bool = false
 var door_in_range
 var last_direction
 
+var health_potion_amount = 25
+const HEALTH_POT_AMOUNT = 40
+const MANA_POT_AMOUNT = 70
+var mana_potion_amount = 25
+var potion_timer: Timer
+var potion_cooldown: bool = false
+const POTION_TIMER_WAIT = 12
+
 var mouse_movement := false
 var mouse_actions = {
 	"up": false,
@@ -29,9 +37,21 @@ var mouse_actions = {
 	"right": false,
 }
 
+enum Potions {
+	MANA,
+	HEALTH
+}
+
 func _ready():
 	super._ready()
-	# Snap the player's initial position to the center of the grid
+
+	potion_timer = Timer.new()
+	potion_timer.one_shot = true
+	potion_timer.autostart = false
+	potion_timer.wait_time = POTION_TIMER_WAIT
+	potion_timer.connect("timeout", Callable(self, "_on_potion_refresh"))
+	add_child(potion_timer)
+	
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
@@ -40,6 +60,9 @@ func _physics_process(delta):
 	if mouse_movement:
 		apply_mouse_input()
 	handle_movement(delta)
+
+func _on_potion_refresh():
+	potion_cooldown = false
 
 func update_direction():
 	direction = Vector3.ZERO
@@ -70,11 +93,35 @@ func _input(event: InputEvent) -> void:
 		toggle_enemy()
 	elif event.is_action_pressed("open_door"):
 		try_open_door()
+	elif event.is_action_pressed("mana_potion"):
+		handle_drink_potion(Potions.MANA)
+	elif event.is_action_pressed("health_potion"):
+		handle_drink_potion(Potions.HEALTH)
 	else:
 		for spell in Global.spelldictionary.keys():
 			if InputMap.has_action(spell) and event.is_action_pressed(spell):
 				handle_spell_cast(spell)
 				break
+
+func handle_drink_potion(potion_type: Potions):
+	if potion_cooldown:
+		return
+		
+	match (potion_type):
+		Potions.HEALTH:
+			if health_potion_amount <= 0:
+				return
+			health_potion_amount -= 1
+			current_health += HEALTH_POT_AMOUNT
+		Potions.MANA:
+			if mana_potion_amount <= 0:
+				return
+			mana_potion_amount -= 1
+			current_mana += MANA_POT_AMOUNT
+			
+	potion_cooldown = true
+	potion_timer.start()
+		
 
 func handle_mouse_event(event: InputEvent):
 	if event is InputEventMouseButton:

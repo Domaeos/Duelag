@@ -9,8 +9,15 @@ var target_health: float
 var target_mana: float
 var transition_speed: float = 5.0
 
+var health_potion_sprite: AnimatedSprite2D
+var mana_potion_sprite: AnimatedSprite2D
+
 func _ready() -> void:
-	player = get_parent().get_parent()
+	var control = get_parent()
+	player = control.get_parent()
+	health_potion_sprite = control.get_node("HealthPotion")
+	mana_potion_sprite = control.get_node("ManaPotion")
+	
 	if player:
 		print(player)
 		target_health = player.current_health
@@ -20,6 +27,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if player:
+		
+		if player.potion_timer:
+			var potion_progress = player.potion_timer.time_left / player.potion_timer.wait_time
+			update_sprite_transparency(health_potion_sprite, potion_progress)
+			update_sprite_transparency(mana_potion_sprite, potion_progress)
+			
 		if player.poisoned:
 			$Player_health.set("theme_override_styles/fill", poison_fill_style)
 		else:
@@ -30,3 +43,9 @@ func _process(delta: float) -> void:
 		
 		$Player_health.value = lerp($Player_health.value, target_health, transition_speed * delta)
 		$Player_mana.value = lerp($Player_mana.value, target_mana, transition_speed * delta)
+
+func update_sprite_transparency(sprite: AnimatedSprite2D, progress: float) -> void:
+	var alpha = lerp(1.0, 0.05, progress)
+	var modulate = sprite.modulate
+	modulate.a = alpha
+	sprite.modulate = modulate
