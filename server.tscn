@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dya8ta7vdao2h"]
+[gd_scene load_steps=3 format=3 uid="uid://dya8ta7vdao2h"]
 
 [ext_resource type="Script" path="res://server.gd" id="1_gbi6t"]
+[ext_resource type="Script" path="res://world_server.gd" id="1_pjsts"]
 
-[node name="Server" type="Node3D"]
+[node name="World" type="Node3D"]
+script = ExtResource("1_pjsts")
+
+[node name="LoginSystem" type="Node3D" parent="."]
 script = ExtResource("1_gbi6t")
