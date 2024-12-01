@@ -42,6 +42,9 @@ enum Potions {
 	HEALTH
 }
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(name))
+
 func _ready():
 	super._ready()
 
@@ -57,9 +60,10 @@ func _ready():
 	last_direction = Vector3.UP
 
 func _physics_process(delta):
-	if mouse_movement:
-		apply_mouse_input()
-	handle_movement(delta)
+	if is_multiplayer_authority():
+		if mouse_movement:
+			apply_mouse_input()
+		handle_movement(delta)
 
 func _on_potion_refresh():
 	potion_cooldown = false

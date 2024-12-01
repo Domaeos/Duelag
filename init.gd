@@ -1,10 +1,7 @@
-extends Control
+extends Node3D
 
 @export_file("*.tscn") var server_scene
 @export_file("*.tscn") var client_scene
-
-@onready var client_button = $ClientButton
-@onready var server_button = $ServerButton
 
 var arguments = {}
 

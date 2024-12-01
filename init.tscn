@@ -4,4 +4,5 @@
 
 [node name="Init" type="Node3D"]
 script = ExtResource("1_52d78")
-server_scene = "<null>"
+server_scene = "res://server.tscn"
+client_scene = "res://login_system.tscn"

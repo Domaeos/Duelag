@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfas1vqtofqva"]
+
+[ext_resource type="Script" path="res://login_system.gd" id="1_ocofl"]
+
+[node name="LoginSystem" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ocofl")
+
+[node name="Name" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 243.0
+offset_right = 967.0
+offset_bottom = 330.0
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Enter name"
+
+[node name="Enter" type="Button" parent="."]
+layout_mode = 0
+offset_left = 423.0
+offset_top = 366.0
+offset_right = 731.0
+offset_bottom = 444.0
+theme_override_font_sizes/font_size = 50
+text = "Enter"
+
+[connection signal="pressed" from="Enter" to="." method="_on_enter_pressed"]
