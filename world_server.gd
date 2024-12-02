@@ -26,6 +26,22 @@ func on_peer_connected(id: int):
 func on_peer_disconnected(id: int):
 	print("Peer ", id, " has disconnected from the server")
 
+@rpc("any_peer", "call_local")
+func _authenticate_game_enter(name, token):
+	print("ZZZZZZSSSSSSSSSSSSSSSSSSSSSSSSSSsZZ")
+	print("Authentication rpc called in server")
+	if name in authenticated_players:
+		if authenticated_players[name] == token:
+			rpc_id(multiplayer.get_remote_sender_id(), "spawn_player", name)
+		else:
+			print("No token match")
+	else:
+		print("Name not in authenticated users")	
+		
+@rpc	
+func spawn_player(name):
+	pass
+
 @rpc
-func _spawn_player():
+func sync_world():
 	pass

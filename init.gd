@@ -14,6 +14,9 @@ func _ready():
 			
 	print(arguments)
 	if "server" in arguments:
-		get_tree().change_scene_to_file(server_scene)
+		call_deferred("_change_scene", server_scene)
 	else:
-		get_tree().change_scene_to_file(client_scene)
+		call_deferred("_change_scene", client_scene)
+
+func _change_scene(scene_file: String):
+	get_tree().change_scene_to_file(scene_file)

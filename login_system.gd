@@ -54,6 +54,9 @@ func receive_name():
 func authentication_status(result, token):
 	if result == 200:
 		print("Successful login with token: ", token)
+		Authentication.user["name"] = name_input.text
+		Authentication.user["token"] = token
+		
 		get_tree().change_scene_to_file(game_scene)
 	elif result == 400:
 		print("Name taken")

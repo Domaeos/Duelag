@@ -10,9 +10,6 @@ var initial_rotation: float = 0.0
 
 func _ready() -> void:
 	add_to_group("doors")
-	print( rotation_degrees.y)
-	initial_rotation = rotation_degrees.y
-	print(initial_rotation)
 	door_area.connect("body_entered", Callable(self, "_on_body_entered"))
 	door_area.connect("body_exited", Callable(self, "_on_body_exited"))
 	

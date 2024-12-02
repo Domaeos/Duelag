@@ -6,12 +6,13 @@ var enemies: Array = []
 var doors: Array = []
 var current_enemy_index: int = -1
 
+@onready var camera = $CameraPivot/Camera3D
 # Movement settings
 @export var current_enemy: can_be_damaged
 @export var casted_on: can_be_damaged
 
 @export var max_interaction_distance = 15
-@export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
+@export var grid_size: float = 5.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
 @export var joystick: VirtualJoystick
 
@@ -42,8 +43,8 @@ enum Potions {
 	HEALTH
 }
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(int(name))
+#func _enter_tree() -> void:
+	#set_multiplayer_authority(int(name))
 
 func _ready():
 	super._ready()
