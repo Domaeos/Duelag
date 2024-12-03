@@ -43,23 +43,17 @@ enum Potions {
 	HEALTH
 }
 
-@rpc("call_local")
-func client_setup_player(player_id):
-	var self_id = multiplayer.get_unique_id()
-	
-	var is_player = self_id == player_id
-	print("SETTING UP PLAYER")
-	set_process(is_player)
-	set_physics_process(is_player)
-	camera.current = is_player
-
-	# Ensure multiplayer authority is set on the local player
-	if is_player:
-		set_multiplayer_authority(player_id)
-
 func _ready():
-	super._ready()
+	if not is_multiplayer_authority():
+		return
 
+	super._ready()
+		
+	var server_connection = multiplayer.multiplayer_peer.get_peer(1)
+	var latency = server_connection.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME) / (1000 * 2)
+	await get_tree().create_timer(latency).timeout
+	
+	
 	potion_timer = Timer.new()
 	potion_timer.one_shot = true
 	potion_timer.autostart = false
@@ -70,12 +64,19 @@ func _ready():
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
+	
+	print("Ran past authority check for: ", get_multiplayer_authority())
+	camera.current = true
+	print("Current camera after: ", camera.current)
+	
 
 func _physics_process(delta):
-	if is_multiplayer_authority():
-		if mouse_movement:
-			apply_mouse_input()
-		handle_movement(delta)
+	if not is_multiplayer_authority():
+		return
+	
+	if mouse_movement:
+		apply_mouse_input()
+	handle_movement(delta)
 
 func _on_potion_refresh():
 	potion_cooldown = false
@@ -103,6 +104,9 @@ func _handle_8way_input(direction: Vector2) -> void:
 	update_direction()
 	
 func _input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		handle_mouse_event(event)
 	elif event.is_action_pressed("toggle_enemy"):
@@ -137,7 +141,6 @@ func handle_drink_potion(potion_type: Potions):
 			
 	potion_cooldown = true
 	potion_timer.start()
-		
 
 func handle_mouse_event(event: InputEvent):
 	if event is InputEventMouseButton:

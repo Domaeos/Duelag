@@ -4,6 +4,9 @@ var arguments = {}
 @onready var player_spawner = $World/PlayerSpawn
 const PORT = 9999
 
+var peer = ENetMultiplayerPeer.new()
+var player_scene = preload("res://player.tscn")
+
 func _ready() -> void:
 	var args = OS.get_cmdline_args()
 	for arg in args:
@@ -17,7 +20,6 @@ func _ready() -> void:
 		_setup_client()
 
 func _setup_client():
-	var peer = ENetMultiplayerPeer.new()
 	var result = peer.create_client("127.0.0.1", PORT)
 	if result != OK:
 		print("Failed to create client connection: ", result)
@@ -26,7 +28,6 @@ func _setup_client():
 	multiplayer.multiplayer_peer = peer
 
 func _setup_server():
-	var peer = ENetMultiplayerPeer.new()
 	var result = peer.create_server(PORT)
 	if result != OK:
 		print("Failed to create server on port ", PORT)
@@ -40,28 +41,25 @@ func _setup_server():
 	
 func on_peer_connected(id: int):
 	print("Peer ", id, " has connected to the server")
-	var player = preload("res://player.tscn").instantiate()
-	player.name = str(id)
-	player.set_multiplayer_authority(id)
-	player_spawner.add_child(player)
-	rpc_id(id, "spawn_player", id)
-
-@rpc("call_local")
-func spawn_player(player_id):
-	var player = preload("res://player.tscn").instantiate()
-	player.name = str(player_id)
-	player_spawner.add_child(player)
-	player.rpc("client_setup_player", player_id)
-	rpc_id(1, "_sync_world", player_id)
-
-@rpc("authority", "call_local")
-func _sync_world(id):
-	get_tree().call_group("Sync", "set_visibility_for", id, true)
+	add_player(id)
 
 func on_peer_disconnected(id: int):
 	print("Peer ", id, " has disconnected from the server")
+	var character = get_node_or_null(str(id))
+	if character:
+		character.queue_free()
 
+func add_player(peer_id):
+	var player = player_scene.instantiate()
+	player.name = str(peer_id)
+	player.set_multiplayer_authority(peer_id)
+	$World.add_child(player, true)
+	self._handoff(peer_id) 
 
+@rpc("call_local")
+func _handoff(id):
+	$World.get_node(str(id)).set_multiplayer_authority(id)
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
