@@ -3896,7 +3896,7 @@ sprite_frames = SubResource("SpriteFrames_qpx5f")
 animation = &"electric_2"
 offset = Vector2(660, 700)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." groups=["Sync"]]
 replication_config = SubResource("SceneReplicationConfig_0xgsi")
 
 [connection signal="animation_finished" from="SpellNode/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -25,9 +25,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+@rpc("call_local")
 func _on_timeout(index):
 	message_array[index] = ""
-	pass# Called when the node enters the scene tree for the first time.
 	
 func _on_player_show_text(message: String) -> void:
 	message_array.pop_front()

@@ -71,8 +71,11 @@ func _ready():
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
+	call_deferred("get_map")
+
+func get_map():
 	map = get_parent().get_parent().get_node("GridMap")
-	
+
 func _physics_process(delta):
 	if mouse_movement:
 		apply_mouse_input()
@@ -165,24 +168,15 @@ func apply_mouse_input():
 @rpc("any_peer", "call_local")
 func show_player_text(message):
 	show_text.emit(message)
-	
-#@rpc("any_peer", "call_local")
-#func handle_spell_cast(spell, enemy_id):
-	#if enemy_id:
-		#var enemy_as_num = int(str(enemy_id))
-		#var enemy = world.active_players[enemy_id]
-		#var spell_information = Global.spelldictionary[spell]
-		#rpc_id(enemy_as_num, "show_player_text", "CASTED UPON")
-		#print("CASTING FROM`", get_multiplayer_authority())
-		##if not spell_information.has("self"):
-			##if not check_line_of_sight(current_enemy, true):
-				##return
-
 
 func handle_spell_cast(spell):
+	if not current_enemy:
+		print("No Current Enemy...")
+		return
+
 	var spell_information = Global.spelldictionary[spell]
 	if not spell_information.has("self"):
-		rpc_id(1, "check_line_of_sight", int(str(current_enemy)), true)
+		rpc_id(1, "check_line_of_sight", multiplayer.get_unique_id(), current_enemy)
 #
 	if not spell_timer.is_stopped():
 		spell_timer.stop()
@@ -193,7 +187,6 @@ func handle_spell_cast(spell):
 	spell_timer.wait_time = spell_information.duration
 	casting = true
 	spell_timer.start()
-
 
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
@@ -229,8 +222,6 @@ func handle_movement(delta):
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
-	
-	
 func snap_to_grid(position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
@@ -249,14 +240,13 @@ func can_move_to(new_position: Vector3) -> bool:
 	return space_state.intersect_ray(ray_params).is_empty()
 
 @rpc("authority", "call_local")
-func check_line_of_sight(end, initial: bool) -> bool:
+func check_line_of_sight(start, end) -> bool:
+
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
-	print(world.active_players)
+	
 	var start_node = world.active_players[str(multiplayer.get_remote_sender_id())]
 	var end_node = world.active_players[str(end)]
-	print("START: ", start_node)
-	print("END: ", end_node)
 	
 	ray_params.exclude = [start_node]
 	ray_params.from = start_node.global_transform.origin
@@ -265,14 +255,11 @@ func check_line_of_sight(end, initial: bool) -> bool:
 
 	if result:
 		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
-		if (initial == true):
-			if (result.collider == end_node):
-				print("IN LOS")
-				return true
-		else:
-			if (result.collider == casted_on):
-				return true
-	print("NOT IN LOS")
+		print("Result: ", result)
+		print("End: ", end)
+		if (result.collider == end_node):
+			return true
+			
 	return false
 	
 func _on_spell_timeout() -> void:
@@ -286,12 +273,18 @@ func _on_spell_timeout() -> void:
 	var spell_information = Global.spelldictionary[current_spell]
 	if spell_information.has("self") == false:
 		target = casted_on
-		var in_line_of_sight = check_line_of_sight(target, false)
-		if !in_line_of_sight:
-			return
-			
-	target.spell_landed(current_spell)
-	current_mana -= spell_information.cost
+		rpc_id(1, "check_spell_landed", target, current_spell )
+
+@rpc("authority", "call_remote")
+func check_spell_landed(target, spell):
+	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
+	if spell_hit:
+		var target_node = world.active_players[str(target)]
+		print("Hit node: ", target_node)
+		rpc_id(target, "spell_landed", spell)
+	else:
+		print("SPELL MISSED")
+	pass
 
 func toggle_enemy() -> void:
 	var parent = get_parent()

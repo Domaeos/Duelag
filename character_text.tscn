@@ -56,6 +56,6 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 visible_characters_behavior = 2
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="SubViewport"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="SubViewport" groups=["Sync"]]
 root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_wtl4w")

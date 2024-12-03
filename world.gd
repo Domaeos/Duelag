@@ -35,3 +35,14 @@ func add_player():
 @rpc("any_peer", "call_remote")
 func cast_spell(target):
 	print(active_players[target])
+	
+#@rpc("any_peer", "call_remote")
+#func show_effect(target_id, spell: String):
+	#var target = active_players[str(target_id)]
+	#var spell_information = Global.spelldictionary[spell]
+	#
+	#target.spell_node.position = spell_information.position
+	#target.spell_node.scale = spell_information.scale
+	#target.spell_node.show()
+	#
+	#target.spell_emitter.play(spell_information.animation)

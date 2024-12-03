@@ -38,10 +38,10 @@ func _ready():
 
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
-	
+
+@rpc("any_peer", "call_remote")
 func spell_landed(spell: String):
 	var spell_information = Global.spelldictionary[spell]
-		
 	if spell == "poison" and poisoned == false:
 		poisoned = true
 		poison_timer.start()
@@ -49,21 +49,29 @@ func spell_landed(spell: String):
 	if spell == "cure":
 		poisoned = false
 		poison_timer.stop()
-		
-	spell_node.position = spell_information.position
-	spell_node.scale = spell_information.scale
-	spell_node.show()
-	spell_emitter.play(spell_information.animation)
+
+	rpc("show_effect", multiplayer.get_unique_id(), spell)
 	
-	take_damage(spell_information.damage)
+@rpc("any_peer", "call_local")
+func show_effect(id, spell: String):
+	var node = get_parent().get_node(str(id))
+	var spell_information = Global.spelldictionary[spell]
 	
+	node.spell_node.position = spell_information.position
+	node.spell_node.scale = spell_information.scale
+	node.spell_node.show()
+	
+	node.spell_emitter.play(spell_information.animation)
+
+
 func cancel_spell():
 	fizzled = true
 	_on_timer_timeout()
 
 func _on_poisoned():
-	take_damage(2)
-	
+	rpc_id(multiplayer.get_unique_id(), "take_damage", 2.0)
+
+@rpc("call_local")
 func take_damage(damage: float) -> void:
 		current_health -= damage
 		emit_signal("update_healthbar", current_health, max_health, poisoned)
