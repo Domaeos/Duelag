@@ -1,13 +1,30 @@
 extends Node3D
 
+@onready var player_spawner = $PlayerSpawn
+var player_scene = preload("res://player.tscn")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-	#print("READY HERE: ", multiplayer.get_unique_id())
-	#if not multiplayer.is_server():
-		#print("READY FOR: ", get_multiplayer_authority())
-		#var server_connection = multiplayer.multiplayer_peer.get_peer(1)
-		#var latency = server_connection.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME) / (1000 * 2)
-		#await get_tree().create_timer(latency).timeout
-		#rpc_id(1, "create_player")
+	await get_tree().create_timer(0.5).timeout
+
+	if not multiplayer.is_server():
+		var server_connection = multiplayer.multiplayer_peer.get_peer(1)
+		var latency = server_connection.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME) / (1000 * 2)
+		await get_tree().create_timer(latency).timeout
+		rpc_id(1, "sync_world")
+		rpc_id(1, "add_player")
+
+
+func _on_multiplayer_spawner_spawned(node: Node):
+	node.rpc("setup_multiplayer", int(str(node.name)))
+
+@rpc("any_peer", "call_local")
+func sync_world():
+	var player_id = multiplayer.get_remote_sender_id()
+	get_tree().call_group("Sync", "set_visibility_for", player_id, true)
+
+@rpc("any_peer", "call_remote")
+func add_player():
+	var player_id = multiplayer.get_remote_sender_id()
+	var player = player_scene.instantiate()
+	player.name = str(player_id)
+	player_spawner.add_child(player, true)

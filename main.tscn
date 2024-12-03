@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://pqeoq4vo7l6y"]
+[gd_scene load_steps=7 format=3 uid="uid://pqeoq4vo7l6y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ocwi3"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="2_h8rb7"]
 [ext_resource type="Script" path="res://world.gd" id="2_i8s8b"]
 [ext_resource type="Script" path="res://label.gd" id="4_0ny1w"]
+[ext_resource type="Script" path="res://player_spawn.gd" id="4_eh4lq"]
+[ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="5_0xko1"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ocwi3")
@@ -14,13 +16,14 @@ script = ExtResource("2_i8s8b")
 [node name="GridMap" parent="World" instance=ExtResource("2_h8rb7")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 
-[node name="PlayerSpawn" type="Marker3D" parent="World"]
+[node name="PlayerSpawn" type="Node3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.3953, 6.30351, 21.47)
-gizmo_extents = 2.97
+script = ExtResource("4_eh4lq")
+spawn_scene = ExtResource("5_0xko1")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="World" groups=["Sync"]]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
-spawn_path = NodePath("..")
+spawn_path = NodePath("../PlayerSpawn")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -36,3 +39,5 @@ offset_right = 766.0
 offset_bottom = 136.0
 theme_override_font_sizes/font_size = 50
 script = ExtResource("4_0ny1w")
+
+[connection signal="spawned" from="World/MultiplayerSpawner" to="World" method="_on_multiplayer_spawner_spawned"]
