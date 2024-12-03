@@ -12,10 +12,7 @@ func _ready() -> void:
 		print("Failed to create server on port ", PORT)
 		return
 	
-	multiplayer.multiplayer_peer = peer
-	print("SERVER CREATED ON PORT ", PORT)
-	print("SERVER ID IS: ", multiplayer.get_unique_id())
-	
+	multiplayer.multiplayer_peer = peer	
 	# Connect to peer connection signals
 	multiplayer.peer_connected.connect(on_peer_connected)
 	multiplayer.peer_disconnected.connect(on_peer_disconnected)
@@ -28,20 +25,32 @@ func on_peer_disconnected(id: int):
 
 @rpc("any_peer", "call_local")
 func _authenticate_game_enter(name, token):
-	print("ZZZZZZSSSSSSSSSSSSSSSSSSSSSSSSSSsZZ")
-	print("Authentication rpc called in server")
 	if name in authenticated_players:
 		if authenticated_players[name] == token:
 			rpc_id(multiplayer.get_remote_sender_id(), "spawn_player", name)
 		else:
 			print("No token match")
 	else:
-		print("Name not in authenticated users")	
+		print("Name not in authenticated users")
 		
-@rpc	
-func spawn_player(name):
-	pass
+@rpc("any_peer", "call_remote")
+func spawn_player():
+	var player_id = multiplayer.get_remote_sender_id()
+	var player = preload("res://player.tscn").instantiate()
+	player.name = str(player_id)
+	$PlayerSpawn.add_child(player)
+	player.set_multiplayer_authority(player_id)
 
-@rpc
+	#player.rpc("client_setup_player", player_id)
+	#player.camera.current = true
+	#player.set_multiplayer_authority(id)
+
+
+@rpc("any_peer", "call_local")
 func sync_world():
-	pass
+	var player_id = multiplayer.get_remote_sender_id()
+	get_tree().call_group("Sync", "set_visibility_for", player_id, true)
+
+
+func _on_multiplayer_spawner_spawned(node: Node) -> void:
+	print("A PLAYER HAS SPAWNED")

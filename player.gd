@@ -43,8 +43,19 @@ enum Potions {
 	HEALTH
 }
 
-#func _enter_tree() -> void:
-	#set_multiplayer_authority(int(name))
+@rpc("call_local")
+func client_setup_player(player_id):
+	var self_id = multiplayer.get_unique_id()
+	
+	var is_player = self_id == player_id
+	print("SETTING UP PLAYER")
+	set_process(is_player)
+	set_physics_process(is_player)
+	camera.current = is_player
+
+	# Ensure multiplayer authority is set on the local player
+	if is_player:
+		set_multiplayer_authority(player_id)
 
 func _ready():
 	super._ready()
@@ -171,6 +182,7 @@ func handle_movement(delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 		last_direction = -direction
+		$Pivot.basis = Basis.looking_at(last_direction)
 
 		# Calculate the movement target (move by grid_size steps)
 		var intended_position = global_transform.origin + direction * grid_size
@@ -200,7 +212,6 @@ func handle_movement(delta):
 		$Pivot/Mage/AnimationPlayer.play("Idle")
 		moving = false  # Stop movement entirely
 
-	$Pivot.basis = Basis.looking_at(last_direction)
 	
 	
 func snap_to_grid(position: Vector3) -> Vector3:

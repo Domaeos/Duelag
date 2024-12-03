@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://crlryp4ng3i5w"]
+[gd_scene load_steps=6 format=3 uid="uid://crlryp4ng3i5w"]
 
 [ext_resource type="PackedScene" uid="uid://dtyrpyxinnj28" path="res://gltf/Door_A.gltf" id="1_75m75"]
 [ext_resource type="Script" path="res://door_wood_indoor.gd" id="1_wegrx"]
@@ -9,6 +9,11 @@ size = Vector3(2.5, 4.2, 1)
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ctxr4"]
 height = 3.4
 radius = 4.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0jwi2"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="door_wood_indoor" type="StaticBody3D"]
 script = ExtResource("1_wegrx")
@@ -26,6 +31,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.0666667, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Door_A2/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.133333, 1.6, 0)
 shape = SubResource("CylinderShape3D_ctxr4")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." groups=["Sync"]]
+replication_config = SubResource("SceneReplicationConfig_0jwi2")
 
 [connection signal="body_entered" from="Door_A2/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Door_A2/Area3D" to="." method="_on_area_3d_body_exited"]

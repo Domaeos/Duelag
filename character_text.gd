@@ -16,7 +16,7 @@ func _ready() -> void:
 		timer.one_shot = true
 		timer.wait_time = 2.0
 		timer.timeout.connect(func(): _on_timeout(i))
-		message_array.append(timer)
+		timer_array.append(timer)
 		
 	char_label = find_child("OHeadText")
 

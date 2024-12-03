@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://pqeoq4vo7l6y"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ocwi3"]
+[ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="2_h8rb7"]
+[ext_resource type="Script" path="res://world.gd" id="2_i8s8b"]
+[ext_resource type="Script" path="res://label.gd" id="4_0ny1w"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ocwi3")
+
+[node name="World" type="Node3D" parent="."]
+script = ExtResource("2_i8s8b")
+
+[node name="GridMap" parent="World" instance=ExtResource("2_h8rb7")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+
+[node name="PlayerSpawn" type="Marker3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.3953, 6.30351, 21.47)
+gizmo_extents = 2.97
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="World" groups=["Sync"]]
+_spawnable_scenes = PackedStringArray("res://player.tscn")
+spawn_path = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="World"]
+transform = Transform3D(-0.156786, -0.69754, 0.699182, -0.152627, 0.716545, 0.680638, -0.975768, -6.9613e-10, -0.218808, 18.8465, 8.28503, 20.3488)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 7.0
+offset_right = 766.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 50
+script = ExtResource("4_0ny1w")

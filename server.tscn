@@ -1,10 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://dya8ta7vdao2h"]
+[gd_scene load_steps=6 format=3 uid="uid://txc2ecgc4jx8"]
 
 [ext_resource type="Script" path="res://server.gd" id="1_gbi6t"]
 [ext_resource type="Script" path="res://world_server.gd" id="1_pjsts"]
+[ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="3_lnnu8"]
+[ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="4_1eg8g"]
+[ext_resource type="Script" path="res://player_spawn.gd" id="5_gskfw"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_pjsts")
 
 [node name="LoginSystem" type="Node3D" parent="."]
 script = ExtResource("1_gbi6t")
+
+[node name="Player" parent="." instance=ExtResource("3_lnnu8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 4.5)
+
+[node name="GridMap" parent="." instance=ExtResource("4_1eg8g")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.312, 5, 3.564)
+gizmo_extents = 2.97
+script = ExtResource("5_gskfw")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player.tscn")
+spawn_path = NodePath("..")
+
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

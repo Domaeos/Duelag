@@ -6,8 +6,8 @@ signal spawned(spawnling)
 func spawn(reference = spawn_scene):
 	var spawnling = reference.instantiate()
 	# Prevents that the Spawner's transform affects its children
+	add_child(spawnling, true)
 	spawnling.global_position = global_position
 	spawnling.top_level = true
-	add_child(spawnling, true)
 	spawned.emit(spawnling)
 	return spawnling
