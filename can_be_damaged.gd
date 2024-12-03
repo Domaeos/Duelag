@@ -10,7 +10,6 @@ signal update_healthbar(current_health: float, max_health: float, poisoned: bool
 @export var current_mana: float = 100.0
 @export var max_health: float = 100.0
 @export var poisoned: bool = false
-@export var targetted: bool = false
 
 var casting: bool = false
 var current_spell: String

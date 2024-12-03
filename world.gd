@@ -3,6 +3,8 @@ extends Node3D
 @onready var player_spawner = $PlayerSpawn
 var player_scene = preload("res://player.tscn")
 
+var active_players = {}
+
 func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 
@@ -28,3 +30,8 @@ func add_player():
 	var player = player_scene.instantiate()
 	player.name = str(player_id)
 	player_spawner.add_child(player, true)
+	active_players[player.name] = player
+
+@rpc("any_peer", "call_remote")
+func cast_spell(target):
+	print(active_players[target])

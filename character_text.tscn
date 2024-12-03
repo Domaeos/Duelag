@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8xqh0mkrt4ec"]
+[gd_scene load_steps=6 format=3 uid="uid://c8xqh0mkrt4ec"]
 
 [ext_resource type="FontFile" uid="uid://564s24d7ksvq" path="res://fonts/Heavitas.ttf" id="1_c06vr"]
 [ext_resource type="Script" path="res://character_text.gd" id="1_jldpy"]
@@ -6,6 +6,14 @@
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wtl4w"]
+properties/0/path = NodePath("SubViewport/OHeadText:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("SubViewport/OHeadText:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="CharacterText" type="Sprite3D"]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.8, 0)
@@ -47,3 +55,7 @@ autowrap_mode = 0
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 visible_characters_behavior = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="SubViewport"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_wtl4w")

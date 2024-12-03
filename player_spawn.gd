@@ -6,7 +6,6 @@ signal spawned(spawnling)
 func spawn(reference = spawn_scene):
 	var spawnling = reference.instantiate()
 	add_child(spawnling, true)
-	spawnling.global_position = global_position
-	spawnling.top_level = true
+	spawnling.position = position
 	spawned.emit(spawnling)
 	return spawnling

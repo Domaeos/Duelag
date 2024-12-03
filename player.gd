@@ -3,16 +3,15 @@ extends can_be_damaged
 signal show_text(message: String)
 
 var enemies: Array = []
-var doors: Array = []
 var current_enemy_index: int = -1
 
 @onready var camera = $CameraPivot/Camera3D
+@onready var world = get_parent().get_parent()
 # Movement settings
-@export var current_enemy: can_be_damaged
-@export var casted_on: can_be_damaged
-
+@export var current_enemy: int
+@export var casted_on: int
 @export var max_interaction_distance = 15
-@export var grid_size: float = 5.0  # Size of each grid cell (2x2x2 for your case)
+@export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
 @export var joystick: VirtualJoystick
 
@@ -21,6 +20,7 @@ var target_position: Vector3
 var moving: bool = false
 var door_in_range
 var last_direction
+var map
 
 var health_potion_amount = 25
 const HEALTH_POT_AMOUNT = 40
@@ -53,6 +53,7 @@ func setup_multiplayer(player_id):
 	set_physics_process(is_player)
 	if is_player:
 		camera.current = is_player
+	$Control.visible = is_player
 	set_multiplayer_authority(player_id)
 
 
@@ -70,6 +71,7 @@ func _ready():
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
+	map = get_parent().get_parent().get_node("GridMap")
 	
 func _physics_process(delta):
 	if mouse_movement:
@@ -107,8 +109,6 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("toggle_enemy"):
 		toggle_enemy()
 	elif event.is_action_pressed("open_door"):
-		print("Opening door", multiplayer.get_unique_id())
-		print("Door in range: ", door_in_range)
 		try_open_door()
 	elif event.is_action_pressed("mana_potion"):
 		handle_drink_potion(Potions.MANA)
@@ -162,12 +162,28 @@ func apply_mouse_input():
 	var vector: Vector2 = (mouse_position - player_screen_position).normalized()
 	_handle_8way_input(vector)
 
+@rpc("any_peer", "call_local")
+func show_player_text(message):
+	show_text.emit(message)
+	
+#@rpc("any_peer", "call_local")
+#func handle_spell_cast(spell, enemy_id):
+	#if enemy_id:
+		#var enemy_as_num = int(str(enemy_id))
+		#var enemy = world.active_players[enemy_id]
+		#var spell_information = Global.spelldictionary[spell]
+		#rpc_id(enemy_as_num, "show_player_text", "CASTED UPON")
+		#print("CASTING FROM`", get_multiplayer_authority())
+		##if not spell_information.has("self"):
+			##if not check_line_of_sight(current_enemy, true):
+				##return
+
+
 func handle_spell_cast(spell):
 	var spell_information = Global.spelldictionary[spell]
 	if not spell_information.has("self"):
-		if not check_line_of_sight(current_enemy, true):
-			return
-
+		rpc_id(1, "check_line_of_sight", int(str(current_enemy)), true)
+#
 	if not spell_timer.is_stopped():
 		spell_timer.stop()
 
@@ -177,6 +193,7 @@ func handle_spell_cast(spell):
 	spell_timer.wait_time = spell_information.duration
 	casting = true
 	spell_timer.start()
+
 
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
@@ -231,23 +248,31 @@ func can_move_to(new_position: Vector3) -> bool:
 	ray_params.exclude = [self]
 	return space_state.intersect_ray(ray_params).is_empty()
 
-func check_line_of_sight(end: Node3D, initial: bool) -> bool:
+@rpc("authority", "call_local")
+func check_line_of_sight(end, initial: bool) -> bool:
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
-
-	ray_params.exclude = [self]
-	ray_params.from = global_transform.origin
-	ray_params.to = end.global_transform.origin
-	var result = space_state.intersect_ray(ray_params)
+	print(world.active_players)
+	var start_node = world.active_players[str(multiplayer.get_remote_sender_id())]
+	var end_node = world.active_players[str(end)]
+	print("START: ", start_node)
+	print("END: ", end_node)
 	
+	ray_params.exclude = [start_node]
+	ray_params.from = start_node.global_transform.origin
+	ray_params.to = end_node.global_transform.origin
+	var result = space_state.intersect_ray(ray_params)
+
 	if result:
 		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
 		if (initial == true):
-			if (result.collider == current_enemy):
+			if (result.collider == end_node):
+				print("IN LOS")
 				return true
 		else:
 			if (result.collider == casted_on):
 				return true
+	print("NOT IN LOS")
 	return false
 	
 func _on_spell_timeout() -> void:
@@ -269,7 +294,6 @@ func _on_spell_timeout() -> void:
 	current_mana -= spell_information.cost
 
 func toggle_enemy() -> void:
-	
 	var parent = get_parent()
 	if not parent:
 		return
@@ -292,14 +316,14 @@ func toggle_enemy() -> void:
 	if current_enemy_index >= enemies.size():
 		current_enemy_index = 0  # Wrap back to the first enemy
 	
-	var new_enemy = enemies[current_enemy_index]
-	current_enemy.targetted = false
-	current_enemy = new_enemy
-	current_enemy.targetted = true
-
+	current_enemy = int(str(enemies[current_enemy_index].name))
+	print(current_enemy)
+	
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
 
 func try_open_door():
-	if (door_in_range):
-		door_in_range.toggle_open()
+	if (door_in_range and map):
+		var door = map.get_node_or_null(door_in_range)
+		print("Door found:")
+		if door: door.toggle_open()
