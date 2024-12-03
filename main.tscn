@@ -22,9 +22,6 @@ gizmo_extents = 2.97
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("..")
 
-[node name="Camera3D" type="Camera3D" parent="World"]
-transform = Transform3D(-0.156786, -0.69754, 0.699182, -0.152627, 0.716545, 0.680638, -0.975768, -6.9613e-10, -0.218808, 18.8465, 8.28503, 20.3488)
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
