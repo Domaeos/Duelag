@@ -1,11 +1,9 @@
 extends Node
 
 var arguments = {}
-@onready var player_spawner = $World/PlayerSpawn
 const PORT = 9999
 
 var peer = ENetMultiplayerPeer.new()
-var player_scene = preload("res://player.tscn")
 
 func _ready() -> void:
 	var args = OS.get_cmdline_args()
@@ -41,25 +39,9 @@ func _setup_server():
 	
 func on_peer_connected(id: int):
 	print("Peer ", id, " has connected to the server")
-	add_player(id)
 
 func on_peer_disconnected(id: int):
 	print("Peer ", id, " has disconnected from the server")
 	var character = get_node_or_null(str(id))
 	if character:
 		character.queue_free()
-
-func add_player(peer_id):
-	var player = player_scene.instantiate()
-	player.name = str(peer_id)
-	player.set_multiplayer_authority(peer_id)
-	$World.add_child(player, true)
-	self._handoff(peer_id) 
-
-@rpc("call_local")
-func _handoff(id):
-	$World.get_node(str(id)).set_multiplayer_authority(id)
-		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

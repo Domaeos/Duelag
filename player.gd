@@ -43,16 +43,22 @@ enum Potions {
 	HEALTH
 }
 
-func _ready():
-	if not is_multiplayer_authority():
-		return
+@rpc("any_peer", "call_local")
+func setup_multiplayer(player_id):
+	print("Setting up multiplayer for: ", player_id)
+	var self_id = multiplayer.get_unique_id()
+	var is_player = self_id == player_id
+	set_process(is_player)
+	set_process_input(is_player)
+	set_physics_process(is_player)
+	if is_player:
+		camera.current = is_player
+	set_multiplayer_authority(player_id)
 
+
+func _ready():
+	await get_tree().create_timer(0.5).timeout
 	super._ready()
-		
-	var server_connection = multiplayer.multiplayer_peer.get_peer(1)
-	var latency = server_connection.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME) / (1000 * 2)
-	await get_tree().create_timer(latency).timeout
-	
 	
 	potion_timer = Timer.new()
 	potion_timer.one_shot = true
@@ -65,15 +71,7 @@ func _ready():
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
 	
-	print("Ran past authority check for: ", get_multiplayer_authority())
-	camera.current = true
-	print("Current camera after: ", camera.current)
-	
-
 func _physics_process(delta):
-	if not is_multiplayer_authority():
-		return
-	
 	if mouse_movement:
 		apply_mouse_input()
 	handle_movement(delta)
@@ -104,14 +102,13 @@ func _handle_8way_input(direction: Vector2) -> void:
 	update_direction()
 	
 func _input(event: InputEvent) -> void:
-	if not is_multiplayer_authority():
-		return
-
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		handle_mouse_event(event)
 	elif event.is_action_pressed("toggle_enemy"):
 		toggle_enemy()
 	elif event.is_action_pressed("open_door"):
+		print("Opening door", multiplayer.get_unique_id())
+		print("Door in range: ", door_in_range)
 		try_open_door()
 	elif event.is_action_pressed("mana_potion"):
 		handle_drink_potion(Potions.MANA)
