@@ -7,14 +7,16 @@ var door_path
 
 # Called when the node enters the scene tree for the first time.
 var is_open: bool = false
-var initial_rotation: float = 0.0
+var initial_rotation: float
 
 func _ready() -> void:
 	add_to_group("doors")
 	door_path = get_path()
+	initial_rotation = rotation_degrees.y
 	door_area.connect("body_entered", Callable(self, "_on_body_entered"))
 	door_area.connect("body_exited", Callable(self, "_on_body_exited"))
-	
+
+@rpc("any_peer", "call_remote")
 func toggle_open() -> void:
 	if is_open:
 		# Close the door by rotating back to the initial position
@@ -29,11 +31,10 @@ func toggle_open() -> void:
 func _process(delta: float) -> void:
 	pass
 
-
 func _on_body_entered(body: Node3D) -> void:
-	if body is can_be_damaged:
+	if body is can_be_damaged and body.door_in_range != door_path:
+		print("Body: ", body, ". Door: ", door_path)
 		body.door_in_range = door_path
-
 
 func _on_body_exited(body: Node3D) -> void:
 	if body is can_be_damaged:

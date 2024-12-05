@@ -36,6 +36,11 @@ func add_player():
 func cast_spell(target):
 	print(active_players[target])
 	
+@rpc("authority")
+func set_players_door(door):
+	var player = get_parent().find_child(str(multiplayer.get_remote_sender_id()))
+	print("setting door for player: ", player)
+
 #@rpc("any_peer", "call_remote")
 #func show_effect(target_id, spell: String):
 	#var target = active_players[str(target_id)]

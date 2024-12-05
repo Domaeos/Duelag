@@ -316,7 +316,11 @@ func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
 
 func try_open_door():
-	if (door_in_range and map):
-		var door = map.get_node_or_null(door_in_range)
-		print("Door found:")
-		if door: door.toggle_open()
+	if (door_in_range):
+		var door_node = get_node_or_null(door_in_range)
+		if door_node:
+			door_node.rpc_id(1, "toggle_open")
+	#if (door_in_range and map):
+		#var door = map.get_node_or_null(door_in_range)
+		#print("Door found:")
+		#if door: door.toggle_open()
