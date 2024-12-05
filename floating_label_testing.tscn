@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4kynesyaeb8o"]
+
+[ext_resource type="Script" path="res://floating_label_testing.gd" id="1_7swry"]
+[ext_resource type="PackedScene" uid="uid://c2wxi4oprgu0p" path="res://Characters/gltf/Rogue.glb" id="1_jq31x"]
+[ext_resource type="PackedScene" uid="uid://c8xqh0mkrt4ec" path="res://character_text.tscn" id="3_xbk70"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8brl3"]
+viewport_path = NodePath("SubViewport")
+
+[node name="FloatingLabelTesting" type="Node3D"]
+script = ExtResource("1_7swry")
+
+[node name="Rogue" parent="." instance=ExtResource("1_jq31x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+
+[node name="CharacterText" parent="Rogue" instance=ExtResource("3_xbk70")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 3.5, 0)
+pixel_size = 0.005
+texture = SubResource("ViewportTexture_8brl3")
+region_enabled = true
+region_rect = Rect2(200, 88, 608, 208)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 823.0
+offset_top = 303.0
+offset_right = 904.0
+offset_bottom = 334.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Emit Text
+"
+
+[node name="Camera3D" type="Camera3D" parent="Control/Button"]
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 7, 6)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, 3)
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
