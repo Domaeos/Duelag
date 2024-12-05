@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8xqh0mkrt4ec"]
+[gd_scene load_steps=7 format=3 uid="uid://c8xqh0mkrt4ec"]
 
 [ext_resource type="FontFile" uid="uid://564s24d7ksvq" path="res://fonts/Heavitas.ttf" id="1_c06vr"]
 [ext_resource type="Script" path="res://character_text.gd" id="1_jldpy"]
 [ext_resource type="Theme" uid="uid://ba2x8p4fe0f4n" path="res://Ohead_theme.tres" id="2_34bca"]
+[ext_resource type="PackedScene" uid="uid://cifpiske14sde" path="res://floating_label.tscn" id="4_ku3ei"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3awej"]
 viewport_path = NodePath("SubViewport")
@@ -16,7 +17,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="CharacterText" type="Sprite3D"]
-transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0.8, 0)
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0)
 pixel_size = 0.015
 billboard = 1
 no_depth_test = true
@@ -27,6 +28,12 @@ script = ExtResource("1_jldpy")
 transparent_bg = true
 size = Vector2i(1000, 300)
 render_target_update_mode = 3
+
+[node name="FloatingLabel" parent="SubViewport" instance=ExtResource("4_ku3ei")]
+offset_left = -174.0
+offset_top = 317.0
+offset_right = 326.0
+offset_bottom = 348.0
 
 [node name="OHeadText" type="RichTextLabel" parent="SubViewport"]
 top_level = true
