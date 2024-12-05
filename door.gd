@@ -11,29 +11,24 @@ var initial_rotation: float
 
 func _ready() -> void:
 	add_to_group("doors")
-	door_path = get_path()
-	initial_rotation = rotation_degrees.y
-	door_area.connect("body_entered", Callable(self, "_on_body_entered"))
-	door_area.connect("body_exited", Callable(self, "_on_body_exited"))
+	if multiplayer.is_server():
+		door_path = get_path()
+		initial_rotation = rotation_degrees.y
+		door_area.connect("body_entered", Callable(self, "_on_body_entered"))
+		door_area.connect("body_exited", Callable(self, "_on_body_exited"))
 
 @rpc("any_peer", "call_remote")
 func toggle_open() -> void:
-	if is_open:
-		# Close the door by rotating back to the initial position
-		rotation_degrees.y = initial_rotation - 90
-		is_open = false
-	else:
-		# Open the door by rotating 90 degrees from the initial position
-		rotation_degrees.y = initial_rotation
-		is_open = true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	if multiplayer.is_server():
+		if is_open:
+			rotation_degrees.y = initial_rotation - 90
+			is_open = false
+		else:
+			rotation_degrees.y = initial_rotation
+			is_open = true
 
 func _on_body_entered(body: Node3D) -> void:
 	if body is can_be_damaged and body.door_in_range != door_path:
-		print("Body: ", body, ". Door: ", door_path)
 		body.door_in_range = door_path
 
 func _on_body_exited(body: Node3D) -> void:

@@ -97,14 +97,38 @@ func update_direction():
 				
 func _handle_8way_input(direction: Vector2) -> void:
 	var angle = rad_to_deg(direction.angle())
-	angle = fmod(angle + 360.0, 360.0)
+	angle = fmod(angle + 360.0, 360.0)  # Normalize angle to 0–360
 
-	mouse_actions.up = (angle >= 247.5 and angle < 337.5)
-	mouse_actions.down = (angle >= 67.5 and angle < 157.5)
-	mouse_actions.left = (angle >= 157.5 and angle < 247.5)
-	mouse_actions.right = (angle >= 337.5 or angle < 67.5)
+	# Clear all actions first
+	mouse_actions.up = false
+	mouse_actions.down = false
+	mouse_actions.left = false
+	mouse_actions.right = false
+
+	# Set directions based on angle
+	if angle >= 247.5 and angle < 292.5:  # Up
+		mouse_actions.up = true
+	elif angle >= 292.5 and angle < 337.5:  # Up-right
+		mouse_actions.up = true
+		mouse_actions.right = true
+	elif angle >= 337.5 or angle < 22.5:  # Right
+		mouse_actions.right = true
+	elif angle >= 22.5 and angle < 67.5:  # Down-right
+		mouse_actions.right = true
+		mouse_actions.down = true
+	elif angle >= 67.5 and angle < 112.5:  # Down
+		mouse_actions.down = true
+	elif angle >= 112.5 and angle < 157.5:  # Down-left
+		mouse_actions.down = true
+		mouse_actions.left = true
+	elif angle >= 157.5 and angle < 202.5:  # Left
+		mouse_actions.left = true
+	elif angle >= 202.5 and angle < 247.5:  # Up-left
+		mouse_actions.left = true
+		mouse_actions.up = true
 
 	update_direction()
+
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
@@ -320,7 +344,3 @@ func try_open_door():
 		var door_node = get_node_or_null(door_in_range)
 		if door_node:
 			door_node.rpc_id(1, "toggle_open")
-	#if (door_in_range and map):
-		#var door = map.get_node_or_null(door_in_range)
-		#print("Door found:")
-		#if door: door.toggle_open()
