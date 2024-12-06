@@ -1,7 +1,7 @@
 extends Node3D
 
-@onready var holder = $Rogue/CharacterText/SubViewport
-
+var active_message = {}
+@onready var message_container = $Rogue/CharacterText/SubViewport/Container
 var array_test = [
 	"Hello", "Kal Vas Flam", "Brap brap"
 ]
@@ -17,7 +17,9 @@ func _process(delta: float) -> void:
 
 func _on_button_pressed() -> void:
 	var text_label = preload("res://floating_label.tscn")
+	var text_node = text_label.instantiate()
+	
 	var random = randi_range(0, 2)
-	text_label.instantiate()
-	holder.add_child(text_label)
-	pass # Replace with function body.
+	text_node.text = array_test[random]
+
+	message_container.add_child(text_node)

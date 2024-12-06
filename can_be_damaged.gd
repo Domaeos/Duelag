@@ -52,7 +52,7 @@ func spell_landed(spell: String):
 
 	rpc("show_effect", multiplayer.get_unique_id(), spell)
 	
-@rpc("any_peer", "call_local")
+@rpc("call_local")
 func show_effect(id, spell: String):
 	var node = get_parent().get_node(str(id))
 	var spell_information = Global.spelldictionary[spell]
