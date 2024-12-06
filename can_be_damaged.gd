@@ -41,6 +41,7 @@ func _ready():
 
 @rpc("any_peer", "call_remote")
 func spell_landed(spell: String):
+	var caller_id = multiplayer.get_unique_id()
 	var spell_information = Global.spelldictionary[spell]
 	if spell == "poison" and poisoned == false:
 		poisoned = true
@@ -50,9 +51,13 @@ func spell_landed(spell: String):
 		poisoned = false
 		poison_timer.stop()
 
-	rpc("show_effect", multiplayer.get_unique_id(), spell)
+	current_mana -= spell_information.cost
+	print("Current mana after cost: ", current_mana)
+	rpc("show_effect", caller_id, spell)
+	rpc_id(caller_id, "handle_player_stats", "current_mana", current_mana)
 	
-@rpc("call_local")
+		
+@rpc("any_peer", "call_local")
 func show_effect(id, spell: String):
 	var node = get_parent().get_node(str(id))
 	var spell_information = Global.spelldictionary[spell]

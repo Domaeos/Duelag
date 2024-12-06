@@ -42,6 +42,3 @@ texture = SubResource("ViewportTexture_px2xr")
 [node name="CharacterText" parent="." instance=ExtResource("5_fqk5e")]
 transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 9.6, 0)
 texture = SubResource("ViewportTexture_qo6tu")
-
-[connection signal="show_text" from="." to="CharacterText" method="_on_player_show_text"]
-[connection signal="update_healthbar" from="." to="HealthBar" method="_on_update_healthbar"]

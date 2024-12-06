@@ -20,7 +20,7 @@ var target_position: Vector3
 var moving: bool = false
 var door_in_range
 var last_direction
-var map
+#var map
 
 var health_potion_amount = 25
 const HEALTH_POT_AMOUNT = 40
@@ -29,6 +29,7 @@ var mana_potion_amount = 25
 var potion_timer: Timer
 var potion_cooldown: bool = false
 const POTION_TIMER_WAIT = 12
+
 
 var mouse_movement := false
 var mouse_actions = {
@@ -43,6 +44,11 @@ enum Potions {
 	HEALTH
 }
 
+enum Resources {
+	MANA,
+	HEALTH
+}
+
 @rpc("any_peer", "call_local")
 func setup_multiplayer(player_id):
 	print("Setting up multiplayer for: ", player_id)
@@ -53,7 +59,6 @@ func setup_multiplayer(player_id):
 	set_physics_process(is_player)
 	if is_player:
 		camera.current = is_player
-	$Control.visible = is_player
 	set_multiplayer_authority(player_id)
 
 
@@ -71,10 +76,10 @@ func _ready():
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
-	call_deferred("get_map")
+	#call_deferred("get_map")
 
-func get_map():
-	map = get_parent().get_parent().get_node("GridMap")
+#func get_map():
+	#map = get_parent().get_parent().get_node("GridMap")
 
 func _physics_process(delta):
 	if mouse_movement:
@@ -200,17 +205,7 @@ func handle_spell_cast(spell):
 
 	var spell_information = Global.spelldictionary[spell]
 	if not spell_information.has("self"):
-		rpc_id(1, "check_line_of_sight", multiplayer.get_unique_id(), current_enemy)
-#
-	if not spell_timer.is_stopped():
-		spell_timer.stop()
-
-	show_text.emit(spell_information.words_of_power)
-	current_spell = spell
-	casted_on = current_enemy
-	spell_timer.wait_time = spell_information.duration
-	casting = true
-	spell_timer.start()
+		rpc_id(1, "check_spell_can_cast", current_enemy, spell)
 
 func handle_movement(delta):
 	if direction != Vector3.ZERO:
@@ -264,7 +259,7 @@ func can_move_to(new_position: Vector3) -> bool:
 	return space_state.intersect_ray(ray_params).is_empty()
 
 @rpc("authority", "call_local")
-func check_line_of_sight(start, end) -> bool:
+func check_line_of_sight(start, end, spell = null) -> bool:
 
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
@@ -297,8 +292,32 @@ func _on_spell_timeout() -> void:
 	var spell_information = Global.spelldictionary[current_spell]
 	if spell_information.has("self") == false:
 		target = casted_on
-		rpc_id(1, "check_spell_landed", target, current_spell )
+		rpc_id(1, "check_spell_landed", target, current_spell)
 
+@rpc("any_peer", "call_local")
+func authorised_cast(allowed: bool, target, spell):
+	if multiplayer.get_remote_sender_id() == 1:
+		if allowed:
+			if not spell_timer.is_stopped():
+				spell_timer.stop()
+				
+			var spell_information = Global.spelldictionary[spell]
+			show_text.emit(spell_information.words_of_power)
+			current_spell = spell
+			casted_on = target
+			spell_timer.wait_time = spell_information.duration
+			casting = true
+			spell_timer.start()
+		else:
+			print("Not in LOS")
+	
+@rpc("authority", "call_remote")
+func check_spell_can_cast(target, spell):
+	print("Checking player can cast: ", multiplayer.get_unique_id())
+	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
+	rpc_id(multiplayer.get_remote_sender_id(), "authorised_cast", spell_hit, target, spell)
+	
+	
 @rpc("authority", "call_remote")
 func check_spell_landed(target, spell):
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
@@ -334,11 +353,15 @@ func toggle_enemy() -> void:
 		current_enemy_index = 0  # Wrap back to the first enemy
 	
 	current_enemy = int(str(enemies[current_enemy_index].name))
-	print(current_enemy)
-	
+
+@rpc("any_peer", "call_remote")
+func handle_player_stats(resource, amount):
+	if multiplayer.get_remote_sender_id() == 1:
+		self[resource] = amount
+		
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
-
+	
 func try_open_door():
 	if (door_in_range):
 		var door_node = get_node_or_null(door_in_range)
