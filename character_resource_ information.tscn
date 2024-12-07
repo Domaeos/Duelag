@@ -1,5 +1,6 @@
-[gd_scene load_steps=63 format=3 uid="uid://f1i8bej4nak5"]
+[gd_scene load_steps=64 format=3 uid="uid://rhoav5yhn2bx"]
 
+[ext_resource type="Script" path="res://resource_control.gd" id="1_noj43"]
 [ext_resource type="Script" path="res://player_resource_information.gd" id="2_c0722"]
 [ext_resource type="StyleBox" uid="uid://bnsek0m6y1ki" path="res://mana_fill.tres" id="3_c13td"]
 [ext_resource type="StyleBox" uid="uid://d12wmq1b0q2su" path="res://healthy_fill.tres" id="4_g7hia"]
@@ -387,11 +388,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Control" type="Control"]
+[node name="ResourceControl" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_noj43")
 
 [node name="PlayerResourceInformation" type="ColorRect" parent="."]
 layout_mode = 0

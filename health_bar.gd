@@ -5,6 +5,7 @@ var health_bar: ProgressBar
 var fill
 var transition_speed = 100
 var current_value
+var health_tween
 
 @export var healthy_fill: StyleBoxFlat
 @export var poison_fill: StyleBoxFlat
@@ -21,9 +22,17 @@ func _ready() -> void:
 		hide()
 
 func _process(delta) -> void:
-	current_value = lerp(current_value, bar_owner.current_health, transition_speed * delta)
-	health_bar.value = bar_owner.current_health
+	if bar_owner.current_health != current_value:
+		update_health_bar(bar_owner.current_health)
+	
 	if bar_owner.poisoned:
 		health_bar.set("theme_override_styles/fill", poison_fill)
 	else:
 		health_bar.set("theme_override_styles/fill", healthy_fill)
+
+func update_health_bar(target: float) -> void:
+	if health_tween:
+		health_tween.kill()
+
+	health_tween = create_tween()
+	health_tween.tween_property(health_bar, "value", target, 0.5)

@@ -8,6 +8,7 @@ signal update_healthbar(current_health: float, max_health: float, poisoned: bool
 @export var damageable: bool = true
 @export var current_health: float = 100.0
 @export var current_mana: float = 100.0
+@export var max_mana: float = 100.0
 @export var max_health: float = 100.0
 @export var poisoned: bool = false
 
@@ -39,23 +40,20 @@ func _ready():
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
 
-@rpc("any_peer", "call_remote")
+@rpc("any_peer", "call_local")
 func spell_landed(spell: String):
-	var caller_id = multiplayer.get_unique_id()
-	var spell_information = Global.spelldictionary[spell]
-	if spell == "poison" and poisoned == false:
-		poisoned = true
-		poison_timer.start()
-		
-	if spell == "cure":
-		poisoned = false
-		poison_timer.stop()
+	if multiplayer.get_remote_sender_id() == 1:
+		var landed_on_id = multiplayer.get_unique_id()
+		var spell_information = Global.spelldictionary[spell]
+		if spell == "poison" and poisoned == false:
+			poisoned = true
+			poison_timer.start()
+			
+		if spell == "cure":
+			poisoned = false
+			poison_timer.stop()
 
-	current_mana -= spell_information.cost
-	print("Current mana after cost: ", current_mana)
-	rpc("show_effect", caller_id, spell)
-	rpc_id(caller_id, "handle_player_stats", "current_mana", current_mana)
-	
+		rpc("show_effect", landed_on_id, spell)
 		
 @rpc("any_peer", "call_local")
 func show_effect(id, spell: String):
@@ -68,7 +66,14 @@ func show_effect(id, spell: String):
 	
 	node.spell_emitter.play(spell_information.animation)
 
-
+@rpc("any_peer", "call_local")
+func handle_player_stats(resource: String, amount: int):
+	if multiplayer.get_remote_sender_id() == 1:
+		if (resource == "current_health"):
+			print("Should be damaging: ", amount, ". For player: ", multiplayer.get_unique_id())
+			print("Current health: ", self[resource])
+		self[resource] += amount
+		
 func cancel_spell():
 	fizzled = true
 	_on_timer_timeout()

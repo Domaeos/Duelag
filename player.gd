@@ -161,12 +161,12 @@ func handle_drink_potion(potion_type: Potions):
 			if health_potion_amount <= 0:
 				return
 			health_potion_amount -= 1
-			current_health += HEALTH_POT_AMOUNT
+			current_health += clamp(HEALTH_POT_AMOUNT, 0, max_health)
 		Potions.MANA:
 			if mana_potion_amount <= 0:
 				return
 			mana_potion_amount -= 1
-			current_mana += MANA_POT_AMOUNT
+			current_mana = clamp(current_mana + MANA_POT_AMOUNT, 0, max_mana)
 			
 	potion_cooldown = true
 	potion_timer.start()
@@ -259,7 +259,7 @@ func can_move_to(new_position: Vector3) -> bool:
 	return space_state.intersect_ray(ray_params).is_empty()
 
 @rpc("authority", "call_local")
-func check_line_of_sight(start, end, spell = null) -> bool:
+func check_line_of_sight(start, end) -> bool:
 
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
@@ -273,9 +273,7 @@ func check_line_of_sight(start, end, spell = null) -> bool:
 	var result = space_state.intersect_ray(ray_params)
 
 	if result:
-		DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
-		print("Result: ", result)
-		print("End: ", end)
+		#DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
 		if (result.collider == end_node):
 			return true
 			
@@ -293,6 +291,9 @@ func _on_spell_timeout() -> void:
 	if spell_information.has("self") == false:
 		target = casted_on
 		rpc_id(1, "check_spell_landed", target, current_spell)
+		return
+	
+	
 
 @rpc("any_peer", "call_local")
 func authorised_cast(allowed: bool, target, spell):
@@ -313,18 +314,20 @@ func authorised_cast(allowed: bool, target, spell):
 	
 @rpc("authority", "call_remote")
 func check_spell_can_cast(target, spell):
-	print("Checking player can cast: ", multiplayer.get_unique_id())
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
 	rpc_id(multiplayer.get_remote_sender_id(), "authorised_cast", spell_hit, target, spell)
 	
 	
 @rpc("authority", "call_remote")
 func check_spell_landed(target, spell):
+	var casted_by = multiplayer.get_remote_sender_id()
+	var spell_information = Global.spelldictionary[spell]
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
 	if spell_hit:
 		var target_node = world.active_players[str(target)]
-		print("Hit node: ", target_node)
 		rpc_id(target, "spell_landed", spell)
+		rpc_id(target, "handle_player_stats", "current_health", -spell_information.damage)
+		rpc_id(casted_by, "handle_player_stats", "current_mana", -spell_information.cost)
 	else:
 		print("SPELL MISSED")
 	pass
@@ -353,11 +356,6 @@ func toggle_enemy() -> void:
 		current_enemy_index = 0  # Wrap back to the first enemy
 	
 	current_enemy = int(str(enemies[current_enemy_index].name))
-
-@rpc("any_peer", "call_remote")
-func handle_player_stats(resource, amount):
-	if multiplayer.get_remote_sender_id() == 1:
-		self[resource] = amount
 		
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()

@@ -1,9 +1,13 @@
 extends ColorRect
 
-@export var player: can_be_damaged
+var player
 @export var mana_fill_style: StyleBoxFlat
 @export var health_fill_style: StyleBoxFlat
 @export var poison_fill_style: StyleBoxFlat
+
+var health_tween
+var mana_tween
+var potion_tween
 
 var target_health: float
 var target_mana: float
@@ -17,12 +21,6 @@ var mana_potion_sprite: AnimatedSprite2D
 func _ready() -> void:
 	var control = get_parent()
 	player = control.get_parent()
-	
-	if not player or int(str(player.name)) != multiplayer.get_unique_id(): 
-		set_process(false)
-		hide()
-		return
-	
 	health_potion_sprite = control.get_node("HealthPotion")
 	mana_potion_sprite = control.get_node("ManaPotion")
 	target_health = player.current_health
@@ -37,29 +35,49 @@ func _ready() -> void:
 	$Player_mana.set("theme_override_styles/fill", mana_fill_style)
 
 func _on_debug_timeout():
-	print("Debugging: ", player.name)
-	print("Player mana: ", player.current_mana)
+	print("Player health: ", player.current_health, " for: ", multiplayer.get_unique_id())
 	
 func _process(delta: float) -> void:
 	if player:
 		if player.potion_timer:
-			var potion_progress = player.potion_timer.time_left / player.potion_timer.wait_time
-			update_sprite_transparency(health_potion_sprite, potion_progress)
-			update_sprite_transparency(mana_potion_sprite, potion_progress)
+			if not potion_tween and not player.potion_timer.is_stopped():
+				initiate_potion_tween(player.potion_timer.time_left)
 			
 		if player.poisoned:
 			$Player_health.set("theme_override_styles/fill", poison_fill_style)
 		else:
 			$Player_health.set("theme_override_styles/fill", health_fill_style)
 		
-		target_health = player.current_health
-		target_mana = player.current_mana
+	#	Update health
+		if target_health != player.current_health:
+			target_health = player.current_health
+			update_health_bar(target_health)
 		
-		$Player_health.value = lerp($Player_health.value, target_health, transition_speed * delta)
-		$Player_mana.value = lerp($Player_mana.value, target_mana, transition_speed * delta)
+		# Update mana
+		if target_mana != player.current_mana:
+			target_mana = player.current_mana
+			update_mana_bar(target_mana)
+			
+func update_health_bar(target: float) -> void:
+	if health_tween:
+		health_tween.kill()
+	
+	health_tween = create_tween()
+	health_tween.tween_property($Player_health, "value", target, 0.5)
 
-func update_sprite_transparency(sprite: AnimatedSprite2D, progress: float) -> void:
-	var alpha = lerp(1.0, 0.05, progress)
-	var modulate = sprite.modulate
-	modulate.a = alpha
-	sprite.modulate = modulate
+func update_mana_bar(target: float) -> void:
+	if mana_tween:
+		mana_tween.kill()
+	
+	mana_tween = create_tween()
+	mana_tween.tween_property($Player_mana, "value", target, 0.5)
+
+	
+func initiate_potion_tween(time):
+	health_potion_sprite.modulate.a = 0
+	mana_potion_sprite.modulate.a = 0
+	potion_tween = create_tween()
+	potion_tween.set_parallel()
+	potion_tween.tween_property(health_potion_sprite, "modulate:a", 1, time)
+	potion_tween.tween_property(mana_potion_sprite, "modulate:a", 1, time)
+	
