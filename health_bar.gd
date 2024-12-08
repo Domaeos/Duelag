@@ -23,7 +23,8 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 	if bar_owner.current_health != current_value:
-		update_health_bar(bar_owner.current_health)
+		current_value = bar_owner.current_health
+		update_health_bar(current_value)
 	
 	if bar_owner.poisoned:
 		health_bar.set("theme_override_styles/fill", poison_fill)
