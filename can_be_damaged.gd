@@ -3,7 +3,10 @@ class_name can_be_damaged
 
 # Properties
 @export var damageable: bool = true
-@export var current_health: float = 100.0
+@export var current_health: float = 100.0:
+	set(value):
+		current_health = clamp(value, 0, max_health)
+		
 @export var current_mana: float = 100.0
 @export var max_mana: float = 100.0
 @export var max_health: float = 100.0
@@ -49,10 +52,11 @@ func spell_landed(spell: String):
 		if spell == "cure":
 			poisoned = false
 			poison_timer.stop()
-
-		rpc("show_effect", landed_on_id, spell)
 		
-@rpc("any_peer", "call_local")
+		rpc("show_effect", landed_on_id, spell)
+		take_damage(spell_information.damage)
+		
+@rpc("any_peer", "call_local", "reliable", 2)
 func show_effect(id, spell: String):
 	var node = get_parent().get_node(str(id))
 	var spell_information = Global.spelldictionary[spell]
@@ -60,7 +64,6 @@ func show_effect(id, spell: String):
 	node.spell_node.position = spell_information.position
 	node.spell_node.scale = spell_information.scale
 	node.spell_node.show()
-	
 	node.spell_emitter.play(spell_information.animation)
 		
 func cancel_spell():
@@ -68,10 +71,14 @@ func cancel_spell():
 	_on_timer_timeout()
 
 func _on_poisoned():
-	rpc_id(multiplayer.get_unique_id(), "take_damage", 2.0)
-
-@rpc("call_local")
+	take_damage(2.0)
+	
+@rpc("authority", "call_local", "reliable")
 func take_damage(damage: float) -> void:
+	if multiplayer.is_server() or is_multiplayer_authority():
 		current_health -= damage
-		if casting:
-			cancel_spell()
+		print("Health after damage: ", current_health)
+		
+		if current_health <= 0:
+			# Handle player death if needed
+			pass

@@ -210,21 +210,17 @@ func handle_movement(delta):
 		last_direction = -direction
 		$Pivot.basis = Basis.looking_at(last_direction)
 
-		# Calculate the movement target (move by grid_size steps)
 		var intended_position = global_transform.origin + direction * grid_size
 		target_position = snap_to_grid(intended_position)
 
-		# Set velocity to move the player at the desired speed
 		velocity = direction * speed
 		
 		if (anim_player.current_animation != "Running_A"):
 			rpc("handle_player_anim", "Running_A")
 
-		# Move towards target position if distance is greater than a threshold
 		if global_transform.origin.distance_to(target_position) > 0.1:
 			moving = true
 		else:
-			# Stop movement once the target is reached
 			moving = false
 			velocity = Vector3.ZERO
 			if (anim_player.current_animation != "Idle"):
@@ -327,7 +323,6 @@ func check_spell_landed(target, spell):
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
 	if spell_hit:
 		rpc_id(target, "spell_landed", spell)
-		rpc_id(target, "handle_player_stats", "current_health", -spell_information.damage)
 		rpc_id(casted_by, "handle_player_stats", "current_mana", -spell_information.cost)
 	else:
 		print("SPELL MISSED")
@@ -371,9 +366,4 @@ func try_open_door():
 @rpc("any_peer", "call_local")
 func handle_player_stats(resource: String, amount: int):
 	if multiplayer.get_remote_sender_id() == 1:
-		if (resource == "current_health"):
-			print(self.name, "     for ID")
-			print("Should be damaging: ", amount, ". For player: ", multiplayer.get_unique_id())
-			print("Current health: ", self[resource])
 		self[resource] += amount
-		print("health after: ", self[resource])

@@ -8,7 +8,7 @@ var active_players = {
 
 var spelldictionary = {
 	"fizzle" : {
-		"words_of_power": "An Ort Bell-END",
+		"words_of_power": "El Zappo",
 		"duration": 0.5,
 		"damage": 1,
 		"cost": 5,
