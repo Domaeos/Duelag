@@ -3,8 +3,6 @@ extends Node3D
 @onready var player_spawner = $PlayerSpawn
 var player_scene = preload("res://player.tscn")
 
-var active_players = {}
-
 func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 
@@ -14,6 +12,7 @@ func _ready() -> void:
 		await get_tree().create_timer(latency).timeout
 		rpc_id(1, "sync_world")
 		rpc_id(1, "add_player")
+
 
 
 func _on_multiplayer_spawner_spawned(node: Node):
@@ -30,4 +29,4 @@ func add_player():
 	var player = player_scene.instantiate()
 	player.name = str(player_id)
 	player_spawner.add_child(player, true)
-	active_players[player.name] = player
+	Global.active_players[player.name] = player

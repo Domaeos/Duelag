@@ -7,6 +7,7 @@ var current_enemy_index: int = -1
 
 @onready var camera = $CameraPivot/Camera3D
 @onready var world = get_parent().get_parent()
+@onready var anim_player = $Pivot/Mage/AnimationPlayer
 # Movement settings
 @export var current_enemy: int
 @export var casted_on: int
@@ -76,10 +77,6 @@ func _ready():
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
-	#call_deferred("get_map")
-
-#func get_map():
-	#map = get_parent().get_parent().get_node("GridMap")
 
 func _physics_process(delta):
 	if mouse_movement:
@@ -219,9 +216,9 @@ func handle_movement(delta):
 
 		# Set velocity to move the player at the desired speed
 		velocity = direction * speed
-
-		# Play running animation while moving
-		$Pivot/Mage/AnimationPlayer.play("Running_A")
+		
+		if (anim_player.current_animation != "Running_A"):
+			rpc("handle_player_anim", "Running_A")
 
 		# Move towards target position if distance is greater than a threshold
 		if global_transform.origin.distance_to(target_position) > 0.1:
@@ -230,17 +227,22 @@ func handle_movement(delta):
 			# Stop movement once the target is reached
 			moving = false
 			velocity = Vector3.ZERO
-			$Pivot/Mage/AnimationPlayer.play("Idle")
+			if (anim_player.current_animation != "Idle"):
+				rpc("handle_player_anim", "Idle")
 
 	if moving:
 		move_and_slide()
 
 	if direction == Vector3.ZERO:
-		# Ensure the player stops by resetting velocity
 		velocity = Vector3.ZERO
-		$Pivot/Mage/AnimationPlayer.play("Idle")
-		moving = false  # Stop movement entirely
+		if (anim_player.current_animation != "Idle"):
+				rpc("handle_player_anim", "Idle")
+		moving = false
 
+@rpc("any_peer", "call_local", "unreliable_ordered", 2)
+func handle_player_anim(animation_name):
+	anim_player.play(animation_name)
+	
 func snap_to_grid(position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
@@ -264,8 +266,8 @@ func check_line_of_sight(start, end) -> bool:
 	var space_state = get_world_3d().direct_space_state  
 	var ray_params = PhysicsRayQueryParameters3D.new()
 	
-	var start_node = world.active_players[str(multiplayer.get_remote_sender_id())]
-	var end_node = world.active_players[str(end)]
+	var start_node = Global.active_players[str(multiplayer.get_remote_sender_id())]
+	var end_node = Global.active_players[str(end)]
 	
 	ray_params.exclude = [start_node]
 	ray_params.from = start_node.global_transform.origin
@@ -324,7 +326,6 @@ func check_spell_landed(target, spell):
 	var spell_information = Global.spelldictionary[spell]
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
 	if spell_hit:
-		var target_node = world.active_players[str(target)]
 		rpc_id(target, "spell_landed", spell)
 		rpc_id(target, "handle_player_stats", "current_health", -spell_information.damage)
 		rpc_id(casted_by, "handle_player_stats", "current_mana", -spell_information.cost)
@@ -365,3 +366,14 @@ func try_open_door():
 		var door_node = get_node_or_null(door_in_range)
 		if door_node:
 			door_node.rpc_id(1, "toggle_open")
+			
+
+@rpc("any_peer", "call_local")
+func handle_player_stats(resource: String, amount: int):
+	if multiplayer.get_remote_sender_id() == 1:
+		if (resource == "current_health"):
+			print(self.name, "     for ID")
+			print("Should be damaging: ", amount, ". For player: ", multiplayer.get_unique_id())
+			print("Current health: ", self[resource])
+		self[resource] += amount
+		print("health after: ", self[resource])

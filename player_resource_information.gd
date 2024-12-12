@@ -35,7 +35,8 @@ func _ready() -> void:
 	$Player_mana.set("theme_override_styles/fill", mana_fill_style)
 
 func _on_debug_timeout():
-	print("Player health: ", player.current_health, " for: ", multiplayer.get_unique_id())
+	pass
+	#print("Player health: ", player.current_health, " for: ", multiplayer.get_unique_id())
 	
 func _process(delta: float) -> void:
 	if player:

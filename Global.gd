@@ -1,18 +1,20 @@
 extends Node
 
-#var poisoned_colour = Color(0.3, 0.68, 0.22)
-#var health_colour = Color(0.912, 0.099, 0.225)
 var grid_size = 2.0
+
+var active_players = {
+	
+}
 
 var spelldictionary = {
 	"fizzle" : {
-		"words_of_power": "La fizzle",
+		"words_of_power": "An Ort Bell-END",
 		"duration": 0.5,
 		"damage": 1,
 		"cost": 5,
 		"position": Vector3(0, 4.5, 0),
 		"scale": Vector3(1, 1, 1),
-		"animation": "electric_2"
+		"animation": "bells_2"
 	},
 	"shield" : {
 		"words_of_power": "shield",

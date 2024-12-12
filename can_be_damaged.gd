@@ -1,9 +1,6 @@
 extends CharacterBody3D
 class_name can_be_damaged
 
-# Signal emitted when damage is taken
-signal update_healthbar(current_health: float, max_health: float, poisoned: bool)
-
 # Properties
 @export var damageable: bool = true
 @export var current_health: float = 100.0
@@ -65,14 +62,6 @@ func show_effect(id, spell: String):
 	node.spell_node.show()
 	
 	node.spell_emitter.play(spell_information.animation)
-
-@rpc("any_peer", "call_local")
-func handle_player_stats(resource: String, amount: int):
-	if multiplayer.get_remote_sender_id() == 1:
-		if (resource == "current_health"):
-			print("Should be damaging: ", amount, ". For player: ", multiplayer.get_unique_id())
-			print("Current health: ", self[resource])
-		self[resource] += amount
 		
 func cancel_spell():
 	fizzled = true
@@ -84,6 +73,5 @@ func _on_poisoned():
 @rpc("call_local")
 func take_damage(damage: float) -> void:
 		current_health -= damage
-		emit_signal("update_healthbar", current_health, max_health, poisoned)
 		if casting:
 			cancel_spell()

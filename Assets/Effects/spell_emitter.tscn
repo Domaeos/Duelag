@@ -3893,7 +3893,7 @@ material = SubResource("ShaderMaterial_rkee7")
 use_parent_material = true
 position = Vector2(316, 296)
 sprite_frames = SubResource("SpriteFrames_qpx5f")
-animation = &"electric_2"
+animation = &"bells_2"
 offset = Vector2(660, 700)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." groups=["Sync"]]
