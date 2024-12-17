@@ -52,7 +52,6 @@ enum Resources {
 
 @rpc("any_peer", "call_local")
 func setup_multiplayer(player_id):
-	print("Setting up multiplayer for: ", player_id)
 	var self_id = multiplayer.get_unique_id()
 	var is_player = self_id == player_id
 	set_process(is_player)
@@ -60,20 +59,22 @@ func setup_multiplayer(player_id):
 	set_physics_process(is_player)
 	if is_player:
 		camera.current = is_player
+
 	set_multiplayer_authority(player_id)
+	$MultiplayerSynchronizer.set_multiplayer_authority(player_id)
 
 
 func _ready():
 	await get_tree().create_timer(0.5).timeout
 	super._ready()
-	
+
 	potion_timer = Timer.new()
 	potion_timer.one_shot = true
 	potion_timer.autostart = false
 	potion_timer.wait_time = POTION_TIMER_WAIT
 	potion_timer.connect("timeout", Callable(self, "_on_potion_refresh"))
 	add_child(potion_timer)
-	
+
 	global_transform.origin = snap_to_grid(global_transform.origin)
 	target_position = global_transform.origin
 	last_direction = Vector3.UP
@@ -96,7 +97,7 @@ func update_direction():
 		direction.x += 1
 	if mouse_actions.up:
 		direction.x -= 1
-				
+
 func _handle_8way_input(direction: Vector2) -> void:
 	var angle = rad_to_deg(direction.angle())
 	angle = fmod(angle + 360.0, 360.0)  # Normalize angle to 0–360
@@ -131,7 +132,7 @@ func _handle_8way_input(direction: Vector2) -> void:
 
 	update_direction()
 
-	
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		handle_mouse_event(event)
@@ -152,7 +153,7 @@ func _input(event: InputEvent) -> void:
 func handle_drink_potion(potion_type: Potions):
 	if potion_cooldown:
 		return
-		
+
 	match (potion_type):
 		Potions.HEALTH:
 			if health_potion_amount <= 0:
@@ -164,7 +165,7 @@ func handle_drink_potion(potion_type: Potions):
 				return
 			mana_potion_amount -= 1
 			current_mana = clamp(current_mana + MANA_POT_AMOUNT, 0, max_mana)
-			
+
 	potion_cooldown = true
 	potion_timer.start()
 
@@ -183,7 +184,7 @@ func clear_mouse_actions():
 	for action in mouse_actions:
 		mouse_actions[action] = false
 	direction = Vector3.ZERO
-	
+
 func apply_mouse_input():
 	var camera = get_viewport().get_camera_3d()
 	var player_screen_position = camera.unproject_position(global_position)
@@ -214,7 +215,7 @@ func handle_movement(delta):
 		target_position = snap_to_grid(intended_position)
 
 		velocity = direction * speed
-		
+
 		if (anim_player.current_animation != "Running_A"):
 			rpc("handle_player_anim", "Running_A")
 
@@ -238,7 +239,7 @@ func handle_movement(delta):
 @rpc("any_peer", "call_local", "unreliable_ordered", 2)
 func handle_player_anim(animation_name):
 	anim_player.play(animation_name)
-	
+
 func snap_to_grid(position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
@@ -259,12 +260,12 @@ func can_move_to(new_position: Vector3) -> bool:
 @rpc("authority", "call_local")
 func check_line_of_sight(start, end) -> bool:
 
-	var space_state = get_world_3d().direct_space_state  
+	var space_state = get_world_3d().direct_space_state
 	var ray_params = PhysicsRayQueryParameters3D.new()
-	
+
 	var start_node = Global.active_players[str(multiplayer.get_remote_sender_id())]
 	var end_node = Global.active_players[str(end)]
-	
+
 	ray_params.exclude = [start_node]
 	ray_params.from = start_node.global_transform.origin
 	ray_params.to = end_node.global_transform.origin
@@ -274,24 +275,24 @@ func check_line_of_sight(start, end) -> bool:
 		#DrawLine.DrawLine(ray_params.from, result.position, Color(0, 0, 1), 1.5)
 		if (result.collider == end_node):
 			return true
-			
+
 	return false
-	
+
 func _on_spell_timeout() -> void:
 	casting = false
 	if fizzled:
 		show_text.emit("Spell fizzled")
 		fizzled = false
 		return
-	
+
 	var target = self
 	var spell_information = Global.spelldictionary[current_spell]
 	if spell_information.has("self") == false:
 		target = casted_on
 		rpc_id(1, "check_spell_landed", target, current_spell)
 		return
-	
-	
+
+
 
 @rpc("any_peer", "call_local")
 func authorised_cast(allowed: bool, target, spell):
@@ -299,7 +300,7 @@ func authorised_cast(allowed: bool, target, spell):
 		if allowed:
 			if not spell_timer.is_stopped():
 				spell_timer.stop()
-				
+
 			var spell_information = Global.spelldictionary[spell]
 			show_text.emit(spell_information.words_of_power)
 			current_spell = spell
@@ -309,13 +310,13 @@ func authorised_cast(allowed: bool, target, spell):
 			spell_timer.start()
 		else:
 			print("Not in LOS")
-	
+
 @rpc("authority", "call_remote")
 func check_spell_can_cast(target, spell):
 	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
 	rpc_id(multiplayer.get_remote_sender_id(), "authorised_cast", spell_hit, target, spell)
-	
-	
+
+
 @rpc("authority", "call_remote")
 func check_spell_landed(target, spell):
 	var casted_by = multiplayer.get_remote_sender_id()
@@ -332,7 +333,7 @@ func toggle_enemy() -> void:
 	var parent = get_parent()
 	if not parent:
 		return
-	
+
 	if enemies.size() == 0:
 		enemies.clear()
 		for child in parent.get_children():
@@ -340,30 +341,30 @@ func toggle_enemy() -> void:
 				continue
 			if child is can_be_damaged:
 				enemies.append(child)
-		
-		enemies.sort_custom(Callable(self, "_compare_enemies")) 
-	
+
+		enemies.sort_custom(Callable(self, "_compare_enemies"))
+
 	if enemies.size() == 0:
 		current_enemy_index = -1
 		return
-	
+
 	current_enemy_index += 1
 	if current_enemy_index >= enemies.size():
 		current_enemy_index = 0  # Wrap back to the first enemy
-	
+
 	current_enemy = int(str(enemies[current_enemy_index].name))
-		
+
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
-	
+
 func try_open_door():
 	if (door_in_range):
 		var door_node = get_node_or_null(door_in_range)
 		if door_node:
 			door_node.rpc_id(1, "toggle_open")
-			
 
-@rpc("any_peer", "call_local")
-func handle_player_stats(resource: String, amount: int):
+
+@rpc("any_peer", "call_remote")
+func handle_player_stats(resource: String, amount: int, target = null):
 	if multiplayer.get_remote_sender_id() == 1:
 		self[resource] += amount

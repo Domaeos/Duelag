@@ -29,4 +29,5 @@ func add_player():
 	var player = player_scene.instantiate()
 	player.name = str(player_id)
 	player_spawner.add_child(player, true)
+	player.set_multiplayer_authority(player_id)
 	Global.active_players[player.name] = player
