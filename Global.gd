@@ -14,7 +14,7 @@ var spelldictionary = {
 		"cost": 5,
 		"position": Vector3(0, 4.5, 0),
 		"scale": Vector3(1, 1, 1),
-		"animation": "bells_2"
+		"animation": "electric_1",
 	},
 	"shield" : {
 		"words_of_power": "shield",
@@ -28,8 +28,8 @@ var spelldictionary = {
 	},
 	"lightning" : {
 		"words_of_power": "An Ort Grav",
-		"duration": 2.5,
-		"damage": 20,
+		"duration": 1.5,
+		"damage": 120,
 		"cost": 15,
 		"position": Vector3(0, 4.5, 0),
 		"scale": Vector3(1, 1, 1),

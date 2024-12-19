@@ -8,6 +8,4 @@ func _ready() -> void:
 
 func _update_label():
 	if multiplayer.is_server():
-		text = "I AM SERVER"
-	else:
-		text = "I AM CLIENT"
+		text = "SERVER"

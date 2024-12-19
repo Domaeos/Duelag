@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://pqeoq4vo7l6y"]
+[gd_scene load_steps=13 format=3 uid="uid://pqeoq4vo7l6y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ocwi3"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="2_h8rb7"]
@@ -6,6 +6,15 @@
 [ext_resource type="Script" path="res://label.gd" id="4_0ny1w"]
 [ext_resource type="Script" path="res://player_spawn.gd" id="4_eh4lq"]
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="5_0xko1"]
+[ext_resource type="Shader" path="res://death_backdrop.gdshader" id="7_e24p2"]
+[ext_resource type="Script" path="res://death_menu.gd" id="7_vgkcs"]
+[ext_resource type="Script" path="res://backdrop.gd" id="7_xoo4k"]
+[ext_resource type="Texture2D" uid="uid://xuhs0a6d784s" path="res://Assets/buttons/yellow.png" id="8_6nuk2"]
+[ext_resource type="Theme" uid="uid://ba2x8p4fe0f4n" path="res://Ohead_theme.tres" id="9_e1dfv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tw14q"]
+shader = ExtResource("7_e24p2")
+shader_parameter/grayscale_intensity = 0.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ocwi3")
@@ -14,7 +23,7 @@ script = ExtResource("1_ocwi3")
 script = ExtResource("2_i8s8b")
 
 [node name="GridMap" parent="World" instance=ExtResource("2_h8rb7")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -2, 0)
 
 [node name="PlayerSpawn" type="Node3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.015, 2.25, 21.47)
@@ -39,5 +48,36 @@ offset_right = 766.0
 offset_bottom = 136.0
 theme_override_font_sizes/font_size = 50
 script = ExtResource("4_0ny1w")
+
+[node name="DeathMenu" type="CanvasLayer" parent="."]
+layer = 100
+script = ExtResource("7_vgkcs")
+
+[node name="Backdrop" type="ColorRect" parent="DeathMenu"]
+visibility_layer = 524288
+material = SubResource("ShaderMaterial_tw14q")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(14, 14)
+script = ExtResource("7_xoo4k")
+
+[node name="Yellow" type="Sprite2D" parent="DeathMenu"]
+position = Vector2(626, 571)
+scale = Vector2(1.41526, 0.855263)
+texture = ExtResource("8_6nuk2")
+
+[node name="Label" type="Label" parent="DeathMenu"]
+offset_left = 522.0
+offset_top = 559.0
+offset_right = 729.0
+offset_bottom = 590.0
+theme = ExtResource("9_e1dfv")
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 30
+text = "Resurrect?
+"
 
 [connection signal="spawned" from="World/MultiplayerSpawner" to="World" method="_on_multiplayer_spawner_spawned"]
