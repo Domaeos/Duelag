@@ -31,6 +31,18 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"mage_texture": {
+"use_external/enabled": true,
+"use_external/path": "res://Characters/gltf/mage_materials/mage_texture.tres"
+}
+},
+"nodes": {
+"PATH:Rig/Skeleton3D": {
+"rest_pose/external_animation_library": null
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1
