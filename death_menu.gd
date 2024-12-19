@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var backdrop = $Backdrop
 @onready var res_button = $Control/ResButton
 @onready var res_button_label = $Label
+@onready var world = get_parent().get_node_or_null("World")
 var resurrect_timer: Timer
 
 # Called when the node enters the scene tree for the first time.
@@ -34,5 +35,4 @@ func show_menu():
 
 
 func _on_res_button_pressed() -> void:
-	print("Resurrecting!")
-	pass # Replace with function body.
+	world.rpc_id(1, "resurrect_player")
