@@ -1,6 +1,8 @@
 extends Node3D
 
 @onready var player_spawner = $PlayerSpawn
+@onready var death_menu = get_parent().get_node_or_null("DeathMenu")
+
 var player_scene = preload("res://player.tscn")
 
 func _ready() -> void:
@@ -17,6 +19,7 @@ func _ready() -> void:
 
 func _on_multiplayer_spawner_spawned(node: Node):
 	node.rpc("setup_multiplayer", int(str(node.name)))
+	node.input_control.rpc("setup_multiplayer", int(str(node.name)))
 
 @rpc("any_peer", "call_local")
 func sync_world():
@@ -29,5 +32,11 @@ func add_player():
 	var player = player_scene.instantiate()
 	player.name = str(player_id)
 	player_spawner.add_child(player, true)
-	player.set_multiplayer_authority(player_id)
+	player.input_control.set_multiplayer_authority(player_id)
 	Global.active_players[player.name] = player
+	print(Global.active_players)
+
+@rpc("authority")
+func show_death_menu(): 
+	death_menu.show_menu()
+	pass

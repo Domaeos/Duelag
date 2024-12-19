@@ -8,37 +8,28 @@ var current_enemy_index: int = -1
 @onready var camera = $CameraPivot/Camera3D
 @onready var world = get_parent().get_parent()
 @onready var anim_player = $Pivot/Mage/AnimationPlayer
-# Movement settings
+@onready var input_control = $InputControl
+
 @export var current_enemy: int
 @export var casted_on: int
 @export var max_interaction_distance = 15
 @export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
 @export var speed: float = 15.0 # Speed of movement (tiles per second)
 @export var joystick: VirtualJoystick
+@export var potion_cooldown: bool = false
 
 var direction: Vector3 = Vector3.ZERO
 var target_position: Vector3
 var moving: bool = false
 var door_in_range
 var last_direction
-#var map
 
 var health_potion_amount = 25
 const HEALTH_POT_AMOUNT = 40
 const MANA_POT_AMOUNT = 70
 var mana_potion_amount = 25
 var potion_timer: Timer
-var potion_cooldown: bool = false
 const POTION_TIMER_WAIT = 12
-
-
-var mouse_movement := false
-var mouse_actions = {
-	"up": false,
-	"down": false,
-	"left": false,
-	"right": false,
-}
 
 enum Potions {
 	MANA,
@@ -50,19 +41,18 @@ enum Resources {
 	HEALTH
 }
 
+@rpc("any_peer")
+func update_direction(new_direction):
+	direction = new_direction
+
 @rpc("any_peer", "call_local")
 func setup_multiplayer(player_id):
 	var self_id = multiplayer.get_unique_id()
 	var is_player = self_id == player_id
-	set_process(is_player)
-	set_process_input(is_player)
-	set_physics_process(is_player)
 	if is_player:
 		camera.current = is_player
 
-	set_multiplayer_authority(player_id)
-	$MultiplayerSynchronizer.set_multiplayer_authority(player_id)
-
+	set_physics_process(multiplayer.is_server())
 
 func _ready():
 	await get_tree().create_timer(0.5).timeout
@@ -80,122 +70,45 @@ func _ready():
 	last_direction = Vector3.UP
 
 func _physics_process(delta):
-	if mouse_movement:
-		apply_mouse_input()
+	if not multiplayer.is_server():
+		return
 	handle_movement(delta)
 
 func _on_potion_refresh():
 	potion_cooldown = false
 
-func update_direction():
-	direction = Vector3.ZERO
-	if mouse_actions.right:
-		direction.z -= 1
-	if mouse_actions.left:
-		direction.z += 1
-	if mouse_actions.down:
-		direction.x += 1
-	if mouse_actions.up:
-		direction.x -= 1
-
-func _handle_8way_input(direction: Vector2) -> void:
-	var angle = rad_to_deg(direction.angle())
-	angle = fmod(angle + 360.0, 360.0)  # Normalize angle to 0–360
-
-	# Clear all actions first
-	mouse_actions.up = false
-	mouse_actions.down = false
-	mouse_actions.left = false
-	mouse_actions.right = false
-
-	# Set directions based on angle
-	if angle >= 247.5 and angle < 292.5:  # Up
-		mouse_actions.up = true
-	elif angle >= 292.5 and angle < 337.5:  # Up-right
-		mouse_actions.up = true
-		mouse_actions.right = true
-	elif angle >= 337.5 or angle < 22.5:  # Right
-		mouse_actions.right = true
-	elif angle >= 22.5 and angle < 67.5:  # Down-right
-		mouse_actions.right = true
-		mouse_actions.down = true
-	elif angle >= 67.5 and angle < 112.5:  # Down
-		mouse_actions.down = true
-	elif angle >= 112.5 and angle < 157.5:  # Down-left
-		mouse_actions.down = true
-		mouse_actions.left = true
-	elif angle >= 157.5 and angle < 202.5:  # Left
-		mouse_actions.left = true
-	elif angle >= 202.5 and angle < 247.5:  # Up-left
-		mouse_actions.left = true
-		mouse_actions.up = true
-
-	update_direction()
-
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion or event is InputEventMouseButton:
-		handle_mouse_event(event)
-	elif event.is_action_pressed("toggle_enemy"):
-		toggle_enemy()
-	elif event.is_action_pressed("open_door"):
-		try_open_door()
-	elif event.is_action_pressed("mana_potion"):
-		handle_drink_potion(Potions.MANA)
-	elif event.is_action_pressed("health_potion"):
-		handle_drink_potion(Potions.HEALTH)
-	else:
-		for spell in Global.spelldictionary.keys():
-			if InputMap.has_action(spell) and event.is_action_pressed(spell):
-				handle_spell_cast(spell)
-				break
-
+@rpc("any_peer", "call_local")
 func handle_drink_potion(potion_type: Potions):
 	if potion_cooldown:
 		return
 
+	var player = Global.active_players[str(multiplayer.get_remote_sender_id())]
 	match (potion_type):
 		Potions.HEALTH:
 			if health_potion_amount <= 0:
 				return
 			health_potion_amount -= 1
-			current_health += clamp(HEALTH_POT_AMOUNT, 0, max_health)
+			player.current_health += clamp(HEALTH_POT_AMOUNT, 0, max_health)
 		Potions.MANA:
 			if mana_potion_amount <= 0:
 				return
 			mana_potion_amount -= 1
-			current_mana = clamp(current_mana + MANA_POT_AMOUNT, 0, max_mana)
+			player.current_mana = clamp(current_mana + MANA_POT_AMOUNT, 0, max_mana)
 
 	potion_cooldown = true
 	potion_timer.start()
 
-func handle_mouse_event(event: InputEvent):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			mouse_movement = true
-		elif event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
-			mouse_movement = false
-			clear_mouse_actions()
-
-	elif event is InputEventMouseMotion and mouse_movement:
-		apply_mouse_input()
-
-func clear_mouse_actions():
-	for action in mouse_actions:
-		mouse_actions[action] = false
-	direction = Vector3.ZERO
-
-func apply_mouse_input():
-	var camera = get_viewport().get_camera_3d()
-	var player_screen_position = camera.unproject_position(global_position)
-	var mouse_position = get_viewport().get_mouse_position()
-	var vector: Vector2 = (mouse_position - player_screen_position).normalized()
-	_handle_8way_input(vector)
+@rpc("any_peer", "call_local")
+func sync_potion_timer_status(is_stopped: bool, time_left: float):
+	potion_cooldown = not is_stopped
+	if not is_stopped:
+		potion_timer.start(time_left)
 
 @rpc("any_peer", "call_local")
 func show_player_text(message):
 	show_text.emit(message)
 
+@rpc("any_peer", "call_local")
 func handle_spell_cast(spell):
 	if not current_enemy:
 		print("No Current Enemy...")
@@ -203,9 +116,10 @@ func handle_spell_cast(spell):
 
 	var spell_information = Global.spelldictionary[spell]
 	if not spell_information.has("self"):
-		rpc_id(1, "check_spell_can_cast", current_enemy, spell)
+		var caster = multiplayer.get_remote_sender_id()
+		rpc_id(1, "check_spell_can_cast", caster, current_enemy, spell)
 
-func handle_movement(delta):
+func handle_movement(_delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 		last_direction = -direction
@@ -217,35 +131,32 @@ func handle_movement(delta):
 		velocity = direction * speed
 
 		if (anim_player.current_animation != "Running_A"):
+			print(name, " is running")
 			rpc("handle_player_anim", "Running_A")
 
-		if global_transform.origin.distance_to(target_position) > 0.1:
+		# Slightly more lenient movement check
+		if global_transform.origin.distance_to(target_position) >= grid_size * 0.1:
 			moving = true
+			move_and_slide()
 		else:
-			moving = false
-			velocity = Vector3.ZERO
-			if (anim_player.current_animation != "Idle"):
-				rpc("handle_player_anim", "Idle")
-
-	if moving:
-		move_and_slide()
-
-	if direction == Vector3.ZERO:
+			velocity = direction * speed
+			move_and_slide()
+	else:
 		velocity = Vector3.ZERO
 		if (anim_player.current_animation != "Idle"):
-				rpc("handle_player_anim", "Idle")
+			rpc("handle_player_anim", "Idle")
 		moving = false
 
-@rpc("any_peer", "call_local", "unreliable_ordered", 2)
+@rpc("any_peer")
 func handle_player_anim(animation_name):
 	anim_player.play(animation_name)
 
-func snap_to_grid(position: Vector3) -> Vector3:
+func snap_to_grid(new_position: Vector3) -> Vector3:
 	# Ensure the position is aligned to grid steps (rounds to nearest grid step)
 	return Vector3(
-		round(position.x / grid_size) * grid_size,
-		round(position.y / grid_size) * grid_size,
-		round(position.z / grid_size) * grid_size
+		round(new_position.x / grid_size) * grid_size,
+		0,
+		round(new_position.z / grid_size) * grid_size
 	)
 
 func can_move_to(new_position: Vector3) -> bool:
@@ -257,15 +168,13 @@ func can_move_to(new_position: Vector3) -> bool:
 	ray_params.exclude = [self]
 	return space_state.intersect_ray(ray_params).is_empty()
 
-@rpc("authority", "call_local")
+@rpc("authority")
 func check_line_of_sight(start, end) -> bool:
-
 	var space_state = get_world_3d().direct_space_state
 	var ray_params = PhysicsRayQueryParameters3D.new()
 
-	var start_node = Global.active_players[str(multiplayer.get_remote_sender_id())]
+	var start_node = Global.active_players[str(start)]
 	var end_node = Global.active_players[str(end)]
-
 	ray_params.exclude = [start_node]
 	ray_params.from = start_node.global_transform.origin
 	ray_params.to = end_node.global_transform.origin
@@ -277,6 +186,9 @@ func check_line_of_sight(start, end) -> bool:
 			return true
 
 	return false
+
+func is_dead():
+	return current_health <= 0
 
 func _on_spell_timeout() -> void:
 	casting = false
@@ -291,6 +203,8 @@ func _on_spell_timeout() -> void:
 		target = casted_on
 		rpc_id(1, "check_spell_landed", target, current_spell)
 		return
+	else:
+		rpc_id(1, "authorised_cast", true, name, current_spell)
 
 
 
@@ -311,24 +225,48 @@ func authorised_cast(allowed: bool, target, spell):
 		else:
 			print("Not in LOS")
 
-@rpc("authority", "call_remote")
-func check_spell_can_cast(target, spell):
-	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
+@rpc("authority", "call_local")
+func check_spell_can_cast(caster, target, spell):
+	var spell_hit = check_line_of_sight(caster, target)
 	rpc_id(multiplayer.get_remote_sender_id(), "authorised_cast", spell_hit, target, spell)
 
 
-@rpc("authority", "call_remote")
+@rpc("authority", "call_local")
 func check_spell_landed(target, spell):
-	var casted_by = multiplayer.get_remote_sender_id()
 	var spell_information = Global.spelldictionary[spell]
-	var spell_hit = check_line_of_sight(multiplayer.get_remote_sender_id(), target)
+	var caster = int(str(name))
+	var spell_hit = check_line_of_sight(caster, target)
 	if spell_hit:
-		rpc_id(target, "spell_landed", spell)
-		rpc_id(casted_by, "handle_player_stats", "current_mana", -spell_information.cost)
+
+		if spell == "poison" and Global.active_players[str(target)].poisoned == false:
+			Global.active_players[str(target)].poisoned = true
+			Global.active_players[str(target)].poison_timer.start()
+
+		if spell == "cure":
+			poisoned = false
+			poison_timer.stop()
+
+		rpc("show_effect", target, spell)
+		Global.active_players[str(target)].current_health -= spell_information.damage
+		if Global.active_players[str(target)].current_health <= 0:
+			rpc("handle_player_death", target)
+			world.rpc_id(target, "show_death_menu")
+			Global.active_players[str(target)].set_physics_process(false)
+		Global.active_players[str(caster)].current_mana -= spell_information.cost
 	else:
 		print("SPELL MISSED")
 	pass
 
+@rpc("authority", "call_remote", "reliable", 2)
+func handle_player_death(player_id):
+	var parent = get_parent()
+	var character = parent.get_node_or_null(str(player_id))
+	if character:
+		character.anim_player.play("Death_B")
+		set_process(false)
+		set_physics_process(false)
+
+@rpc("any_peer", "call_local")
 func toggle_enemy() -> void:
 	var parent = get_parent()
 	if not parent:
@@ -362,9 +300,3 @@ func try_open_door():
 		var door_node = get_node_or_null(door_in_range)
 		if door_node:
 			door_node.rpc_id(1, "toggle_open")
-
-
-@rpc("any_peer", "call_remote")
-func handle_player_stats(resource: String, amount: int, target = null):
-	if multiplayer.get_remote_sender_id() == 1:
-		self[resource] += amount

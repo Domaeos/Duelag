@@ -40,22 +40,6 @@ func _ready():
 	spell_node = $SpellEmitter
 	spell_emitter = $SpellEmitter/SpellNode/AnimatedSprite2D
 
-@rpc("any_peer", "call_local")
-func spell_landed(spell: String):
-	if multiplayer.get_remote_sender_id() == 1:
-		var landed_on_id = multiplayer.get_unique_id()
-		var spell_information = Global.spelldictionary[spell]
-		if spell == "poison" and poisoned == false:
-			poisoned = true
-			poison_timer.start()
-
-		if spell == "cure":
-			poisoned = false
-			poison_timer.stop()
-
-		rpc("show_effect", landed_on_id, spell)
-		take_damage(spell_information.damage)
-
 @rpc("any_peer", "call_local", "reliable", 2)
 func show_effect(id, spell: String):
 	var node = get_parent().get_node(str(id))
