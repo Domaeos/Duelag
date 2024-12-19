@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://pqeoq4vo7l6y"]
+[gd_scene load_steps=14 format=3 uid="uid://pqeoq4vo7l6y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ocwi3"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="2_h8rb7"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://backdrop.gd" id="7_xoo4k"]
 [ext_resource type="Texture2D" uid="uid://xuhs0a6d784s" path="res://Assets/buttons/yellow.png" id="8_6nuk2"]
 [ext_resource type="Theme" uid="uid://ba2x8p4fe0f4n" path="res://Ohead_theme.tres" id="9_e1dfv"]
+[ext_resource type="Texture2D" uid="uid://db0wragft2h74" path="res://Assets/buttons/red.png" id="11_jwwp1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tw14q"]
 shader = ExtResource("7_e24p2")
@@ -64,20 +65,79 @@ grow_vertical = 2
 scale = Vector2(14, 14)
 script = ExtResource("7_xoo4k")
 
-[node name="Yellow" type="Sprite2D" parent="DeathMenu"]
-position = Vector2(626, 571)
-scale = Vector2(1.41526, 0.855263)
-texture = ExtResource("8_6nuk2")
+[node name="ColorRect" type="ColorRect" parent="DeathMenu"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -168.0
+offset_right = 300.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.0338533, 0.0338533, 0.0338533, 0.897)
+
+[node name="Control" type="Control" parent="DeathMenu"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -87.0
+offset_right = 13.0
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ResButton" type="TextureButton" parent="DeathMenu/Control"]
+layout_mode = 0
+offset_left = -70.0
+offset_top = -4.0
+offset_right = 110.0
+offset_bottom = 72.0
+scale = Vector2(1, 0.680001)
+texture_normal = ExtResource("8_6nuk2")
+texture_disabled = ExtResource("11_jwwp1")
+stretch_mode = 0
 
 [node name="Label" type="Label" parent="DeathMenu"]
-offset_left = 522.0
-offset_top = 559.0
-offset_right = 729.0
-offset_bottom = 590.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -78.0
+offset_top = -72.0
+offset_right = 61.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource("9_e1dfv")
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 30
-text = "Resurrect?
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Resurrect
 "
+horizontal_alignment = 1
+
+[node name="DeathInfo" type="Label" parent="DeathMenu"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.5
+offset_top = -135.0
+offset_right = 187.5
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_e1dfv")
+theme_override_font_sizes/font_size = 30
+text = "You have been slain"
 
 [connection signal="spawned" from="World/MultiplayerSpawner" to="World" method="_on_multiplayer_spawner_spawned"]
+[connection signal="pressed" from="DeathMenu/Control/ResButton" to="DeathMenu" method="_on_res_button_pressed"]
