@@ -39,4 +39,17 @@ func add_player():
 @rpc("authority")
 func show_death_menu(): 
 	death_menu.show_menu()
-	pass
+	
+@rpc("authority")
+func hide_death_menu():
+	death_menu.hide()
+
+@rpc("any_peer")
+func resurrect_player():
+	var player_id = multiplayer.get_remote_sender_id()
+	var player = Global.active_players[str(player_id)]
+	player.current_health = player.max_health
+	player.current_mana = 100
+	player.set_process(true)
+	player.set_physics_process(true)
+	rpc_id(player_id, "hide_death_menu")

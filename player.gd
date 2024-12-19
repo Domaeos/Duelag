@@ -11,6 +11,7 @@ var current_enemy_index: int = -1
 @onready var input_control = $InputControl
 
 @export var current_enemy: int
+var enemy_node
 @export var casted_on: int
 @export var max_interaction_distance = 15
 @export var grid_size: float = 2.0  # Size of each grid cell (2x2x2 for your case)
@@ -112,6 +113,9 @@ func show_player_text(message):
 func handle_spell_cast(spell):
 	if not current_enemy:
 		print("No Current Enemy...")
+		return
+	if enemy_node.is_dead():
+		print("Enemy is dead")
 		return
 
 	var spell_information = Global.spelldictionary[spell]
@@ -291,6 +295,11 @@ func toggle_enemy() -> void:
 		current_enemy_index = 0  # Wrap back to the first enemy
 
 	current_enemy = int(str(enemies[current_enemy_index].name))
+	if enemy_node:
+		pass
+		# remove previous enemy outline
+	enemy_node = get_parent().get_node(str(current_enemy))
+	# apply new outline
 
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
