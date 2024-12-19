@@ -1,7 +1,6 @@
 extends can_be_damaged
 
 signal show_text(message: String)
-@onready var outline_material = preload("res://mage_outline.tres")
 
 var enemies: Array = []
 var current_enemy_index: int = -1
@@ -296,14 +295,7 @@ func toggle_enemy() -> void:
 		current_enemy_index = 0  # Wrap back to the first enemy
 
 	current_enemy = int(str(enemies[current_enemy_index].name))
-	if enemy_node:
-		# Remove outline from previous enemy
-		enemy_node.set_surface_override_material(0, null)
-	
-	# Get new enemy and apply outline
 	enemy_node = get_parent().get_node(str(current_enemy))
-	var mesh = enemy_node.get_node("..")
-	enemy_node.set_surface_override_material(0, outline_material)
 
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
