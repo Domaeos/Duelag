@@ -2,6 +2,8 @@ extends Node
 
 var grid_size = 2.0
 
+var my_player: CharacterBody3D
+
 var active_players = {
 	
 }

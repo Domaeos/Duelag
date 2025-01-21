@@ -15,27 +15,28 @@ properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[node name="door_wood_indoor" type="StaticBody3D"]
+[node name="door_wood_indoor" type="StaticBody3D" node_paths=PackedStringArray("door_area")]
 collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_wegrx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.1, 0)
-shape = SubResource("BoxShape3D_hmaim")
+door_area = NodePath("Area3D")
 
 [node name="Door_A2" parent="." instance=ExtResource("1_75m75")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.3, 0, 0.1)
 
-[node name="Area3D" type="Area3D" parent="Door_A2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.0666667, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.1, -7.45058e-09)
+shape = SubResource("BoxShape3D_hmaim")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Door_A2/Area3D"]
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 5.21541e-08, 0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.133333, 1.6, 0)
 shape = SubResource("CylinderShape3D_ctxr4")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." groups=["Sync"]]
 replication_config = SubResource("SceneReplicationConfig_0jwi2")
 
-[connection signal="body_entered" from="Door_A2/Area3D" to="." method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Door_A2/Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

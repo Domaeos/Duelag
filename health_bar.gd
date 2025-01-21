@@ -19,13 +19,30 @@ func _ready() -> void:
 	fill = health_bar.get("theme_override_styles/fill")
 	if int(str(bar_owner.name)) == multiplayer.get_unique_id():
 		set_process(false)
+	if not multiplayer.is_server():
 		hide()
 
 func _process(delta) -> void:
+	if not multiplayer or not multiplayer.has_multiplayer_peer():
+		return
+		
+	# Then check if we have our player reference
+	if not Global.my_player:
+		return
+		
+	# Now safely check the current enemy
+	var my_player = Global.my_player
+	var current_enemy = my_player.get("current_enemy")
+		
+	if str(current_enemy) == bar_owner.name:
+		show()
+	else:
+		hide()
+	
 	if bar_owner.current_health != current_value:
 		current_value = bar_owner.current_health
 		update_health_bar(current_value)
-	
+
 	if bar_owner.poisoned:
 		health_bar.set("theme_override_styles/fill", poison_fill)
 	else:

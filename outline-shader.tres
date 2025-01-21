@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d1f8j3topimi5"]
+
+[ext_resource type="Shader" path="res://outline-shader.gdshader" id="1_gaadm"]
+
+[resource]
+shader = ExtResource("1_gaadm")
+shader_parameter/clip_x = null
+shader_parameter/clip_y = null
+shader_parameter/clip_width = null
+shader_parameter/clip_height = null

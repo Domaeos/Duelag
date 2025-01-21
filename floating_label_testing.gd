@@ -17,7 +17,15 @@ func _process(delta: float) -> void:
 
 func _on_button_pressed() -> void:
 	var text_label = preload("res://floating_label.tscn")
-	var text_node = text_label.instantiate()
+	var private_label = preload("res://floating_label_private.tscn")
+	var text_node
+	
+	var random_text = randi_range(0, 1)
+	print(random_text)
+	if random_text == 1:
+		text_node = text_label.instantiate()
+	else :
+		text_node = private_label.instantiate()
 	
 	var random = randi_range(0, 2)
 	text_node.text = array_test[random]

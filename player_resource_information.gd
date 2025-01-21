@@ -25,11 +25,12 @@ func _ready() -> void:
 	mana_potion_sprite = control.get_node_or_null("ManaPotion")
 	target_health = player.current_health
 	target_mana = player.current_mana
-	#debug_timer = Timer.new()
-	#debug_timer.autostart = true
-	#debug_timer.wait_time = 3
-	#debug_timer.one_shot = false
-	#debug_timer.connect("timeout", _on_debug_timeout)
+	debug_timer = Timer.new()
+	debug_timer.autostart = true
+	debug_timer.wait_time = 3
+	debug_timer.one_shot = false
+	debug_timer.connect("timeout", _on_debug_timeout)
+	#add_child(debug_timer)
 	var is_player = int(str(player.name)) == multiplayer.get_unique_id()
 	set_process(is_player)
 	set_multiplayer_authority(is_player)
@@ -43,6 +44,7 @@ func _ready() -> void:
 	$Player_mana.set("theme_override_styles/fill", mana_fill_style)
 
 func _on_debug_timeout():
+	print("My global_player: ", Global.my_player)
 	pass
 	#print("Player health: ", player.current_health, " for: ", multiplayer.get_unique_id())
 	
