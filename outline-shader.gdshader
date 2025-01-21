@@ -8,13 +8,13 @@ uniform float clip_height : hint_range(0, 1024); // Height of the smaller rectan
 
 void fragment() {
     vec2 pos = FRAGCOORD.xy;
-    
+
     // Check if the fragment is within the clipping rectangle
     if (pos.x >= clip_x && pos.x <= clip_x + clip_width &&
         pos.y >= clip_y && pos.y <= clip_y + clip_height) {
         discard; // Discard pixels inside the clipping rectangle
     }
-    
+
     // Otherwise, display the original texture
     COLOR = texture(TEXTURE, UV);
 }
