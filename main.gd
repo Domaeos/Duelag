@@ -12,7 +12,7 @@ func _ready() -> void:
 			var key_value = arg.split("=")
 			arguments[key_value[0].lstrip("--")] = key_value[1]
 
-	if "server" in arguments:
+	if OS.has_feature("headless") or "server" in arguments:
 		_setup_server()
 	else:
 		_setup_client()
