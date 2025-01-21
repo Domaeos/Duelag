@@ -52,6 +52,7 @@ script = ExtResource("4_0ny1w")
 
 [node name="DeathMenu" type="CanvasLayer" parent="."]
 layer = 100
+visible = false
 script = ExtResource("7_vgkcs")
 
 [node name="Backdrop" type="ColorRect" parent="DeathMenu"]

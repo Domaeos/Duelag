@@ -1,6 +1,6 @@
 extends can_be_damaged
 
-signal show_text(message: String)
+signal show_text(message: String, private: bool)
 
 var enemies: Array = []
 var current_enemy_index: int = -1
@@ -9,6 +9,7 @@ var current_enemy_index: int = -1
 @onready var world = get_parent().get_parent()
 @onready var anim_player = $Pivot/Mage/AnimationPlayer
 @onready var input_control = $InputControl
+@onready var text_emitter = $CharacterText
 
 @export var current_enemy: int
 var enemy_node
@@ -135,16 +136,17 @@ func handle_movement(_delta):
 		velocity = direction * speed
 
 		if (anim_player.current_animation != "Running_A"):
-			print(name, " is running")
 			rpc("handle_player_anim", "Running_A")
 
 		# Slightly more lenient movement check
 		if global_transform.origin.distance_to(target_position) >= grid_size * 0.1:
 			moving = true
 			move_and_slide()
+			global_position.y = 0
 		else:
 			velocity = direction * speed
 			move_and_slide()
+			global_position.y = 0
 	else:
 		velocity = Vector3.ZERO
 		if (anim_player.current_animation != "Idle"):
@@ -194,13 +196,9 @@ func check_line_of_sight(start, end) -> bool:
 func is_dead():
 	return current_health <= 0
 
+
 func _on_spell_timeout() -> void:
 	casting = false
-	if fizzled:
-		show_text.emit("Spell fizzled")
-		fizzled = false
-		return
-
 	var target = self
 	var spell_information = Global.spelldictionary[current_spell]
 	if spell_information.has("self") == false:
@@ -209,8 +207,6 @@ func _on_spell_timeout() -> void:
 		return
 	else:
 		rpc_id(1, "authorised_cast", true, name, current_spell)
-
-
 
 @rpc("any_peer", "call_local")
 func authorised_cast(allowed: bool, target, spell):
@@ -225,9 +221,9 @@ func authorised_cast(allowed: bool, target, spell):
 			casted_on = target
 			spell_timer.wait_time = spell_information.duration
 			casting = true
-			spell_timer.start()
+			spell_timer.start()	
 		else:
-			print("Not in LOS")
+			show_text.emit("Target not in line of sight", true, int(str(name)))
 
 @rpc("authority", "call_local")
 func check_spell_can_cast(caster, target, spell):
@@ -241,6 +237,9 @@ func check_spell_landed(target, spell):
 	var caster = int(str(name))
 	var spell_hit = check_line_of_sight(caster, target)
 	if spell_hit:
+		if Global.active_players[str(target)].casting:
+			Global.active_players[str(target)].show_text.emit("Fizzled", true, target)
+			Global.active_players[str(target)].spell_timer.stop()
 
 		if spell == "poison" and Global.active_players[str(target)].poisoned == false:
 			Global.active_players[str(target)].poisoned = true
@@ -258,7 +257,7 @@ func check_spell_landed(target, spell):
 			Global.active_players[str(target)].set_physics_process(false)
 		Global.active_players[str(caster)].current_mana -= spell_information.cost
 	else:
-		print("SPELL MISSED")
+		show_text.emit("Target not in line of sight", true, int(str(name)))
 	pass
 
 @rpc("authority", "call_remote", "reliable", 2)
@@ -292,14 +291,19 @@ func toggle_enemy() -> void:
 
 	current_enemy_index += 1
 	if current_enemy_index >= enemies.size():
-		current_enemy_index = 0  # Wrap back to the first enemy
+		current_enemy_index = 0
 
 	current_enemy = int(str(enemies[current_enemy_index].name))
 	enemy_node = get_parent().get_node(str(current_enemy))
+	rpc_id(multiplayer.get_remote_sender_id(), "set_local_enemy", current_enemy)
 
 func _compare_enemies(a: Node, b: Node) -> int:
 	return a.get_instance_id() < b.get_instance_id()
 
+@rpc("authority", "reliable", "call_local")
+func set_local_enemy(enemy_id):
+	current_enemy = enemy_id
+	
 func try_open_door():
 	if (door_in_range):
 		var door_node = get_node_or_null(door_in_range)

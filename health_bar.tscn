@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dt804svrxhtrk"]
+[gd_scene load_steps=6 format=3 uid="uid://dt804svrxhtrk"]
 
 [ext_resource type="Script" path="res://health_bar.gd" id="1_5yesx"]
 [ext_resource type="StyleBox" uid="uid://cn25ts4hfh5mt" path="res://poisoned_fill.tres" id="2_bafs4"]
@@ -9,11 +9,6 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krhf7"]
 bg_color = Color(0.1, 0.1, 0.1, 0.898)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4wafl"]
-properties/0/path = NodePath("SubViewport/HealthBar:value")
-properties/0/spawn = true
-properties/0/replication_mode = 1
 
 [node name="HealthBar" type="Sprite3D"]
 layers = 524288
@@ -51,6 +46,3 @@ theme_override_styles/background = SubResource("StyleBoxFlat_krhf7")
 theme_override_styles/fill = ExtResource("2_dxpkr")
 value = 100.0
 show_percentage = false
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_4wafl")

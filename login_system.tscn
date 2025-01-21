@@ -1,35 +1,23 @@
 [gd_scene load_steps=2 format=3 uid="uid://dfas1vqtofqva"]
 
-[ext_resource type="Script" path="res://login_system.gd" id="1_ocofl"]
+[ext_resource type="Texture2D" uid="uid://cqd1ddfnwnlx0" path="res://Assets/GUI/splash-screen-2.png" id="1_kdrnt"]
 
-[node name="World" type="Node3D"]
+[node name="Main" type="Node"]
 
-[node name="LoginSystem" type="Control" parent="."]
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
+anchors_preset = 0
+offset_left = 326.0
+offset_top = 274.0
+offset_right = 826.0
+offset_bottom = 374.0
+
+[node name="SplashScreen" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ocofl")
-game_scene = "res://multiplayer_test.tscn"
-
-[node name="Name" type="TextEdit" parent="LoginSystem"]
-layout_mode = 0
-offset_left = 232.0
-offset_top = 243.0
-offset_right = 967.0
-offset_bottom = 330.0
-theme_override_font_sizes/font_size = 50
-placeholder_text = "Enter name"
-
-[node name="Enter" type="Button" parent="LoginSystem"]
-layout_mode = 0
-offset_left = 423.0
-offset_top = 366.0
-offset_right = 731.0
-offset_bottom = 444.0
-theme_override_font_sizes/font_size = 50
-text = "Enter"
-
-[connection signal="pressed" from="LoginSystem/Enter" to="LoginSystem" method="_on_enter_pressed"]
+texture = ExtResource("1_kdrnt")
+expand_mode = 3
+stretch_mode = 6
