@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://248stgdfhcms"
 path.s3tc="res://.godot/imported/colormap.png-8f4ad7868c7db1efcd8eda3b3a5e022c.s3tc.ctex"
+path.etc2="res://.godot/imported/colormap.png-8f4ad7868c7db1efcd8eda3b3a5e022c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Ground/Models/FBX format/Textures/colormap.png"
-dest_files=["res://.godot/imported/colormap.png-8f4ad7868c7db1efcd8eda3b3a5e022c.s3tc.ctex"]
+dest_files=["res://.godot/imported/colormap.png-8f4ad7868c7db1efcd8eda3b3a5e022c.s3tc.ctex", "res://.godot/imported/colormap.png-8f4ad7868c7db1efcd8eda3b3a5e022c.etc2.ctex"]
 
 [params]
 

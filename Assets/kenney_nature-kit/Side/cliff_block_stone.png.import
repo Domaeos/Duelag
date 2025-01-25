@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://uxrs70xct8cj"
 path.s3tc="res://.godot/imported/cliff_block_stone.png-9fc5024c4a34e88cb1801458e670007e.s3tc.ctex"
+path.etc2="res://.godot/imported/cliff_block_stone.png-9fc5024c4a34e88cb1801458e670007e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/kenney_nature-kit/Side/cliff_block_stone.png"
-dest_files=["res://.godot/imported/cliff_block_stone.png-9fc5024c4a34e88cb1801458e670007e.s3tc.ctex"]
+dest_files=["res://.godot/imported/cliff_block_stone.png-9fc5024c4a34e88cb1801458e670007e.s3tc.ctex", "res://.godot/imported/cliff_block_stone.png-9fc5024c4a34e88cb1801458e670007e.etc2.ctex"]
 
 [params]
 

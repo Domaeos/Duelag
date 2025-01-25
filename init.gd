@@ -5,14 +5,13 @@ extends Node3D
 
 var arguments = {}
 
-func _ready():
+func _ready() -> void:
 	var args = OS.get_cmdline_args()
 	for arg in args:
 		if arg.find("=") > -1:
 			var key_value = arg.split("=")
 			arguments[key_value[0].lstrip("--")] = key_value[1]
 			
-	print(arguments)
 	if "server" in arguments:
 		call_deferred("_change_scene", server_scene)
 	else:

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ekbi6vds6mhw"
 path.s3tc="res://.godot/imported/prototypebits_texture.png-1974d02b2d73a2c2e4854e22eba647f7.s3tc.ctex"
+path.etc2="res://.godot/imported/prototypebits_texture.png-1974d02b2d73a2c2e4854e22eba647f7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://gltf/prototypebits_texture.png"
-dest_files=["res://.godot/imported/prototypebits_texture.png-1974d02b2d73a2c2e4854e22eba647f7.s3tc.ctex"]
+dest_files=["res://.godot/imported/prototypebits_texture.png-1974d02b2d73a2c2e4854e22eba647f7.s3tc.ctex", "res://.godot/imported/prototypebits_texture.png-1974d02b2d73a2c2e4854e22eba647f7.etc2.ctex"]
 
 [params]
 
