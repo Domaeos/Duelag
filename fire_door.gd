@@ -1,11 +1,6 @@
 extends Door
 
-var door_collision: CollisionShape3D
-
 func _ready() -> void:
-	door_area = get_node("Area3D")
-	door_collision = door_area.get_node_or_null("CollisionShape3D")
-	door_collision.disabled = false
 	super._ready()
 #
 #func _on_overlap_exited(body: Node3D) -> void:

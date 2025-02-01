@@ -3,6 +3,7 @@ extends Node3D
 class_name Door
 
 @export var door_area: Area3D
+@export var door_collision: CollisionShape3D
 var door_path
 
 var is_open: bool = false
@@ -10,6 +11,9 @@ var initial_rotation: float
 
 func _ready() -> void:
 	add_to_group("doors")
+	door_area = get_node_or_null("Area3D")
+	door_collision = door_area.get_node_or_null("CollisionShape3D")
+	set_multiplayer_authority(1)  
 	if multiplayer.is_server():
 		door_path = get_path()
 		initial_rotation = rotation_degrees.y

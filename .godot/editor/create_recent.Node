@@ -1,3 +1,4 @@
+MultiplayerSynchronizer
 VBoxContainer
 Label
 Container
@@ -8,7 +9,6 @@ TextureRect
 HBoxContainer
 CenterContainer
 CheckBox
-MultiplayerSynchronizer
 RichTextLabel
 LineEdit
 TextEdit

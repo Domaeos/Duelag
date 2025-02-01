@@ -17,18 +17,23 @@ func _ready() -> void:
 	await get_tree().create_timer(INITIAL_SYNC_DELAY).timeout
 	if not multiplayer.is_server():
 		await attempt_connection()
+		
+	if multiplayer.has_multiplayer_peer():
+		_on_network_ready()
+		
 	if multiplayer.is_server():
 		DisplayServer.window_set_title("Server")
 	else:
 		DisplayServer.window_set_title("Client " + str(multiplayer.get_unique_id()))
 
-
+func _on_network_ready():
+	var gridmap = get_node_or_null("GridMap")
+	if gridmap and gridmap.has_method("setup_networking"):
+		gridmap.setup_networking()
+		
 func attempt_connection():
-	# Wait for multiplayer to be ready
 	while not multiplayer.has_multiplayer_peer():
 		await get_tree().create_timer(0.1).timeout
-	
-	# Wait a bit more to ensure connection is established
 	await get_tree().create_timer(0.5).timeout
 	
 	var server_connection = multiplayer.multiplayer_peer.get_peer(1)
@@ -63,19 +68,15 @@ func _on_multiplayer_spawner_spawned(node: Node):
 		
 	var player_id = int(str(node.name))
 	
-	# Setup the player and mark as ready
 	node.rpc("setup_multiplayer", player_id)
 	node.input_control.rpc("setup_multiplayer", player_id)
 	player_ready[player_id] = true
 	
-	# Confirm successful spawn to the server
 	if multiplayer.is_server():
 		rpc_id(player_id, "confirm_spawn")
 
 @rpc("any_peer", "call_local")
 func sync_world():
-	if get_tree().current_scene.name != "World":
-		return  
 	var player_id = multiplayer.get_remote_sender_id()
 	get_tree().call_group("Sync", "set_visibility_for", player_id, true)
 
@@ -83,7 +84,6 @@ func sync_world():
 func add_player():
 	var player_id = multiplayer.get_remote_sender_id()
 	
-	# Check if player already exists
 	if player_spawner.has_node(str(player_id)):
 		rpc_id(player_id, "confirm_spawn")
 		return
@@ -93,8 +93,7 @@ func add_player():
 	player_spawner.add_child(player, true)
 	player.input_control.set_multiplayer_authority(player_id)
 	Global.active_players[player.name] = player
-	
-	# Notify the client that their player was added
+
 	rpc_id(player_id, "add_my_player_to_global")
 	rpc_id(player_id, "confirm_spawn")
 
@@ -109,7 +108,6 @@ func confirm_spawn():
 	var player_id = multiplayer.get_unique_id()
 	spawn_attempts.erase(player_id)
 
-# Existing death menu and resurrection functions remain the same
 @rpc("authority")
 func show_death_menu(): 
 	death_menu.show_menu()
