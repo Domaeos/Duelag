@@ -1,18 +1,108 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfas1vqtofqva"]
+[gd_scene load_steps=34 format=3 uid="uid://dfas1vqtofqva"]
 
 [ext_resource type="Texture2D" uid="uid://cqd1ddfnwnlx0" path="res://Assets/GUI/splash-screen-2.png" id="1_kdrnt"]
+[ext_resource type="Script" path="res://auth.gd" id="1_pt6go"]
+[ext_resource type="Script" path="res://login_panel.gd" id="5_fvuge"]
+[ext_resource type="Material" uid="uid://d1f8j3topimi5" path="res://outline-shader.tres" id="5_lbxts"]
+[ext_resource type="Texture2D" uid="uid://2u6lh8q3li07" path="res://Assets/GUI/figma/Rectangle 1.svg" id="5_nfxkg"]
+[ext_resource type="Texture2D" uid="uid://bat504ljrivda" path="res://Assets/GUI/figma/TextBackground_White.svg" id="6_whg66"]
+[ext_resource type="Texture2D" uid="uid://dachbjqem00k6" path="res://Assets/GUI/figma/Rectangle 7.svg" id="8_7utdq"]
+[ext_resource type="Shader" path="res://login_info.gdshader" id="8_be50n"]
+[ext_resource type="FontFile" path="res://fonts/xolonium/Xolonium.tres" id="8_uainx"]
+[ext_resource type="Script" path="res://button_effect.gd" id="9_uolcq"]
+[ext_resource type="Script" path="res://info_label.gd" id="9_x83jd"]
+[ext_resource type="Script" path="res://account_saved_panel.gd" id="10_erjxm"]
+[ext_resource type="StyleBox" uid="uid://dgmudp6eqrfse" path="res://empty_text_box.tres" id="10_ne3dj"]
+[ext_resource type="Shader" path="res://button_effect.gdshader" id="10_t78dc"]
+[ext_resource type="Texture2D" uid="uid://bg6hiwv64kvny" path="res://Assets/GUI/logo-d-small.png" id="10_uy6kv"]
+[ext_resource type="Texture2D" uid="uid://dd15x3jbaoh1e" path="res://Assets/Avatars/avatar-01.png" id="11_3ew4o"]
+[ext_resource type="Texture2D" uid="uid://d1e3ve61s8vue" path="res://Assets/GUI/figma/Rectangle 3.svg" id="11_4hgt8"]
+[ext_resource type="FontFile" uid="uid://ddno66gam3qnl" path="res://fonts/xolonium/xolonium-fonts-4.1/ttf/Xolonium-Regular.ttf" id="13_wek5y"]
+[ext_resource type="Texture2D" uid="uid://dxw1si3uboycp" path="res://Assets/GUI/figma/Rectangle 6.svg" id="14_7r6fg"]
+[ext_resource type="FontFile" uid="uid://dh16n5px5rrho" path="res://fonts/xolonium/xolonium-fonts-4.1/ttf/Xolonium-Bold.ttf" id="18_e3oqr"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bcn71"]
+blend_mode = 4
+light_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Theme" id="Theme_62k3a"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7a6dq"]
+texture = ExtResource("5_nfxkg")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wsqy5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcpvs"]
+shader = ExtResource("8_be50n")
+shader_parameter/glow_color = Color(0.703677, 0.176949, 0.204678, 1)
+shader_parameter/glow_strength = 2.0
+shader_parameter/pulse_speed = 2.0
+shader_parameter/is_active = false
+shader_parameter/flash_strength = 0.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_odrwv"]
+texture = ExtResource("5_nfxkg")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1pbpg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_36a4i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4g2ek"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lqkcg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4r55s"]
+shader = ExtResource("10_t78dc")
+shader_parameter/shine_color = Color(1, 1, 1, 0.15)
+shader_parameter/rotation_speed = 0.9
+shader_parameter/light_size = 0.8
+shader_parameter/shine_strength = 0.2
+shader_parameter/hover_glow_strength = 0.2
+shader_parameter/click_darken = 0.2
+shader_parameter/is_hovered = false
+shader_parameter/is_pressed = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jrw1a"]
+shader = ExtResource("10_t78dc")
+shader_parameter/shine_color = Color(1, 1, 1, 0.15)
+shader_parameter/rotation_speed = 0.2
+shader_parameter/light_size = 1.0
+shader_parameter/shine_strength = 0.15
+shader_parameter/hover_glow_strength = 0.2
+shader_parameter/click_darken = 0.2
+shader_parameter/is_hovered = false
+shader_parameter/is_pressed = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xohg8"]
 
 [node name="Main" type="Node"]
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 326.0
-offset_top = 274.0
-offset_right = 826.0
-offset_bottom = 374.0
+[node name="Auth" type="Node" parent="." node_paths=PackedStringArray("username", "password", "confirm_password", "email", "remember_me")]
+script = ExtResource("1_pt6go")
+username = NodePath("../LoginPanel/MarginContainer/VBoxContainer/RegisterFields/Username/UsernameInput")
+password = NodePath("../LoginPanel/MarginContainer/VBoxContainer/Password/PasswordInput")
+confirm_password = NodePath("../LoginPanel/MarginContainer/VBoxContainer/RegisterFields/PasswordConfirm/PasswordConfirmInput")
+email = NodePath("../LoginPanel/MarginContainer/VBoxContainer/Email/EmailInput")
+remember_me = NodePath("../LoginPanel/MarginContainer/VBoxContainer/MarginContainer2/CenterContainer/CheckBox")
+logged_in_scene = "res://main.tscn"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Auth"]
+use_threads = true
 
 [node name="SplashScreen" type="TextureRect" parent="."]
+material = SubResource("CanvasItemMaterial_bcn71")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,3 +111,337 @@ grow_vertical = 2
 texture = ExtResource("1_kdrnt")
 expand_mode = 3
 stretch_mode = 6
+
+[node name="LoginPanel" type="PanelContainer" parent="."]
+material = ExtResource("5_lbxts")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -303.0
+offset_right = 185.0
+offset_bottom = 362.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+size_flags_vertical = 0
+theme = SubResource("Theme_62k3a")
+theme_override_styles/panel = SubResource("StyleBoxTexture_7a6dq")
+script = ExtResource("5_fvuge")
+
+[node name="MarginContainer" type="MarginContainer" parent="LoginPanel"]
+material = SubResource("CanvasItemMaterial_wsqy5")
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginPanel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="logo" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("10_uy6kv")
+expand_mode = 2
+
+[node name="InfoContainer" type="MarginContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer/InfoContainer"]
+layout_mode = 2
+
+[node name="InfoLabel" type="RichTextLabel" parent="LoginPanel/MarginContainer/VBoxContainer/InfoContainer/VBoxContainer"]
+material = SubResource("ShaderMaterial_rcpvs")
+layout_mode = 2
+theme_override_colors/default_color = Color(0.890451, 0.61391, 0.914655, 1)
+theme_override_fonts/normal_font = ExtResource("8_uainx")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]Enter The Duelag[/center]"
+fit_content = true
+script = ExtResource("9_x83jd")
+
+[node name="MessageLabel" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer/InfoContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_wek5y")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="AccountSavedPanel" type="PanelContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+visible = false
+clip_children = 2
+material = ExtResource("5_lbxts")
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_odrwv")
+script = ExtResource("10_erjxm")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel"]
+layout_mode = 2
+
+[node name="AvatarContainer" type="MarginContainer" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Avatar" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer/AvatarContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("11_3ew4o")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Username" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("18_e3oqr")
+theme_override_font_sizes/font_size = 50
+text = "Username"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="LastLogin" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer/AccountSavedPanel/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_wek5y")
+theme_override_font_sizes/font_size = 15
+text = "Last logged in"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Email" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("6_whg66")
+expand_mode = 2
+
+[node name="EmailInput" type="LineEdit" parent="LoginPanel/MarginContainer/VBoxContainer/Email"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = -18.0
+offset_right = 187.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1pbpg")
+theme_override_styles/normal = ExtResource("10_ne3dj")
+placeholder_text = "Email"
+caret_blink = true
+
+[node name="Password" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("6_whg66")
+expand_mode = 2
+
+[node name="PasswordInput" type="LineEdit" parent="LoginPanel/MarginContainer/VBoxContainer/Password"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = -18.0
+offset_right = 187.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_36a4i")
+theme_override_styles/normal = ExtResource("10_ne3dj")
+placeholder_text = "Password"
+caret_blink = true
+secret = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="RegisterFields" type="VBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="PasswordConfirm" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer/RegisterFields"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("6_whg66")
+expand_mode = 2
+
+[node name="PasswordConfirmInput" type="LineEdit" parent="LoginPanel/MarginContainer/VBoxContainer/RegisterFields/PasswordConfirm"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = -18.0
+offset_right = 187.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4g2ek")
+theme_override_styles/normal = ExtResource("10_ne3dj")
+placeholder_text = "Confirm password"
+caret_blink = true
+secret = true
+
+[node name="Username" type="TextureRect" parent="LoginPanel/MarginContainer/VBoxContainer/RegisterFields"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("6_whg66")
+expand_mode = 2
+
+[node name="UsernameInput" type="LineEdit" parent="LoginPanel/MarginContainer/VBoxContainer/RegisterFields/Username"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = -18.0
+offset_right = 187.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lqkcg")
+theme_override_styles/normal = ExtResource("10_ne3dj")
+placeholder_text = "Character name"
+caret_blink = true
+
+[node name="ErrorLabel" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(100, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="LoginButton" type="TextureButton" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_4r55s")
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("11_4hgt8")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("9_uolcq")
+
+[node name="Label" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/LoginButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = -21.0
+offset_right = 39.5
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "Login"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RegisterButton" type="TextureButton" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_jrw1a")
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+toggle_mode = true
+texture_normal = ExtResource("8_7utdq")
+texture_pressed = ExtResource("14_7r6fg")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("9_uolcq")
+
+[node name="Label" type="Label" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/RegisterButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -17.5
+offset_right = 49.0
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "Register
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="LoginPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="LoginPanel/MarginContainer/VBoxContainer/MarginContainer2/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.960867, 0.55471, 0.818261, 1)
+theme_override_colors/icon_normal_color = Color(0.931315, 0.123577, 0.549673, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 0
+theme_override_fonts/font = ExtResource("18_e3oqr")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xohg8")
+button_pressed = true
+text = "Remember me"
+alignment = 1
+icon_alignment = 1
+
+[connection signal="request_completed" from="Auth/HTTPRequest" to="Auth" method="_on_http_request_request_completed"]

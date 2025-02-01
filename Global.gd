@@ -1,12 +1,16 @@
 extends Node
 
+const API_ADDR = "http://127.0.0.1:8000/"
+const SAVE_PATH = "user://account_data.dat" 
+
 var grid_size = 2.0
-
 var my_player: CharacterBody3D
-
+	
 var active_players = {
 	
 }
+
+var account
 
 var spelldictionary = {
 	"fizzle" : {

@@ -1,60 +1,68 @@
 fc8a56933c4b1c8d796fdb8f7a9f9475
-::res://::1737815553
+::res://::1738421746
 above_character_text.tscn::PackedScene::8142736351802171711::1731874775::0::1::::<><>::uid://c8gyqdxhmean6::::res://fonts/Xolonium-Regular.ttf
+account_saved_panel.gd::GDScript::-1::1738363235::0::1::::<>PanelContainer<>::
 arena_1.tscn::PackedScene::2325872054312228905::1732291254::0::1::::<><>::uid://dm5qba0r3u46o::::res://Assets/kenney_nature-kit/Models/GLTF format/cliff_blockCave_rock.glb<>uid://bc0l2dq3mmgko::::res://Assets/kenney_nature-kit/Models/OBJ format/ground_pathSideOpen.obj<>uid://cgw7amrpssd5e::::res://player.tscn<>uid://bl12vxd0ef4pe::::res://Assets/kenney_nature-kit/Models/OBJ format/ground_pathStraight.obj<>uid://cbr1keh3mkyny::::res://Assets/kenney_nature-kit/Models/OBJ format/path_stone.obj<>uid://bv8psullfwy::::res://Assets/kenney_nature-kit/Models/OBJ format/grass_leafs.obj
-arena_stone.tscn::PackedScene::3639342584008994768::1737760415::0::1::::<><>::uid://kcy3xor68blj::::res://test_library.tres<>uid://qcnbhx82tg3h::::res://wall_long.tscn<>uid://cduf4yjtbsv48::::res://fire_door.tscn<>uid://crlryp4ng3i5w::::res://door_wood_indoor.tscn
+arena_stone.tscn::PackedScene::3639342584008994768::1738366358::0::1::::<><>::uid://kcy3xor68blj::::res://test_library.tres<>uid://qcnbhx82tg3h::::res://wall_long.tscn<>uid://cduf4yjtbsv48::::res://fire_door.tscn<>uid://crlryp4ng3i5w::::res://door_wood_indoor.tscn
+auth.gd::GDScript::-1::1738365957::0::1::::<>Node<>::
 authentication.gd::GDScript::-1::1733086992::0::1::::<>Node<>::
 authentication.tscn::PackedScene::7754515213881432020::1733164846::0::1::::<><>::res://authentication.gd
 backdrop.gd::GDScript::-1::1734606383::0::1::::<>ColorRect<>::
+button_effect.gd::GDScript::-1::1738159871::0::1::::<>TextureButton<>::
+button_effect.gdshader::Shader::-1::1738366439::0::1::::<><>::
 camera_3d.gd::GDScript::-1::1731788795::0::1::::<>Camera3D<>::
 can_be_damaged.gd::GDScript::-1::1734606383::0::1::::can_be_damaged<>CharacterBody3D<>::
 center_view.gd::GDScript::-1::1732390301::0::1::::<>SubViewport<>::
 character_resource_ information.tscn::PackedScene::1208512174458531709::1734635982::0::1::::<><>::res://resource_control.gd<>res://player_resource_information.gd<>uid://bnsek0m6y1ki::::res://mana_fill.tres<>uid://d12wmq1b0q2su::::res://healthy_fill.tres<>uid://cmpkcncwl2pnk::::res://Assets/Potions/Red potions/health_average.png<>uid://cn25ts4hfh5mt::::res://poisoned_fill.tres<>uid://bsycx06tlhi5y::::res://Assets/Potions/Red potions/health_full.png<>uid://n817umdbsm1y::::res://Assets/Potions/Red potions/health_low.png<>uid://dpw2igvph5l0f::::res://Assets/Potions/Blue potions/mana_average.png<>uid://dipinkd3k0qb8::::res://Assets/Potions/Blue potions/mana_full.png<>uid://cdai70tt0rnrx::::res://Assets/Potions/Blue potions/mana_empty.png<>res://potion.gd
 character_text.gd::GDScript::-1::1737466281::0::1::::<>Sprite3D<>::
-character_text.tscn::PackedScene::7137539200325502310::1737760415::0::1::::<><>::uid://564s24d7ksvq::::res://fonts/Heavitas.ttf<>res://character_text.gd<>uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres
-death_backdrop.gdshader::Shader::-1::1737760415::0::1::::<><>::
+character_text.tscn::PackedScene::7137539200325502310::1738160054::0::1::::<><>::uid://564s24d7ksvq::::res://fonts/Heavitas.ttf<>res://character_text.gd<>uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres
+death_backdrop.gdshader::Shader::-1::1738366439::0::1::::<><>::
 death_menu.gd::GDScript::-1::1734624638::0::1::::<>CanvasLayer<>::
-door.gd::GDScript::-1::1733420452::0::1::::Door<>Node3D<>::
-door_wood_indoor.gd::GDScript::-1::1737466281::0::1::::<>Door<>::
-door_wood_indoor.tscn::PackedScene::5989835745707527122::1737760415::0::1::::<><>::uid://dtyrpyxinnj28::::res://gltf/Door_A.gltf<>res://door_wood_indoor.gd
+door.gd::GDScript::-1::1738170324::0::1::::Door<>Node3D<>::
+door_wood_indoor.gd::GDScript::-1::1738167927::0::1::::<>Door<>::
+door_wood_indoor.tscn::PackedScene::5989835745707527122::1738366358::0::1::::<><>::uid://dtyrpyxinnj28::::res://gltf/Door_A.gltf<>res://door_wood_indoor.gd
 DrawLine.gd::GDScript::-1::1732033702::0::1::::<>Node2D<>::
+empty_text_box.tres::StyleBoxEmpty::7606388179136245444::1738366309::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1737760123::0::1::::<><>::
-fire_door.gd::GDScript::-1::1737466281::0::1::::<>Door<>::
-fire_door.tscn::PackedScene::5025052101697554447::1737760415::0::1::::<><>::res://fire_door.gd<>uid://ekbi6vds6mhw::::res://gltf/prototypebits_texture.png
+fire_door.gd::GDScript::-1::1738167231::0::1::::<>Door<>::
+fire_door.tscn::PackedScene::5025052101697554447::1738366358::0::1::::<><>::res://fire_door.gd<>uid://ekbi6vds6mhw::::res://gltf/prototypebits_texture.png
 floating_container.gd::GDScript::-1::1733508667::0::1::::<>SubViewportContainer<>::
 floating_label.gd::GDScript::-1::1734730152::0::1::::<>Label<>::
-floating_label.tscn::PackedScene::5345600007589490106::1737760415::0::1::::<><>::uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>uid://564s24d7ksvq::::res://fonts/Heavitas.ttf<>res://floating_label.gd
+floating_label.tscn::PackedScene::5345600007589490106::1738160054::0::1::::<><>::uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>uid://564s24d7ksvq::::res://fonts/Heavitas.ttf<>res://floating_label.gd
 floating_label_private.gd::GDScript::-1::1737466281::0::1::::<>Label<>::
-floating_label_private.tscn::PackedScene::6921232684255587470::1737760415::0::1::::<><>::uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>res://floating_label_private.gd
+floating_label_private.tscn::PackedScene::6921232684255587470::1737815785::0::1::::<><>::uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>res://floating_label_private.gd
 floating_label_testing.gd::GDScript::-1::1737466281::0::1::::<>Node3D<>::
 floating_label_testing.tscn::PackedScene::6830442272567387540::1734730180::0::1::::<><>::res://floating_label_testing.gd<>uid://c2wxi4oprgu0p::::res://Characters/gltf/Rogue.glb<>uid://c8xqh0mkrt4ec::::res://character_text.tscn
-Global.gd::GDScript::-1::1737466281::0::1::::<>Node<>::
+Global.gd::GDScript::-1::1738358043::0::1::::<>Node<>::
 ground.tscn::PackedScene::7498322933285416956::1731959630::0::1::::<><>::
 healthy_fill.tres::StyleBoxFlat::9041268269013501716::1732120548::0::1::::<><>::
 health_bar.gd::GDScript::-1::1737466281::0::1::::<>Sprite3D<>::
-health_bar.tscn::PackedScene::8562545237592925600::1737760415::0::1::::<><>::res://health_bar.gd<>uid://cn25ts4hfh5mt::::res://poisoned_fill.tres<>uid://d12wmq1b0q2su::::res://healthy_fill.tres
+health_bar.tscn::PackedScene::8562545237592925600::1738366358::0::1::::<><>::res://health_bar.gd<>uid://cn25ts4hfh5mt::::res://poisoned_fill.tres<>uid://d12wmq1b0q2su::::res://healthy_fill.tres
 icon.svg::CompressedTexture2D::7283566918212496685::1731602823::1731602832::1::::<><>::
+info_label.gd::GDScript::-1::1738361619::0::1::::<>RichTextLabel<>::
 info_text_label.tscn::PackedScene::4661927796819732092::1731796218::0::1::::<><>::uid://c8gyqdxhmean6::::res://fonts/Xolonium-Regular.ttf
-init.gd::GDScript::-1::1737494512::0::1::::<>Node3D<>::
-init.tscn::PackedScene::1143252394198202654::1737760415::0::1::::<><>::res://init.gd
-input_control.gd::GDScript::-1::1734606383::0::1::::<>Control<>::
+init.gd::GDScript::-1::1738105227::0::1::::<>Node3D<>::
+init.tscn::PackedScene::1143252394198202654::1738366361::0::1::::<><>::res://init.gd
+input_control.gd::GDScript::-1::1738169612::0::1::::<>Control<>::
 label.gd::GDScript::-1::1734606383::0::1::::<>Label<>::
 LICENSE.txt::TextFile::-1::1694850430::0::1::::<><>::
+login_info.gdshader::Shader::-1::1738366439::0::1::::<><>::
+login_panel.gd::GDScript::-1::1738366240::0::1::::<>PanelContainer<>::
 login_system.gd::GDScript::-1::1733088751::0::1::::<>Control<>::
-login_system.tscn::PackedScene::7511346734370209906::1737466281::0::1::::<><>::uid://cqd1ddfnwnlx0::::res://Assets/GUI/splash-screen-2.png
+login_system.tscn::PackedScene::7511346734370209906::1738366358::0::1::::<><>::uid://cqd1ddfnwnlx0::::res://Assets/GUI/splash-screen-2.png<>res://auth.gd<>res://login_panel.gd<>uid://d1f8j3topimi5::::res://outline-shader.tres<>uid://2u6lh8q3li07::::res://Assets/GUI/figma/Rectangle 1.svg<>uid://bat504ljrivda::::res://Assets/GUI/figma/TextBackground_White.svg<>uid://dachbjqem00k6::::res://Assets/GUI/figma/Rectangle 7.svg<>res://login_info.gdshader<>res://fonts/xolonium/Xolonium.tres<>res://button_effect.gd<>res://info_label.gd<>res://account_saved_panel.gd<>uid://dgmudp6eqrfse::::res://empty_text_box.tres<>res://button_effect.gdshader<>uid://bg6hiwv64kvny::::res://Assets/GUI/logo-d-small.png<>uid://dd15x3jbaoh1e::::res://Assets/Avatars/avatar-01.png<>uid://d1e3ve61s8vue::::res://Assets/GUI/figma/Rectangle 3.svg<>uid://ddno66gam3qnl::::res://fonts/xolonium/xolonium-fonts-4.1/ttf/Xolonium-Regular.ttf<>uid://dxw1si3uboycp::::res://Assets/GUI/figma/Rectangle 6.svg<>uid://dh16n5px5rrho::::res://fonts/xolonium/xolonium-fonts-4.1/ttf/Xolonium-Bold.ttf
 mage_check.tscn::PackedScene::5544977771061294168::1732184822::0::1::::<><>::uid://8jn37wwjkgh5::::res://Characters/gltf/Mage.glb
-main.gd::GDScript::-1::1737760086::0::1::::<>Node<>::
-main.tscn::PackedScene::1086131453868231074::1737760415::0::1::::<><>::res://main.gd<>uid://br36o8ncp8nmm::::res://arena_stone.tscn<>res://world.gd<>res://label.gd<>res://player_spawn.gd<>uid://cgw7amrpssd5e::::res://player.tscn<>res://death_backdrop.gdshader<>res://death_menu.gd<>res://backdrop.gd<>uid://xuhs0a6d784s::::res://Assets/buttons/yellow.png<>uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>uid://db0wragft2h74::::res://Assets/buttons/red.png
+main.gd::GDScript::-1::1738177620::0::1::::<>Node<>::
+main.tscn::PackedScene::1086131453868231074::1738366358::0::1::::<><>::res://main.gd<>uid://br36o8ncp8nmm::::res://arena_stone.tscn<>res://world.gd<>res://auth.gd<>res://label.gd<>res://player_spawn.gd<>uid://cgw7amrpssd5e::::res://player.tscn<>res://death_backdrop.gdshader<>res://death_menu.gd<>res://backdrop.gd<>uid://xuhs0a6d784s::::res://Assets/buttons/yellow.png<>uid://ba2x8p4fe0f4n::::res://Ohead_theme.tres<>uid://db0wragft2h74::::res://Assets/buttons/red.png
 mana_fill.tres::StyleBoxFlat::98126367927462452::1732133128::0::1::::<><>::
 multiplayer_test.gd::GDScript::-1::1733163704::0::1::::<>Node3D<>::
 multiplayer_test.tscn::PackedScene::2483239958114424345::1733164846::0::1::::<><>::res://multiplayer_test.gd<>uid://br36o8ncp8nmm::::res://arena_stone.tscn<>res://player_spawn.gd
 new_shader_material.tres::ShaderMaterial::1913475389669346930::1737466281::0::1::::<><>::
 Ohead_theme.tres::Theme::2443615137968297315::1734729268::0::1::::<><>::uid://564s24d7ksvq::::res://fonts/Heavitas.ttf
-outline-shader.gdshader::Shader::-1::1737760415::0::1::::<><>::
-outline-shader.tres::ShaderMaterial::8996515108006438926::1737466281::0::1::::<><>::res://outline-shader.gdshader
+outline-shader.gdshader::Shader::-1::1738366439::0::1::::<><>::
+outline-shader.tres::ShaderMaterial::8996515108006438926::1738366309::0::1::::<><>::res://outline-shader.gdshader
 pivot.gd::GDScript::-1::1732391941::0::1::::<>Node3D<>::
-player.gd::GDScript::-1::1737466281::0::1::::<>can_be_damaged<>::
-player.tscn::PackedScene::5241334340820412508::1737760415::0::1::::<><>::res://player.gd<>res://input_control.gd<>uid://6fdjq7lpa4t3::::res://Characters/gltf/Mage_mage_texture.png<>uid://c8xqh0mkrt4ec::::res://character_text.tscn<>uid://rhoav5yhn2bx::::res://character_resource_ information.tscn<>uid://dt804svrxhtrk::::res://health_bar.tscn<>uid://d2p2k0520md7x::::res://Assets/Effects/spell_emitter.tscn
+player.gd::GDScript::-1::1738170996::0::1::::<>can_be_damaged<>::
+player.tscn::PackedScene::5241334340820412508::1738366358::0::1::::<><>::res://player.gd<>res://input_control.gd<>uid://6fdjq7lpa4t3::::res://Characters/gltf/Mage_mage_texture.png<>uid://c8xqh0mkrt4ec::::res://character_text.tscn<>uid://rhoav5yhn2bx::::res://character_resource_ information.tscn<>uid://dt804svrxhtrk::::res://health_bar.tscn<>uid://d2p2k0520md7x::::res://Assets/Effects/spell_emitter.tscn
 player_resource_information.gd::GDScript::-1::1737466281::0::1::::<>ColorRect<>::
 player_spawn.gd::GDScript::-1::1733243632::0::1::::<>Node3D<>::
 player_text.tscn::PackedScene::2749438437231968294::1731798473::0::1::::<><>::
@@ -64,10 +72,10 @@ resource_control.gd::GDScript::-1::1733568681::0::1::::<>Control<>::
 server.gd::GDScript::-1::1733087361::0::1::::<>Node3D<>::
 server.tscn::PackedScene::1381238581346400923::1733512819::0::1::::<><>::res://server.gd<>res://world_server.gd<>uid://cgw7amrpssd5e::::res://player.tscn<>uid://br36o8ncp8nmm::::res://arena_stone.tscn<>res://player_spawn.gd
 spell_timer.gd::GDScript::-1::1731795341::0::1::::<>Timer<>::
-test_library.tres::MeshLibrary::707525632423617947::1737758896::0::1::::<><>::
+test_library.tres::MeshLibrary::707525632423617947::1738366309::0::1::::<><>::
 unused.tscn::PackedScene::4309339877794176135::1733164846::0::1::::<><>::uid://cgw7amrpssd5e::::res://player.tscn<>uid://c6hx242pvwdul::::res://Assets/Effects/practise_dummy.tscn<>uid://br36o8ncp8nmm::::res://arena_stone.tscn
 wall_long.tscn::PackedScene::1127941765146663935::1732307723::0::1::::<><>::uid://c3c8r12yj5toq::::res://gltf/Wall.gltf
-world.gd::GDScript::-1::1737466281::0::1::::<>Node3D<>::
+world.gd::GDScript::-1::1738176736::0::1::::<>Node3D<>::
 world_server.gd::GDScript::-1::1733163986::0::1::::<>Node3D<>::
 ::res://addons/::1732382705
 ::res://addons/virtual_joystick/::1732660806
@@ -107,12 +115,12 @@ red small.png::CompressedTexture2D::1893772183498752078::1734606383::1734606412:
 red.png::CompressedTexture2D::7282426480428539809::1734606383::1734606412::1::::<><>::
 yellow small.png::CompressedTexture2D::6630581141564719973::1734606383::1734606412::1::::<><>::
 yellow.png::CompressedTexture2D::1656089436493151360::1734606383::1734606412::1::::<><>::
-::res://Assets/Effects/::1737760415
+::res://Assets/Effects/::1738366439
 practise_dummy.gd::GDScript::-1::1732660518::0::1::::<>can_be_damaged<>::
 practise_dummy.tscn::PackedScene::6964592437310021983::1733662714::0::1::::<><>::uid://b7sa1q3imd8un::::res://gltf/Dummy_Base.gltf<>res://Assets/Effects/practise_dummy.gd<>uid://dt804svrxhtrk::::res://health_bar.tscn<>uid://d2p2k0520md7x::::res://Assets/Effects/spell_emitter.tscn<>uid://c8xqh0mkrt4ec::::res://character_text.tscn
 spell_emitter.gd::GDScript::-1::1732062832::0::1::::<>Sprite3D<>::
-spell_emitter.gdshader::Shader::-1::1737760415::0::1::::<><>::
-spell_emitter.tscn::PackedScene::9086985073049344819::1737760415::0::1::::<><>::res://Assets/Effects/spell_emitter.gd<>res://Assets/Effects/spell_emitter.gdshader<>uid://883amn4cohkq::::res://Assets/Effects/Lightning/512/Lightning_1_512-sheet.png<>uid://bi4pnwiffe1h8::::res://Assets/Effects/Fire/No_compressed/512/Fire_1_512-sheet.png<>uid://dbf65bvui68qk::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect217_480.png<>uid://bwcku14powpgc::::res://Assets/Effects/Lightning/512/Lightning_2_512-sheet.png<>uid://djwdprqd47k7d::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect218_480.png<>uid://caqwedr1050ml::::res://Assets/Effects/Lightning/512/Lightning_3_512-sheet.png<>uid://sigm02dukt07::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect219_480.png<>uid://cyxtkeuapo2a4::::res://Assets/Effects/Lightning/512/Lightning_4_512-sheet.png<>uid://c23mn2xhbdnqr::::res://Assets/Effects/Fire/No_compressed/512/Fire_2_512-sheet.png<>uid://dqed0cen6s43s::::res://Assets/Effects/Fire/No_compressed/512/Fire_3_512-sheet.png<>uid://c65bu4ubktxkm::::res://Assets/Effects/Smoke/512/Smoke_1_512.png<>uid://dyvn4vrn6f3x1::::res://Assets/Effects/Smoke/512/Smoke_2_512.png<>uid://dtddd5c3ta73f::::res://Assets/Effects/Smoke/512/Smoke_3_512.png<>uid://dqmc2sq86aitt::::res://Assets/Effects/Smoke/512/Smoke_4_512.png<>uid://dr1htwcmlvucx::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-mapeffect021_480.png<>uid://d2ow8ivkjfabf::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-nazoobj04c_480.png<>uid://dc71wjsafj0wo::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-nazoobj03b_480.png<>uid://do65xj1l21rdy::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect206h_480.png<>uid://dhply3nflo3cp::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c-back.png<>uid://c0c2gjk37m0pi::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c.png<>uid://1flom8bsyiws::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect206_480.png<>uid://eyt2siahaghv::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect209_480.png<>uid://ck7y0tunekofw::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c-front.png<>uid://c2s6rgdshc2nm::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect210_480.png<>uid://btwqxcqicmuf3::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect207_480.png<>uid://cupcwygv2hhwy::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect211_480.png<>uid://cl3akanjt6jf0::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect208h_480.png<>uid://dlasyncknriri::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect212_480.png<>uid://b5j7xuyn2mcar::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect208_480.png<>uid://cko4g17dgbmmm::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect213_480.png<>uid://dew0ndwim4tep::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect214_480.png
+spell_emitter.gdshader::Shader::-1::1738366439::0::1::::<><>::
+spell_emitter.tscn::PackedScene::9086985073049344819::1737815785::0::1::::<><>::res://Assets/Effects/spell_emitter.gd<>res://Assets/Effects/spell_emitter.gdshader<>uid://883amn4cohkq::::res://Assets/Effects/Lightning/512/Lightning_1_512-sheet.png<>uid://bi4pnwiffe1h8::::res://Assets/Effects/Fire/No_compressed/512/Fire_1_512-sheet.png<>uid://dbf65bvui68qk::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect217_480.png<>uid://bwcku14powpgc::::res://Assets/Effects/Lightning/512/Lightning_2_512-sheet.png<>uid://djwdprqd47k7d::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect218_480.png<>uid://caqwedr1050ml::::res://Assets/Effects/Lightning/512/Lightning_3_512-sheet.png<>uid://sigm02dukt07::::res://Assets/Effects/PIPOYA FREE VFX Bell/480x480/pipo-btleffect219_480.png<>uid://cyxtkeuapo2a4::::res://Assets/Effects/Lightning/512/Lightning_4_512-sheet.png<>uid://c23mn2xhbdnqr::::res://Assets/Effects/Fire/No_compressed/512/Fire_2_512-sheet.png<>uid://dqed0cen6s43s::::res://Assets/Effects/Fire/No_compressed/512/Fire_3_512-sheet.png<>uid://c65bu4ubktxkm::::res://Assets/Effects/Smoke/512/Smoke_1_512.png<>uid://dyvn4vrn6f3x1::::res://Assets/Effects/Smoke/512/Smoke_2_512.png<>uid://dtddd5c3ta73f::::res://Assets/Effects/Smoke/512/Smoke_3_512.png<>uid://dqmc2sq86aitt::::res://Assets/Effects/Smoke/512/Smoke_4_512.png<>uid://dr1htwcmlvucx::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-mapeffect021_480.png<>uid://d2ow8ivkjfabf::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-nazoobj04c_480.png<>uid://dc71wjsafj0wo::::res://Assets/Effects/PIPOYA FREE VFX Mysterious Object/480x480/pipo-nazoobj03b_480.png<>uid://do65xj1l21rdy::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect206h_480.png<>uid://dhply3nflo3cp::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c-back.png<>uid://c0c2gjk37m0pi::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c.png<>uid://1flom8bsyiws::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect206_480.png<>uid://eyt2siahaghv::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect209_480.png<>uid://ck7y0tunekofw::::res://Assets/Effects/Pipoya VFX LightPillar/400x400/pipo-mapeffect013c-front.png<>uid://c2s6rgdshc2nm::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect210_480.png<>uid://btwqxcqicmuf3::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect207_480.png<>uid://cupcwygv2hhwy::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect211_480.png<>uid://cl3akanjt6jf0::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect208h_480.png<>uid://dlasyncknriri::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect212_480.png<>uid://b5j7xuyn2mcar::::res://Assets/Effects/Pipoya VFX HEXShield/480x480/pipo-btleffect208_480.png<>uid://cko4g17dgbmmm::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect213_480.png<>uid://dew0ndwim4tep::::res://Assets/Effects/Pipoya VFX TimeMagic/480x480/pipo-btleffect214_480.png
 ::res://Assets/Effects/Fire/::1731770544
 ::res://Assets/Effects/Fire/Compressed/::1708207726
 ::res://Assets/Effects/Fire/Compressed/128/::1731770583
@@ -408,11 +416,26 @@ isometric_block (23).png::CompressedTexture2D::2449147671352498399::1616359186::
 isometric_block (24).png::CompressedTexture2D::9052979735560232303::1616359192::1731957753::1::::<><>::
 isometric_block (25).png::CompressedTexture2D::3144536021719492459::1616359196::1731957753::1::::<><>::
 isometric_blocks_spritesheet00.png::CompressedTexture2D::5542801017366602388::1616359872::1731957755::1::::<><>::
-::res://Assets/GUI/::1737466381
+::res://Assets/GUI/::1738104575
 logo-d-small.png::CompressedTexture2D::2871989950600018406::1737466281::1737466376::1::::<><>::
 logo-d.png::CompressedTexture2D::3077955573105743787::1737466281::1737466380::1::::<><>::
 splash-screen-1.svg::CompressedTexture2D::2709642661071680377::1737466281::1737466378::1::::<><>::
 splash-screen-2.png::CompressedTexture2D::5903640163965199227::1737466281::1737466381::1::::<><>::
+::res://Assets/GUI/figma/::1738147525
+Enter the Duelag.svg::CompressedTexture2D::5903027177389555064::1738105009::1738143646::1::::<><>::
+Line 1.svg::CompressedTexture2D::6747645249455184612::1738104356::1738143646::1::::<><>::
+Line 1@2x.svg::CompressedTexture2D::423009784405170324::1738104356::1738143646::1::::<><>::
+purple-orb-like-diablo-mana--overlay-with-a--d---s(2) 1.svg::CompressedTexture2D::836615879931879154::1738104356::1738143646::1::::<><>::
+purple-orb-like-diablo-mana--overlay-with-a--d---s(2) 1@2x.svg::CompressedTexture2D::8995534341560218263::1738104356::1738143646::1::::<><>::
+Rectangle 1.svg::CompressedTexture2D::1938288623223607530::1738104356::1738143646::1::::<><>::
+Rectangle 1@2x.svg::CompressedTexture2D::3310710512054929240::1738104356::1738143646::1::::<><>::
+Rectangle 3.svg::CompressedTexture2D::8994167333342882600::1738104615::1738143646::1::::<><>::
+Rectangle 4.svg::CompressedTexture2D::6412659853820952310::1738104619::1738143646::1::::<><>::
+Rectangle 6.svg::CompressedTexture2D::8820633015797526963::1738104621::1738143646::1::::<><>::
+Rectangle 7.svg::CompressedTexture2D::7163818108956504415::1738104630::1738143646::1::::<><>::
+splash-screen-2 1.svg::CompressedTexture2D::5387721029969285978::1738104356::1738143647::1::::<><>::
+splash-screen-2 1@2x.svg::CompressedTexture2D::1749797790306832190::1738104356::1738143647::1::::<><>::
+TextBackground_White.svg::CompressedTexture2D::2427511556252831210::1738104522::1738147525::1::::<><>::
 ::res://Assets/kenney_nature-kit/::1732012109
 License.txt::TextFile::-1::1588114976::0::1::::<><>::
 Preview.png::CompressedTexture2D::4305681705026678021::1588115102::1732012109::1::::<><>::
@@ -3431,16 +3454,6 @@ empty.png::CompressedTexture2D::8752121669665868551::1605719678::1732661407::1::
 poç╞o amarela bem vazia.png::CompressedTexture2D::3010557762361344183::1605719722::1732661407::1::::<><>::
 poç╞o amarela meio vazia.png::CompressedTexture2D::613879381652817757::1605719718::1732661407::1::::<><>::
 poç╞o amarela.png::CompressedTexture2D::949369485966373501::1605719716::1732661407::1::::<><>::
-::res://build/::1737757084
-::res://build/linux/::1737758352
-::res://build/web/::1737760126
-web.144x144.png::CompressedTexture2D::626145761440130425::1737738556::1737738557::1::::<><>::
-web.180x180.png::CompressedTexture2D::4950389735602068120::1737738556::1737738557::1::::<><>::
-web.512x512.png::CompressedTexture2D::7226396061431247534::1737738556::1737738557::1::::<><>::
-web.apple-touch-icon.png::CompressedTexture2D::3635164383915313394::1737760126::1737815556::1::::<><>::
-web.icon.png::CompressedTexture2D::3348852775519817785::1737760126::1737815556::1::::<><>::
-web.manifest.json::JSON::-1::1737738556::0::1::::<><>::
-web.png::CompressedTexture2D::4768653815778366323::1737760126::1737815556::1::::<><>::
 ::res://Characters/::1694859923
 ::res://Characters/gltf/::1737736933
 Barbarian.glb::PackedScene::7944533406747434391::1694859923::1731717542::1::::<><>::uid://cnio5efvmuwpy::::res://Characters/gltf/Barbarian_barbarian_texture.png

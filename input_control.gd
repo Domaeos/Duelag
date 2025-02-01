@@ -86,7 +86,7 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("toggle_enemy"):
 		parent.rpc_id(1, "toggle_enemy")
 	elif event.is_action_pressed("open_door"):
-		parent.try_open_door()
+		parent.rpc_id(1, "try_open_door")
 	elif event.is_action_pressed("mana_potion"):
 		parent.rpc_id(1, "handle_drink_potion", parent.Potions.MANA)
 	elif event.is_action_pressed("health_potion"):

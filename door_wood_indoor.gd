@@ -1,8 +1,10 @@
 extends Door
 
 
-# Called when the node enters the scene tree for the first time.
+var door_collision: CollisionShape3D
+
 func _ready() -> void:
-	door_area = get_node("Area3D")
 	super._ready()
-	pass # Replace with function body.
+	door_area = get_node_or_null("Area3D")
+	door_collision = door_area.get_node_or_null("CollisionShape3D")
+	door_collision.disabled = false

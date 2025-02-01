@@ -304,8 +304,9 @@ func _compare_enemies(a: Node, b: Node) -> int:
 func set_local_enemy(enemy_id):
 	current_enemy = enemy_id
 	
+@rpc("any_peer", "call_local")
 func try_open_door():
 	if (door_in_range):
 		var door_node = get_node_or_null(door_in_range)
 		if door_node:
-			door_node.rpc_id(1, "toggle_open")
+			door_node.toggle_open()
