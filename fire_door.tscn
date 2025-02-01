@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cduf4yjtbsv48"]
+[gd_scene load_steps=8 format=4 uid="uid://cduf4yjtbsv48"]
 
 [ext_resource type="Script" path="res://fire_door.gd" id="1_eo6rj"]
 [ext_resource type="Texture2D" uid="uid://ekbi6vds6mhw" path="res://gltf/prototypebits_texture.png" id="2_ldrr7"]
@@ -47,12 +47,7 @@ shadow_mesh = SubResource("ArrayMesh_jgjqi")
 height = 3.4
 radius = 4.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ks61f"]
-properties/0/path = NodePath(".:rotation")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-
-[node name="door_fire_exit" type="StaticBody3D"]
+[node name="FireDoor" type="StaticBody3D"]
 collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_eo6rj")
@@ -76,8 +71,5 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 5.21541e-08, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.133333, 1.6, 0)
 shape = SubResource("CylinderShape3D_50n0b")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." groups=["Sync"]]
-replication_config = SubResource("SceneReplicationConfig_ks61f")
 
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
