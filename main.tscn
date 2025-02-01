@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://pqeoq4vo7l6y"]
+[gd_scene load_steps=15 format=3 uid="uid://pqeoq4vo7l6y"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ocwi3"]
 [ext_resource type="PackedScene" uid="uid://br36o8ncp8nmm" path="res://arena_stone.tscn" id="2_h8rb7"]
 [ext_resource type="Script" path="res://world.gd" id="2_i8s8b"]
+[ext_resource type="Script" path="res://auth.gd" id="2_slbsx"]
 [ext_resource type="Script" path="res://label.gd" id="4_0ny1w"]
 [ext_resource type="Script" path="res://player_spawn.gd" id="4_eh4lq"]
 [ext_resource type="PackedScene" uid="uid://cgw7amrpssd5e" path="res://player.tscn" id="5_0xko1"]
@@ -19,6 +20,13 @@ shader_parameter/grayscale_intensity = 0.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ocwi3")
+
+[node name="Auth" type="Node" parent="."]
+script = ExtResource("2_slbsx")
+logged_in_scene = "res://main.tscn"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Auth"]
+use_threads = true
 
 [node name="World" type="Node3D" parent="."]
 script = ExtResource("2_i8s8b")
@@ -140,5 +148,6 @@ theme = ExtResource("9_e1dfv")
 theme_override_font_sizes/font_size = 30
 text = "You have been slain"
 
+[connection signal="request_completed" from="Auth/HTTPRequest" to="Auth" method="_on_http_request_request_completed"]
 [connection signal="spawned" from="World/MultiplayerSpawner" to="World" method="_on_multiplayer_spawner_spawned"]
 [connection signal="pressed" from="DeathMenu/Control/ResButton" to="DeathMenu" method="_on_res_button_pressed"]

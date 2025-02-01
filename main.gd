@@ -12,26 +12,8 @@ func _ready() -> void:
 			var key_value = arg.split("=")
 			arguments[key_value[0].lstrip("--")] = key_value[1]
 
-	# OS.has_feature("headless")
 	if "server" in arguments:
 		_setup_server()
-	else:
-		_setup_client()
-
-func _setup_client():
-	var result
-	if OS.has_feature("web"):
-		peer = WebSocketMultiplayerPeer.new()
-		result = peer.create_client("ws://0.0.0.0:" + str(PORT))
-	else:
-		peer = ENetMultiplayerPeer.new()
-		result = peer.create_client("127.0.0.1", PORT)
-		
-	if result != OK:	
-		print_verbose("Failed to create client connection: ", result)
-		return
-	
-	multiplayer.multiplayer_peer = peer
 
 func _setup_server():
 	peer = ENetMultiplayerPeer.new()
@@ -54,5 +36,5 @@ func on_peer_disconnected(id: int):
 	var character = get_node_or_null(str(id))
 	if character:
 		character.queue_free()
-		remove_child(character)
+		remove_child(character) 
 	

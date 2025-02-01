@@ -17,6 +17,12 @@ func _ready() -> void:
 	await get_tree().create_timer(INITIAL_SYNC_DELAY).timeout
 	if not multiplayer.is_server():
 		await attempt_connection()
+	if multiplayer.is_server():
+		DisplayServer.window_set_title("Server")
+	else:
+		DisplayServer.window_set_title("Client " + str(multiplayer.get_unique_id()))
+
+
 func attempt_connection():
 	# Wait for multiplayer to be ready
 	while not multiplayer.has_multiplayer_peer():
@@ -29,14 +35,12 @@ func attempt_connection():
 	var latency = server_connection.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME) / (1000 * 2)
 	await get_tree().create_timer(latency).timeout
 	
-	# First sync the world state
 	if multiplayer.has_multiplayer_peer():
 		rpc_id(1, "sync_world")
-		# Then request player spawn
 		request_spawn()
 
 func request_spawn():
-	# Check if multiplayer is still valid
+	
 	if not multiplayer.has_multiplayer_peer():
 		await get_tree().create_timer(0.5).timeout
 		request_spawn()
@@ -70,6 +74,8 @@ func _on_multiplayer_spawner_spawned(node: Node):
 
 @rpc("any_peer", "call_local")
 func sync_world():
+	if get_tree().current_scene.name != "World":
+		return  
 	var player_id = multiplayer.get_remote_sender_id()
 	get_tree().call_group("Sync", "set_visibility_for", player_id, true)
 
@@ -100,7 +106,6 @@ func add_my_player_to_global():
 
 @rpc("authority", "call_local")
 func confirm_spawn():
-	# Clear spawn attempts as we've succeeded
 	var player_id = multiplayer.get_unique_id()
 	spawn_attempts.erase(player_id)
 

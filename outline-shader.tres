@@ -4,7 +4,10 @@
 
 [resource]
 shader = ExtResource("1_gaadm")
-shader_parameter/clip_x = null
-shader_parameter/clip_y = null
-shader_parameter/clip_width = null
-shader_parameter/clip_height = null
+shader_parameter/color_1 = Color(0.576, 0.282, 0.933, 1)
+shader_parameter/color_2 = Color(0.45, 0.2115, 0.4182, 0.92549)
+shader_parameter/color_3 = Color(0.49088, 0.0944, 0.59, 0.87451)
+shader_parameter/color_4 = Color(0.855, 0.212, 0.984, 1)
+shader_parameter/border_width = 5.0
+shader_parameter/speed = 0.5
+shader_parameter/gradient_length = 2.0

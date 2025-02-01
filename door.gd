@@ -5,7 +5,6 @@ class_name Door
 @export var door_area: Area3D
 var door_path
 
-# Called when the node enters the scene tree for the first time.
 var is_open: bool = false
 var initial_rotation: float
 
@@ -17,7 +16,7 @@ func _ready() -> void:
 		door_area.connect("body_entered", Callable(self, "_on_body_entered"))
 		door_area.connect("body_exited", Callable(self, "_on_body_exited"))
 
-@rpc("any_peer", "call_remote")
+@rpc("any_peer", "call_local")
 func toggle_open() -> void:
 	if multiplayer.is_server():
 		if is_open:
@@ -29,7 +28,10 @@ func toggle_open() -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	if body is can_be_damaged and body.door_in_range != door_path:
+		print(body, " entered door wood")
+		print("path is: ", door_path)
 		body.door_in_range = door_path
+		print("body door in range: ", body.door_in_range)
 
 func _on_body_exited(body: Node3D) -> void:
 	if body is can_be_damaged:
