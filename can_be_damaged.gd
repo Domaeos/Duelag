@@ -19,6 +19,7 @@ var spell_emitter: AnimatedSprite2D
 var spell_node: Sprite3D
 var spell_timer: Timer
 var fizzled: bool
+var targetted
 
 func _on_timer_timeout() -> void:
 	pass
